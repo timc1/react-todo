@@ -1,0 +1,105 @@
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('/assets/fonts/Px-Grotesk-Bold.ttf');
+  font-weight: 600 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Akkurat-Regular';
+  src: url('/assets/fonts/Akkurat-Regular.ttf');
+  font-weight: 100 500;
+  font-style: normal;
+}
+
+:root {
+  --black: rgba(15, 13, 32, 0.99);
+
+  --basefont: "Akkurat-Regular", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  --secondaryfont: "Px-Grotesk", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue";
+
+  --fontmd: 1.25rem;
+  --screenlg: 1440px;
+
+  --basepadding: 2.5rem;
+}
+
+::selection {
+  background: var(--black);
+  color: #fff;
+}
+::-moz-selection {
+  background: var(--black);
+  color: #fff;
+}
+
+* {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "pnum";
+  font-feature-settings: "pnum";
+  font-variant-numeric: proportional-nums;
+  font-family: var(--basefont);
+  box-sizing: border-box;
+}
+
+a, button, input, select, textarea, label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+input[type="text"],
+input[type="button"],
+input[type="submit"],
+textarea {
+  -webkit-appearance: none;
+  border-radius: 0;
+  position: relative;
+  width: 100%;
+  padding: 10px 0 5px 0;
+  color: var(--black);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: var(--fontmd);
+  line-height: 2.2rem;
+  text-overflow: ellipsis;
+  -webkit-appearance: none;
+}
+
+textarea {
+  min-height: 62px;
+  max-height: 150px;
+  resize: none;
+}
+
+html {
+  background: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
