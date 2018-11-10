@@ -1,17 +1,3 @@
-@font-face {
-  font-family: 'Px-Grotesk';
-  src: url('/assets/fonts/Px-Grotesk-Bold.ttf');
-  font-weight: 600 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Akkurat-Regular';
-  src: url('/assets/fonts/Akkurat-Regular.ttf');
-  font-weight: 100 500;
-  font-style: normal;
-}
-
 :root {
   --black: rgba(15, 13, 32, 0.99);
 

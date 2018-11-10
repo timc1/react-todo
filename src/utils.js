@@ -1,3 +1,9 @@
+export const getRandomHash = () =>
+  Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, '')
+    .substr(0, 5)
+
 export const formatDate = date => {
   const d = new Date(date)
 
@@ -11,9 +17,3 @@ export const formatDate = date => {
     return null
   }
 }
-
-export const getRandomHash = () =>
-  Math.random()
-    .toString(36)
-    .replace(/[^a-z]+/g, '')
-    .substr(0, 5)
