@@ -1,17 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Heading from './heading'
 
 import styled from 'react-emotion'
 
-/**
- * Todo component takes a todo object
- * @param {Object} a todo object to render pre-render
- */
-export default ({ todo }) => {
+import * as utils from './utils'
+
+import { Todo, Task } from '../../models/todo'
+
+export default () => {
+  const [todo, setTodo] = useState(null)
+
+  // useEffect will only be called once, when the component first mounts.
+  // We will:
+  // 1. Check localStorage to fetch all saved todos.
+  // 2. Set todo state.
+  useEffect(() => {
+    let localTodos = window.localStorage.getItem('todos')
+    if (localTodos) {
+      localTodos = JSON.parse(localTodos)
+    } else {
+      localTodos = Todo()
+    }
+    setTodo(localTodos)
+  }, [])
+
   return (
     <Container>
-      <Heading date={{}} />
-      {todo?.tasks ? todo.tasks.map(task => <div>task</div>) : null}
+      {todo && (
+        <>
+          <Heading date={todo.date} />
+          {todo?.tasks.length > 0
+            ? todo.tasks.map(task => (
+                <div key={`${task.title}${utils.getRandomHash()}`}>task</div>
+              ))
+            : null}
+        </>
+      )}
     </Container>
   )
 }
