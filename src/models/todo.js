@@ -10,7 +10,7 @@ export const Todo = (data = {}) => {
         .split(' ')
         .splice(0, 4)
         .join(' '),
-    tasks: data.tasks || [Task()],
+    tasks: data.tasks || [],
   }
 }
 

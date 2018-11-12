@@ -11,17 +11,42 @@ const reducer = (state, action) => {
   }
 }
 
-export default initialState => {
+export default (initialState, validations = {}) => {
   const [state, dispatch] = useReducer(reducer, { ...initialState, errors: {} })
 
   const getFormHandlers = () => ({
     onSubmit: e => {
       e.preventDefault()
-      console.log('submit', state)
+      const { errors, ...fields } = { ...state.errors, ...state }
+      const ids = Object.keys(fields)
+      _validate(ids)
+      if (Object.keys(state.errors).length === 0) {
+        console.log('submit')
+      } else {
+        console.log('fix errors')
+      }
     },
   })
 
-  const getInputStateAndProps = ({ id, ...rest }) => {
+  const _validate = ids => {
+    const batch = {}
+    for (let id of ids) {
+      if (validations[id]) {
+        const isErrored = validations[id](state[id])
+        if (isErrored) {
+          state.errors[id] = 'is errored'
+        } else {
+          delete state.errors[id]
+        }
+      }
+    }
+    state.errors = {
+      ...state.errors,
+      ...batch,
+    }
+  }
+
+  const getInputStateAndProps = ({ id, type, onBlur, ...rest }) => {
     return {
       id,
       onChange: e =>
@@ -33,6 +58,13 @@ export default initialState => {
           },
         }),
       value: state[id],
+      type: type ? type : 'text',
+      onBlur: onBlur
+        ? e => {
+            onBlur(e)
+            _validate([id])
+          }
+        : e => _validate([id]),
       ...rest,
     }
   }
@@ -40,5 +72,6 @@ export default initialState => {
   return {
     getFormHandlers,
     getInputStateAndProps,
+    errors: state.errors,
   }
 }

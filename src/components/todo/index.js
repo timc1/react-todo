@@ -1,10 +1,11 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import Heading from './heading'
 
 import styled from 'react-emotion'
 
-import { Todo as getTodoObject, Task as getTaskObject } from '../../models/todo'
+import { Todo as getTodoObject } from '../../models/todo'
 import Task from './task'
+import Editor from './editor'
 
 const todoReducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +29,7 @@ const todoReducer = (state, action) => {
 
 export default () => {
   const [todo, dispatch] = useReducer(todoReducer, null)
+  const [currentEditingTask, setCurrentEditingTask] = useState(false)
 
   // useEffect will only be called once, when the component first mounts.
   // We will:
@@ -56,17 +58,12 @@ export default () => {
             ) : (
               <p>You have no tasks!</p>
             )}
-            <AddNewButton
-              onClick={() =>
-                dispatch({
-                  type: 'ADD_TASK',
-                  payload: getTaskObject(),
-                })
-              }
-            >
-              + Add
-            </AddNewButton>
-            <button onClick={e => dispatch({ type: 'RESET' })}>Reset</button>
+
+            <Editor
+              task={currentEditingTask}
+              setCurrentEditingTask={setCurrentEditingTask}
+              dispatch={dispatch}
+            />
           </>
         )}
       </Container>
@@ -79,5 +76,3 @@ const Container = styled('div')`
   max-width: 500px;
   margin: auto;
 `
-
-const AddNewButton = styled('button')``

@@ -1,11 +1,21 @@
 :root {
-  --black: rgba(15, 13, 32, 0.99);
+  --black1: rgb(0, 0, 0);
+  --black2: rgba(15, 13, 32, 0.99);
+  --black4: rgb(176, 175, 178);
+  --white1: rgb(255, 255, 255);
+  --white2: rgb(221, 225, 228);
+  --white3: rgba(255,255,255,.5);
+  --white4: rgba(255,255,255,.08);
+  --blue1: rgb(14, 36, 57);
+  --blue5: rgb(246, 249, 252);
 
   --basefont: "Akkurat-Regular", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   --secondaryfont: "Px-Grotesk", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue";
+  --fontregular: 400;
+  --fontbold: 800;
 
   --fontmd: 1.25rem;
   --screenlg: 1440px;
@@ -14,11 +24,11 @@
 }
 
 ::selection {
-  background: var(--black);
+  background: var(--black1);
   color: #fff;
 }
 ::-moz-selection {
-  background: var(--black);
+  background: var(--black1);
   color: #fff;
 }
 
@@ -32,6 +42,7 @@
   font-variant-numeric: proportional-nums;
   font-family: var(--basefont);
   box-sizing: border-box;
+  caret-color: var(--black1);
 }
 
 a, button, input, select, textarea, label {
@@ -51,23 +62,27 @@ li {
   list-style: none;
 }
 
-input[type="text"],
-input[type="button"],
-input[type="submit"],
+input,
 textarea {
+  position: relative;
+  display: block;
   -webkit-appearance: none;
-  border-radius: 0;
   position: relative;
   width: 100%;
-  padding: 10px 0 5px 0;
-  color: var(--black);
-  background-color: transparent;
-  border: none;
+  border-radius: 4px;
+  border: 1px solid var(--blue5);
   outline: none;
   font-size: var(--fontmd);
   line-height: 2.2rem;
   text-overflow: ellipsis;
-  -webkit-appearance: none;
+  background-color: var(--blue5);
+  color: var(--black1);
+  padding: 5px 20px 8px 13px;
+  transition: background .15s ease-in;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--black4);
 }
 
 textarea {
@@ -76,16 +91,15 @@ textarea {
   resize: none;
 }
 
+input:focus, input:active, textarea:focus, textarea:active {
+  background-color: var(--white1);
+}
+
 html {
-  background: #fff;
+  background-color: var(--white1);
 }
 
 body {
   margin: 0;
   padding: 0;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }
