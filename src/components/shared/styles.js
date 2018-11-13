@@ -24,6 +24,7 @@ export const StandardButton = styled('button')`
   text-decoration: none;
   transition-property: transform, opacity;
   transition: 0.15s ease;
+  vertical-align: middle;
   outline: none;
   cursor: pointer;
   &::after {
@@ -42,7 +43,6 @@ export const StandardButton = styled('button')`
     content: ${props => (props.content ? `"${props.content}"` : '')};
     color: var(--white1);
     font-size: var(--fontsm);
-    vertical-align: middle;
   }
   &::after {
     content: '';
@@ -70,5 +70,15 @@ export const StandardButton = styled('button')`
       opacity: 1;
       transform: scale(1.03);
     }
+  }
+`
+
+export const IconButton = styled(StandardButton)`
+  font-size: var(--fontsm);
+
+  .screen-reader {
+    font-size: 0;
+    opacity: 0;
+    pointer-events: none;
   }
 `

@@ -90,7 +90,7 @@ export default () => {
 
 // Styles
 const Container = styled('div')`
-  max-width: 600px;
+  max-width: 650px;
   margin: auto;
   padding: 0 15px 100px 15px;
 `

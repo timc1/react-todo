@@ -1,29 +1,39 @@
 import React from 'react'
 import styled, { keyframes, css } from 'react-emotion'
+import { StandardButton, IconButton } from '../shared/styles'
+import { Pencil, Trash } from '../shared/icons'
+
+import Checkbox from './checkbox'
 
 export default React.memo(
   ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
     return (
       <Container tabIndex="0">
+        <Checkbox isChecked={isEditable ? false : true} />
+
         <Text isComplete={task.isComplete}>
           <h1>{task.title}</h1>
-          <p>{task.description}</p>
+          {task.description && <p>{task.description}</p>}
         </Text>
 
         <div className={controls}>
           <ul>
             <li>
-              <button
+              <IconButton onClick={e => setCurrentEditingTask(task)}>
+                <Pencil />
+                <span className="screen-reader">Edit Task {task.title}</span>
+              </IconButton>
+            </li>
+            <li>
+              <IconButton
                 onClick={e => {
                   dispatch({ type: 'REMOVE_TASK', id: task.id })
                   setCurrentEditingTask(false)
                 }}
               >
-                Delete
-              </button>
-            </li>
-            <li>
-              <button onClick={e => setCurrentEditingTask(task)}>Edit</button>
+                <Trash />
+                <span className="screen-reader">Delete Task {task.title}</span>
+              </IconButton>
             </li>
           </ul>
         </div>
@@ -50,12 +60,19 @@ const controls = css`
   transition: 0.15s var(--cubicbounce);
   transform-origin: 100%;
   color: var(--white1);
+
+  li {
+    display: inline-block;
+  }
+  li:not(:last-child) {
+    margin-right: 10px;
+  }
 `
 
 const Container = styled('div')`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto;
   grid-gap: 10px;
   align-items: center;
   padding: 10px 0 20px 0;

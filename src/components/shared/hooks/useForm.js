@@ -48,7 +48,6 @@ export default (initialState, validations = {}) => {
       if (Object.keys(errors).length === 0) {
         if (onSubmit) {
           onSubmit(ids)
-          dispatch({ type: 'RESET', payload: initialState })
         }
       } else {
         console.log('fix errors')
