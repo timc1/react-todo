@@ -21,7 +21,19 @@ const todoReducer = (state, action) => {
       return {
         ...state,
       }
-    case 'EDIT_TASK':
+    case 'UPDATE_TASK':
+      state.tasks[action.payload.id] = action.payload
+      const updated = state.tasks.map(task => {
+        if (task.id === action.payload.id) {
+          task = action.payload
+        }
+        return task
+      })
+      state.tasks = updated
+      return {
+        ...state,
+        ...state.tasks,
+      }
     default:
       return state
   }
@@ -53,10 +65,15 @@ export default () => {
           <TaskContainer>
             {todo?.tasks.length > 0 ? (
               todo.tasks.map(task => (
-                <Task key={task.id} task={task} dispatch={dispatch} />
+                <Task
+                  key={task.id}
+                  task={task}
+                  dispatch={dispatch}
+                  setCurrentEditingTask={setCurrentEditingTask}
+                />
               ))
             ) : (
-              <p>You have no tasks!</p>
+              <p style={{ color: '#fff' }}>You have no tasks!</p>
             )}
           </TaskContainer>
 
@@ -73,9 +90,9 @@ export default () => {
 
 // Styles
 const Container = styled('div')`
-  max-width: 500px;
+  max-width: 600px;
   margin: auto;
-  padding-bottom: 100px;
+  padding: 0 15px 100px 15px;
 `
 
 const TaskContainer = styled('div')`

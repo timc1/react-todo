@@ -3,9 +3,9 @@ import styled from 'react-emotion'
 export const Form = styled('form')``
 
 export const Input = styled('input')`
-  box-shadow: 0 0 0 1px ${props => (props.error ? '#ffc6ae' : 'transparent')};
+  box-shadow: 0 0 0 1px ${props => (props.error ? '#ffe9e9' : 'transparent')};
   &::placeholder {
-    color: ${props => (props.error ? '#ffc6ae' : 'var(--black4)')};
+    color: ${props => (props.error ? '#ffe9e9' : 'var(--black4)')};
   }
 `
 

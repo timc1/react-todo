@@ -1,5 +1,9 @@
 import styled from 'react-emotion'
 
+export const screenSm = 568
+export const screenMd = 767
+export const screenLg = 1440
+
 export const StandardButton = styled('button')`
   position: relative;
   white-space: nowrap;

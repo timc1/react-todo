@@ -1,6 +1,7 @@
-import { useReducer } from 'react'
+import { useReducer, useEffect } from 'react'
 
 const reducer = (state, action) => {
+  console.log('action', action)
   switch (action.type) {
     case 'INPUT_CHANGE':
       const { id, value } = action.payload
@@ -14,6 +15,11 @@ const reducer = (state, action) => {
     case 'UPDATE_ERRORS':
       state.errors = action.payload
       return state
+    case 'UPDATE_INITIAL_STATE':
+      return {
+        ...action.payload,
+        errors: {},
+      }
     default:
       return state
   }
@@ -21,6 +27,14 @@ const reducer = (state, action) => {
 
 export default (initialState, validations = {}) => {
   const [state, dispatch] = useReducer(reducer, { ...initialState, errors: {} })
+
+  // Check if initialState prop has changed.
+  useEffect(
+    () => {
+      dispatch({ type: 'UPDATE_INITIAL_STATE', payload: initialState })
+    },
+    [JSON.stringify(initialState)]
+  )
 
   const getFormHandlers = ({ onSubmit }) => ({
     onSubmit: async e => {

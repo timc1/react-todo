@@ -11,7 +11,12 @@ export const Todo = (data = {}) => {
         .splice(0, 4)
         .join(' '),
     tasks: data.tasks || [
-      Task({ title: 'Test', description: 'description test' }),
+      Task({
+        id: '123abc',
+        title: 'Test',
+        description: 'description test',
+        isComplete: true,
+      }),
     ],
   }
 }

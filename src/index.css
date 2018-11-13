@@ -9,6 +9,7 @@
   --blue1: rgb(14, 36, 57);
   --blue4: rgb(14, 17, 19);
   --blue5: rgb(22, 28, 30);
+  --gradient1: linear-gradient( 150deg, #fcfcff 15%, #43dfff 70%, rgb(166,255,203) 94% );
 
   --basefont: "Akkurat-Regular", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -27,15 +28,22 @@
   --baseboxshadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   --baseborderradius: 4px;
 
+  --cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
   --cubicbounce: cubic-bezier(0.74, -0.21, 0.51, 1.39);
 }
 
+@media(max-width: 767px) {
+  :root {
+    --basepadding: 2.5rem 15px;
+  }
+}
+
 ::selection {
-  background: var(--black1);
+  background: var(--black4);
   color: #fff;
 }
 ::-moz-selection {
-  background: var(--black1);
+  background: var(--black4);
   color: #fff;
 }
 
@@ -85,7 +93,7 @@ textarea {
   background-color: var(--blue4);
   color: var(--white1);
   padding: 5px 20px 8px 13px;
-  transition: background .15s ease-in;
+  transition: box-shadow .15s ease-in;
 }
 
 input::placeholder, textarea::placeholder {
@@ -100,6 +108,7 @@ textarea {
 
 input:focus, input:active, textarea:focus, textarea:active {
   background-color: var(--blue4);
+  box-shadow: 0 0 0 1px var(--black4);
 }
 
 html {

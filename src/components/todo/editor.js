@@ -2,7 +2,7 @@ import React from 'react'
 import { StandardButton } from '../shared/styles'
 import { Form, Input, Textarea } from '../shared/forms'
 import useForm from '../shared/hooks/useForm'
-import { Todo as getTodoObject, Task as getTaskObject } from '../../models/todo'
+import { Task as getTaskObject } from '../../models/todo'
 import styled from 'react-emotion'
 
 export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
@@ -25,9 +25,8 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
             : e => setCurrentEditingTask({})
         }
         content={task ? 'back' : '+'}
-      >
-        {task ? 'Toggle exit new task form' : 'Toggle create new task'}
-      </StandardButton>
+        aria-label={task ? 'Exit Form' : 'Add New Task'}
+      />
       <ThemeContainer isShowing={task}>
         <Form
           {...getFormHandlers({
@@ -35,7 +34,9 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
               ? values => {
                   dispatch({
                     type: 'UPDATE_TASK',
-                    payload: getTodoObject(),
+                    payload: {
+                      ...getTaskObject({ ...values, id: task.id }),
+                    },
                   })
                   setCurrentEditingTask(false)
                 }
