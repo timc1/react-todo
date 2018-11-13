@@ -10,7 +10,9 @@ export const Todo = (data = {}) => {
         .split(' ')
         .splice(0, 4)
         .join(' '),
-    tasks: data.tasks || [],
+    tasks: data.tasks || [
+      Task({ title: 'Test', description: 'description test' }),
+    ],
   }
 }
 
@@ -19,5 +21,6 @@ export const Task = (task = {}) => {
     id: task.id || getRandomHash(),
     title: task.title || '',
     description: task.description || '',
+    isComplete: task.isComplete !== undefined ? task.isComplete : false,
   }
 }

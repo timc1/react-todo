@@ -28,5 +28,6 @@ const Header = styled('header')`
 const Nav = styled('nav')`
   li {
     display: inline-block;
+    color: var(--white1);
   }
 `

@@ -46,11 +46,11 @@ export default () => {
   }, [])
 
   return (
-    console.log('todo', todo) || (
-      <Container>
-        {todo && (
-          <>
-            <Heading date={todo.date} />
+    <Container>
+      {todo && (
+        <>
+          <Heading date={todo.date} />
+          <TaskContainer>
             {todo?.tasks.length > 0 ? (
               todo.tasks.map(task => (
                 <Task key={task.id} task={task} dispatch={dispatch} />
@@ -58,16 +58,16 @@ export default () => {
             ) : (
               <p>You have no tasks!</p>
             )}
+          </TaskContainer>
 
-            <Editor
-              task={currentEditingTask}
-              setCurrentEditingTask={setCurrentEditingTask}
-              dispatch={dispatch}
-            />
-          </>
-        )}
-      </Container>
-    )
+          <Editor
+            task={currentEditingTask}
+            setCurrentEditingTask={setCurrentEditingTask}
+            dispatch={dispatch}
+          />
+        </>
+      )}
+    </Container>
   )
 }
 
@@ -75,4 +75,9 @@ export default () => {
 const Container = styled('div')`
   max-width: 500px;
   margin: auto;
+  padding-bottom: 100px;
+`
+
+const TaskContainer = styled('div')`
+  margin-bottom: 40px;
 `

@@ -12,5 +12,6 @@ export default React.memo(({ date }) => {
 
 const H1 = styled('h1')`
   font-family: var(--secondaryfont);
-  color: var(--black1);
+  color: var(--white1);
+  margin: 0 0 20px 0;
 `

@@ -1,13 +1,14 @@
 :root {
   --black1: rgb(0, 0, 0);
   --black2: rgba(15, 13, 32, 0.99);
-  --black4: rgb(176, 175, 178);
+  --black4: rgb(136, 152, 170);
   --white1: rgb(255, 255, 255);
   --white2: rgb(221, 225, 228);
   --white3: rgba(255,255,255,.5);
   --white4: rgba(255,255,255,.08);
   --blue1: rgb(14, 36, 57);
-  --blue5: rgb(246, 249, 252);
+  --blue4: rgb(14, 17, 19);
+  --blue5: rgb(22, 28, 30);
 
   --basefont: "Akkurat-Regular", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -17,10 +18,16 @@
   --fontregular: 400;
   --fontbold: 800;
 
+  --fontsm: .865rem;
   --fontmd: 1.25rem;
   --screenlg: 1440px;
 
   --basepadding: 2.5rem;
+
+  --baseboxshadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  --baseborderradius: 4px;
+
+  --cubicbounce: cubic-bezier(0.74, -0.21, 0.51, 1.39);
 }
 
 ::selection {
@@ -42,7 +49,7 @@
   font-variant-numeric: proportional-nums;
   font-family: var(--basefont);
   box-sizing: border-box;
-  caret-color: var(--black1);
+  caret-color: var(--white2);
 }
 
 a, button, input, select, textarea, label {
@@ -70,13 +77,13 @@ textarea {
   position: relative;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid var(--blue5);
+  border: 1px solid var(--blue4);
   outline: none;
   font-size: var(--fontmd);
   line-height: 2.2rem;
   text-overflow: ellipsis;
-  background-color: var(--blue5);
-  color: var(--black1);
+  background-color: var(--blue4);
+  color: var(--white1);
   padding: 5px 20px 8px 13px;
   transition: background .15s ease-in;
 }
@@ -92,11 +99,11 @@ textarea {
 }
 
 input:focus, input:active, textarea:focus, textarea:active {
-  background-color: var(--white1);
+  background-color: var(--blue4);
 }
 
 html {
-  background-color: var(--white1);
+  background-color: var(--black1);
 }
 
 body {

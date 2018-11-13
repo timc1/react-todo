@@ -1,22 +1,70 @@
 import styled from 'react-emotion'
 
 export const StandardButton = styled('button')`
+  position: relative;
   white-space: nowrap;
   display: inline-block;
   height: 40px;
-  line-height: 40px;
+  min-width: 40px;
   padding: 0 14px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  background: var(--white1);
-  border: none;
-  border-radius: 4px;
-  font-size: 15px;
+  background: transparent;
+  border: 2px solid var(--white1);
+  border-radius: var(--baseborderradius);
+  font-size: 0;
   font-family: var(--secondaryfont);
   font-weight: var(--fontbold);
   text-transform: uppercase;
   letter-spacing: 0.025em;
-  color: var(--black1);
+  color: var(--white1);
+  opacity: 0.8;
   text-decoration: none;
-  transition: all 0.15s ease;
+  transition-property: transform, opacity;
+  transition: 0.15s ease;
   outline: none;
+  cursor: pointer;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--baseborderradius);
+    transform-property: opacity, transform;
+    transition: 0.15s ease;
+    z-index: -1;
+  }
+  &::before {
+    content: ${props => (props.content ? `"${props.content}"` : '')};
+    color: var(--white1);
+    font-size: var(--fontsm);
+    vertical-align: middle;
+  }
+  &::after {
+    content: '';
+    box-shadow: 0 0 12px var(--white1);
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  &:focus,
+  &:active,
+  &:hover {
+    opacity: 1;
+  }
+
+  &:focus {
+    &::after {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+    &::after {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
 `

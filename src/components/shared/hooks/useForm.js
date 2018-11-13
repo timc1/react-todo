@@ -6,6 +6,14 @@ const reducer = (state, action) => {
       const { id, value } = action.payload
       state[id] = value
       return state
+    case 'RESET':
+      return {
+        ...state,
+        ...action.payload,
+      }
+    case 'UPDATE_ERRORS':
+      state.errors = action.payload
+      return state
     default:
       return state
   }
@@ -14,14 +22,20 @@ const reducer = (state, action) => {
 export default (initialState, validations = {}) => {
   const [state, dispatch] = useReducer(reducer, { ...initialState, errors: {} })
 
-  const getFormHandlers = () => ({
-    onSubmit: e => {
+  const getFormHandlers = ({ onSubmit }) => ({
+    onSubmit: async e => {
       e.preventDefault()
-      const { errors, ...fields } = { ...state.errors, ...state }
-      const ids = Object.keys(fields)
-      _validate(ids)
-      if (Object.keys(state.errors).length === 0) {
-        console.log('submit')
+
+      // Destructure out the errors object so we just get the ids of the form.
+      const { errors: destructuredErrors, ...ids } = state
+
+      const errors = await _validate(Object.keys(ids))
+
+      if (Object.keys(errors).length === 0) {
+        if (onSubmit) {
+          onSubmit(ids)
+          dispatch({ type: 'RESET', payload: initialState })
+        }
       } else {
         console.log('fix errors')
       }
@@ -29,21 +43,21 @@ export default (initialState, validations = {}) => {
   })
 
   const _validate = ids => {
-    const batch = {}
-    for (let id of ids) {
-      if (validations[id]) {
-        const isErrored = validations[id](state[id])
-        if (isErrored) {
-          state.errors[id] = 'is errored'
-        } else {
-          delete state.errors[id]
+    return new Promise(resolve => {
+      const errors = Object.assign({}, state.errors)
+      for (let id of ids) {
+        if (validations[id]) {
+          const isErrored = validations[id](state[id])
+          if (isErrored) {
+            errors[id] = 'is errored'
+          } else {
+            delete errors[id]
+          }
         }
       }
-    }
-    state.errors = {
-      ...state.errors,
-      ...batch,
-    }
+      dispatch({ type: 'UPDATE_ERRORS', payload: errors })
+      resolve(errors)
+    })
   }
 
   const getInputStateAndProps = ({ id, type, onBlur, ...rest }) => {
