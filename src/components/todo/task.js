@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes, css } from 'react-emotion'
-import { IconButton } from '../shared/styles'
+import { IconButton, screenSm } from '../shared/styles'
 import { Pencil, Trash } from '../shared/icons'
 
 import Checkbox from './checkbox'
@@ -62,11 +62,11 @@ const controls = css`
   li {
     display: inline-block;
   }
-  li:nth-child(even) {
-    button {
-      transition-delay: 0.1s;
-    }
-  }
+  //li:nth-child(even) {
+  //  button {
+  //    transition-delay: 0.05s;
+  //  }
+  //}
   li:not(:last-child) {
     margin-right: 10px;
   }
@@ -84,6 +84,18 @@ const controls = css`
       transform: scale(1);
     }
   }
+
+  @media (max-width: ${screenSm}px) {
+    margin-right: -103px;
+    scroll-snap-align: end;
+    li > button {
+      opacity: 1;
+      transform: scale(1);
+      &:hover,
+      &:focus {
+      }
+    }
+  }
 `
 
 const Container = styled('div')`
@@ -93,6 +105,8 @@ const Container = styled('div')`
   grid-gap: 10px;
   align-items: center;
   padding: 0;
+  margin-left: -5px;
+  margin-right: -5px;
   border-radius: var(--baseborderradius);
   outline: none;
   animation: ${slideUp} 0.15s ease-in;
@@ -104,13 +118,23 @@ const Container = styled('div')`
       transform: scale(1);
     }
   }
+
+  @media (max-width: ${screenSm}px) {
+    scroll-snap-type: x mandatory;
+    grid-gap: 0;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+      opacity: 0;
+    }
+  }
 `
 
 const Text = styled('button')`
   border: 0;
   background: transparent;
   position: relative;
-  padding: 20px 0 20px 30px;
+  padding: 20px 0 20px 35px;
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -119,7 +143,7 @@ const Text = styled('button')`
     position: absolute;
     top: 50%;
     height: 1px;
-    width: calc(100% - 37px);
+    width: calc(100% - 45px);
     background: var(--white2);
     transform: ${props =>
       props.isComplete
@@ -135,6 +159,7 @@ const Text = styled('button')`
     margin: 0;
     transition: opacity 0.15s var(--cubicbounce);
     opacity: ${props => (props.isComplete ? '0.4' : '1')};
+    word-break: break-word;
   }
 
   h1 {
@@ -173,5 +198,9 @@ const Text = styled('button')`
     .checkbox {
       content: '';
     }
+  }
+
+  @media (max-width: ${screenSm}px) {
+    scroll-snap-align: start;
   }
 `

@@ -10,7 +10,7 @@ const Container = styled('span')`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
+  left: 5px;
   height: 20px;
   width: 20px;
   border: 2px solid
@@ -47,7 +47,8 @@ const Container = styled('span')`
     -webkit-mask: url(${check}) center bottom / contain no-repeat;
     transform-property: opacity, transform;
     transition: 0.25s var(--cubicbounce);
-    transform: ${props => (props.isChecked ? 'scale(1)' : 'scale(0)')};
+    transform: ${props =>
+      props.isChecked ? 'scale(1) rotate(0)' : 'scale(0) rotate(-45deg)'};
     transform-origin: 50%;
     opacity: ${props => (props.isChecked ? '1' : '0')};
   }

@@ -9,15 +9,18 @@ const handleKeyDown = ({
   event,
   setCurrentEditingTask,
   elemToFocusAfterClose,
-  dispatch,
+  submitButton,
 }) => {
   const key = event.key.toUpperCase()
-  if (key === 'ESCAPE') {
+  if (key === 'ESCAPE' || key === 'ENTER') {
     event.preventDefault()
     switch (key) {
       case 'ESCAPE':
         setCurrentEditingTask(false)
         elemToFocusAfterClose.current.focus()
+        break
+      case 'ENTER':
+        submitButton.current.click()
         break
       default:
         break
@@ -32,6 +35,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
   const form = useRef(null)
   const focusInput = useRef(null)
   const toggleButton = useRef(null)
+  const submitButton = useRef(null)
   const { getInputStateAndProps, getFormHandlers, errors } = useForm(
     {
       title: task.id ? task.title : '',
@@ -53,7 +57,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
         event: e,
         setCurrentEditingTask,
         elemToFocusAfterClose: toggleButton,
-        dispatch,
+        submitButton,
       })
   }, [])
 
@@ -113,7 +117,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
                   })
                   setCurrentEditingTask(false)
                 },
-            postSubmitFocus: e => toggleButton.current.focus(),
+            postSubmit: e => toggleButton.current.focus(),
           })}
         >
           <Input
@@ -121,7 +125,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
               id: 'title',
               autoComplete: 'off',
               placeholder: 'Task Title',
-              spellCheck: 'off',
+              spellCheck: 'false',
             })}
             error={errors.title}
             tabIndex={task ? '0' : '-1'}
@@ -132,7 +136,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
               id: 'description',
               autoComplete: 'off',
               placeholder: 'Description',
-              spellCheck: 'off',
+              spellCheck: 'false',
             })}
             error={errors.description}
             tabIndex={task ? '0' : '-1'}
@@ -140,6 +144,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
           <StandardButton
             content={task.id ? 'Update' : '+ Add'}
             tabIndex={task ? '0' : '-1'}
+            innerRef={submitButton}
           >
             {task.id ? 'Update' : '+ Add'}
           </StandardButton>

@@ -35,7 +35,7 @@ export default (initialState, resetValues = {}, validations = {}, ...rest) => {
     [JSON.stringify(initialState)]
   )
 
-  const getFormHandlers = ({ onSubmit, postSubmitFocus }) => ({
+  const getFormHandlers = ({ onSubmit, postSubmit }) => ({
     onSubmit: async e => {
       e.preventDefault()
 
@@ -47,7 +47,7 @@ export default (initialState, resetValues = {}, validations = {}, ...rest) => {
       if (Object.keys(errors).length === 0) {
         if (onSubmit) {
           onSubmit(ids)
-          if (postSubmitFocus) postSubmitFocus()
+          if (postSubmit) postSubmit()
           dispatch({ type: 'RESET', payload: resetValues })
         }
       } else {
