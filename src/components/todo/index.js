@@ -8,6 +8,7 @@ import Task from './task'
 import Editor from './editor'
 
 const todoReducer = (state, action) => {
+  let updated
   switch (action.type) {
     case 'RESET':
       return getTodoObject()
@@ -23,16 +24,28 @@ const todoReducer = (state, action) => {
       }
     case 'UPDATE_TASK':
       state.tasks[action.payload.id] = action.payload
-      const updated = state.tasks.map(task => {
+      updated = state.tasks.map(task => {
         if (task.id === action.payload.id) {
           task = action.payload
         }
         return task
       })
       state.tasks = updated
+      console.log('state.tasks', state.tasks)
       return {
         ...state,
         ...state.tasks,
+      }
+    case 'CHECK_TASK':
+      updated = state.tasks.map(task => {
+        if (task.id === action.id) {
+          task.isComplete = !task.isComplete
+        }
+        return task
+      })
+      state.tasks = updated
+      return {
+        ...state,
       }
     default:
       return state

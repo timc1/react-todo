@@ -1,46 +1,51 @@
 import React from 'react'
 import styled, { keyframes, css } from 'react-emotion'
-import { StandardButton, IconButton } from '../shared/styles'
+import { IconButton } from '../shared/styles'
 import { Pencil, Trash } from '../shared/icons'
 
 import Checkbox from './checkbox'
 
-export default React.memo(
-  ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
-    return (
-      <Container tabIndex="0">
-        <Checkbox isChecked={isEditable ? false : true} />
+export default ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
+  return (
+    <Container tabIndex="0">
+      <Text
+        isComplete={task.isComplete}
+        onClick={e =>
+          dispatch({
+            type: 'CHECK_TASK',
+            id: task.id,
+          })
+        }
+      >
+        <Checkbox isChecked={task.isComplete} className="checkbox" />
+        <h1>{task.title}</h1>
+        {task.description && <p>{task.description}</p>}
+      </Text>
 
-        <Text isComplete={task.isComplete}>
-          <h1>{task.title}</h1>
-          {task.description && <p>{task.description}</p>}
-        </Text>
-
-        <div className={controls}>
-          <ul>
-            <li>
-              <IconButton onClick={e => setCurrentEditingTask(task)}>
-                <Pencil />
-                <span className="screen-reader">Edit Task {task.title}</span>
-              </IconButton>
-            </li>
-            <li>
-              <IconButton
-                onClick={e => {
-                  dispatch({ type: 'REMOVE_TASK', id: task.id })
-                  setCurrentEditingTask(false)
-                }}
-              >
-                <Trash />
-                <span className="screen-reader">Delete Task {task.title}</span>
-              </IconButton>
-            </li>
-          </ul>
-        </div>
-      </Container>
-    )
-  }
-)
+      <div className={controls}>
+        <ul>
+          <li>
+            <IconButton onClick={e => setCurrentEditingTask(task)}>
+              <Pencil />
+              <span className="screen-reader">Edit Task {task.title}</span>
+            </IconButton>
+          </li>
+          <li>
+            <IconButton
+              onClick={e => {
+                dispatch({ type: 'REMOVE_TASK', id: task.id })
+                setCurrentEditingTask(false)
+              }}
+            >
+              <Trash />
+              <span className="screen-reader">Delete Task {task.title}</span>
+            </IconButton>
+          </li>
+        </ul>
+      </div>
+    </Container>
+  )
+}
 
 const slideUp = keyframes`
   0% {
@@ -54,67 +59,82 @@ const slideUp = keyframes`
 `
 
 const controls = css`
-  opacity: 0;
-  transform: scale(0);
-  transition-property: opacity, transform;
-  transition: 0.15s var(--cubicbounce);
-  transform-origin: 100%;
-  color: var(--white1);
-
   li {
     display: inline-block;
+  }
+  li:nth-child(even) {
+    button {
+      transition-delay: 0.1s;
+    }
   }
   li:not(:last-child) {
     margin-right: 10px;
   }
-`
 
-const Container = styled('div')`
-  position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-gap: 10px;
-  align-items: center;
-  padding: 10px 0 20px 0;
-  border-radius: var(--baseborderradius);
-  outline: none;
-  animation: ${slideUp} 0.15s ease-in;
-
-  &:hover,
-  &:focus {
-    .${controls} {
+  li > button {
+    opacity: 0;
+    transform: scale(0.9);
+    transition-property: opacity, transform;
+    transition: 0.25s var(--cubicbounce);
+    transform-origin: 100%;
+    color: var(--white1);
+    &:hover,
+    &:focus {
       opacity: 1;
       transform: scale(1);
     }
   }
 `
 
-const Text = styled('div')`
+const Container = styled('div')`
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 10px;
+  align-items: center;
+  padding: 0;
+  border-radius: var(--baseborderradius);
+  outline: none;
+  animation: ${slideUp} 0.15s ease-in;
+
+  &:hover,
+  &:focus {
+    .${controls} button {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`
+
+const Text = styled('button')`
+  border: 0;
+  background: transparent;
+  position: relative;
+  padding: 20px 0 20px 30px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
   &::after {
     content: '';
     position: absolute;
     top: 50%;
     height: 1px;
-    width: 100%;
-    background: linear-gradient(
-      150deg,
-      #fcfcff 15%,
-      #43dfff 70%,
-      rgb(166, 255, 203) 94%
-    );
+    width: calc(100% - 37px);
+    background: var(--white2);
     transform: ${props =>
       props.isComplete
         ? 'translateY(-50%) scaleX(1)'
         : 'translateY(-50%) scaleX(0)'};
     transition: 0.15s var(--cubic);
     transform-origin: 0 0;
+    transition-delay: 0.2s;
   }
+
   h1,
   p {
     margin: 0;
-    transition: opacity 0.25s var(--cubicbounce);
-    opacity: ${props => (props.isComplete ? '0.2' : '1')};
+    transition: opacity 0.15s var(--cubicbounce);
+    opacity: ${props => (props.isComplete ? '0.4' : '1')};
   }
 
   h1 {
@@ -124,6 +144,34 @@ const Text = styled('div')`
   }
 
   p {
+    font-size: var(--fontsm);
     color: var(--black4);
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    .checkbox {
+      opacity: 1;
+    }
+  }
+
+  &:focus {
+    .checkbox {
+      box-shadow: ${props =>
+        props.isComplete ? '0' : '0 0 12px var(--white1)'};
+    }
+  }
+
+  &:active {
+    .checkbox {
+      transform: translateY(calc(-50% + 1px));
+    }
+  }
+
+  &::before {
+    .checkbox {
+      content: '';
+    }
   }
 `

@@ -1,7 +1,6 @@
 import { useReducer, useEffect } from 'react'
 
 const reducer = (state, action) => {
-  console.log('action', action)
   switch (action.type) {
     case 'INPUT_CHANGE':
       const { id, value } = action.payload
@@ -25,7 +24,7 @@ const reducer = (state, action) => {
   }
 }
 
-export default (initialState, validations = {}) => {
+export default (initialState, resetValues = {}, validations = {}, ...rest) => {
   const [state, dispatch] = useReducer(reducer, { ...initialState, errors: {} })
 
   // Check if initialState prop has changed.
@@ -36,7 +35,7 @@ export default (initialState, validations = {}) => {
     [JSON.stringify(initialState)]
   )
 
-  const getFormHandlers = ({ onSubmit }) => ({
+  const getFormHandlers = ({ onSubmit, postSubmitFocus }) => ({
     onSubmit: async e => {
       e.preventDefault()
 
@@ -48,6 +47,8 @@ export default (initialState, validations = {}) => {
       if (Object.keys(errors).length === 0) {
         if (onSubmit) {
           onSubmit(ids)
+          if (postSubmitFocus) postSubmitFocus()
+          dispatch({ type: 'RESET', payload: resetValues })
         }
       } else {
         console.log('fix errors')
