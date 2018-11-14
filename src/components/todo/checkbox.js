@@ -18,7 +18,7 @@ const Container = styled('span')`
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
-  transform-property: opacity, transform, border-color;
+  transform-property: opacity, transform, border-color, box-shadow;
   transition: 0.15s var(--cubic);
   opacity: 0.8;
 

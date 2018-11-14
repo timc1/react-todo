@@ -7,11 +7,13 @@ import { Todo as getTodoObject } from '../../models/todo'
 import Task from './task'
 import Editor from './editor'
 
+import useLocalStorage from '../shared/hooks/useLocalStorage'
+
 const todoReducer = (state, action) => {
   let updated
   switch (action.type) {
     case 'RESET':
-      return getTodoObject()
+      return action.payload
     case 'ADD_TASK':
       return {
         ...state,
@@ -31,7 +33,6 @@ const todoReducer = (state, action) => {
         return task
       })
       state.tasks = updated
-      console.log('state.tasks', state.tasks)
       return {
         ...state,
         ...state.tasks,
@@ -62,13 +63,19 @@ export default () => {
   // 2. Set todo state.
   useEffect(() => {
     let localTodos = window.localStorage.getItem('todos')
+    let todos
     if (localTodos) {
-      localTodos = JSON.parse(localTodos)
+      todos = getTodoObject(JSON.parse(localTodos))
     } else {
-      localTodos = getTodoObject()
+      todos = getTodoObject()
     }
-    dispatch({ type: 'RESET' })
+    dispatch({ type: 'RESET', payload: todos })
   }, [])
+
+  useLocalStorage({
+    name: 'todos',
+    objectToUpdate: todo,
+  })
 
   return (
     <Container>
