@@ -83,3 +83,8 @@ export const debounce = (func, wait, immediate) => {
 
   return debounced
 }
+
+export const getLocale = () => {
+  if (navigator.languages !== undefined) return navigator.languages[0]
+  else return navigator.language
+}

@@ -9,7 +9,7 @@ const handleKeyDown = ({
   event,
   setCurrentEditingTask,
   elemToFocusAfterClose,
-  submitButton,
+  submitButtonRef,
 }) => {
   const key = event.key.toUpperCase()
   if (key === 'ESCAPE' || key === 'ENTER') {
@@ -20,7 +20,7 @@ const handleKeyDown = ({
         elemToFocusAfterClose.current.focus()
         break
       case 'ENTER':
-        submitButton.current.click()
+        submitButtonRef.current.click()
         break
       default:
         break
@@ -32,10 +32,10 @@ const handleKeyDown = ({
 let eventListener
 
 export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
-  const form = useRef(null)
-  const focusInput = useRef(null)
-  const toggleButton = useRef(null)
-  const submitButton = useRef(null)
+  const formRef = useRef(null)
+  const focusInputRef = useRef(null)
+  const togglerButtonRef = useRef(null)
+  const submitButtonRef = useRef(null)
   const { getInputStateAndProps, getFormHandlers, errors } = useForm(
     {
       title: task.id ? task.title : '',
@@ -56,8 +56,8 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
       handleKeyDown({
         event: e,
         setCurrentEditingTask,
-        elemToFocusAfterClose: toggleButton,
-        submitButton,
+        elemToFocusAfterClose: togglerButtonRef,
+        submitButtonRef,
       })
   }, [])
 
@@ -67,9 +67,9 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
   useEffect(
     () => {
       if (task) {
-        form.current.addEventListener('keydown', eventListener)
+        formRef.current.addEventListener('keydown', eventListener)
       } else {
-        form.current.removeEventListener('keydown', eventListener)
+        formRef.current.removeEventListener('keydown', eventListener)
       }
     },
     [task]
@@ -78,7 +78,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
   useEffect(
     () => {
       if (task) {
-        focusInput.current.focus()
+        focusInputRef.current.focus()
       }
     },
     [task]
@@ -94,11 +94,11 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
         }
         content={task ? 'back' : '+'}
         aria-label={task ? 'Exit Form' : 'Add New Task'}
-        innerRef={toggleButton}
+        innerRef={togglerButtonRef}
       />
       <ThemeContainer isShowing={task}>
         <Form
-          innerRef={form}
+          innerRef={formRef}
           {...getFormHandlers({
             onSubmit: task.id
               ? values => {
@@ -117,7 +117,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
                   })
                   setCurrentEditingTask(false)
                 },
-            postSubmit: e => toggleButton.current.focus(),
+            postSubmit: e => togglerButtonRef.current.focus(),
           })}
         >
           <Input
@@ -129,7 +129,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
             })}
             error={errors.title}
             tabIndex={task ? '0' : '-1'}
-            innerRef={focusInput}
+            innerRef={focusInputRef}
           />
           <Textarea
             {...getInputStateAndProps({
@@ -144,7 +144,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
           <StandardButton
             content={task.id ? 'Update' : '+ Add'}
             tabIndex={task ? '0' : '-1'}
-            innerRef={submitButton}
+            innerRef={submitButtonRef}
           >
             {task.id ? 'Update' : '+ Add'}
           </StandardButton>

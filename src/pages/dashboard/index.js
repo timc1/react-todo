@@ -1,8 +1,8 @@
 import React from 'react'
-import Todo from '../../components/todo/index'
+import TodosPage from '../../components/todo/index'
 
 export default () => (
   <>
-    <Todo />
+    <TodosPage />
   </>
 )

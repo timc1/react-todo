@@ -1,105 +1,61 @@
-import React, { useReducer, useState, useEffect } from 'react'
-import Heading from './heading'
+import React, { useReducer, useEffect } from 'react'
 
 import styled from 'react-emotion'
 
-import { Todo as getTodoObject } from '../../models/todo'
-import Task from './task'
-import Editor from './editor'
+import {
+  Todo as getTodoObject,
+  TodoMeta as getTodoMetaObject,
+} from '../../models/todo'
 
 import useLocalStorage from '../shared/hooks/useLocalStorage'
 
-const todoReducer = (state, action) => {
-  let updated
+import SideMenu from './side-menu'
+import CurrentTodo from './current-todo'
+
+const metaReducer = (state, action) => {
+  console.log('state', state)
+  console.log('action', action)
   switch (action.type) {
-    case 'RESET':
+    case 'SETUP':
       return action.payload
-    case 'ADD_TASK':
-      return {
-        ...state,
-        ...state.tasks.push(action.payload),
-      }
-    case 'REMOVE_TASK':
-      state.tasks = state.tasks.filter(task => task.id !== action.id)
-      return {
-        ...state,
-      }
-    case 'UPDATE_TASK':
-      state.tasks[action.payload.id] = action.payload
-      updated = state.tasks.map(task => {
-        if (task.id === action.payload.id) {
-          task = action.payload
-        }
-        return task
-      })
-      state.tasks = updated
-      return {
-        ...state,
-        ...state.tasks,
-      }
-    case 'CHECK_TASK':
-      updated = state.tasks.map(task => {
-        if (task.id === action.id) {
-          task.isComplete = !task.isComplete
-        }
-        return task
-      })
-      state.tasks = updated
-      return {
-        ...state,
-      }
+    case 'RESET':
+      return getTodoMetaObject()
+    case 'DELETE_SINGLE_TODO':
+      return state
+    case 'UPDATE_CURRENT_EDITING_TODO':
+      return state
     default:
       return state
   }
 }
 
 export default () => {
-  const [todo, dispatch] = useReducer(todoReducer, null)
-  const [currentEditingTask, setCurrentEditingTask] = useState(false)
+  const [todosMeta, dispatch] = useReducer(metaReducer, null)
 
-  // useEffect will only be called once, when the component first mounts.
-  // We will:
-  // 1. Check localStorage to fetch all saved todos.
-  // 2. Set todo state.
+  // Check for todo_meta, an object containing all data for all todos.
   useEffect(() => {
-    let localTodos = window.localStorage.getItem('todos')
-    let todos
-    if (localTodos) {
-      todos = getTodoObject(JSON.parse(localTodos))
+    const meta = localStorage.getItem('todo_meta')
+      ? JSON.parse(localStorage.getItem('todo_meta'))
+      : null
+    if (meta) {
+      dispatch({ type: 'SETUP', payload: meta })
     } else {
-      todos = getTodoObject()
+      dispatch({ type: 'RESET' })
     }
-    dispatch({ type: 'RESET', payload: todos })
   }, [])
 
   useLocalStorage({
-    name: 'todos',
-    objectToUpdate: todo,
+    name: 'todo_meta',
+    objectToUpdate: todosMeta,
   })
 
   return (
     <Container>
-      {todo && (
+      {todosMeta && (
         <>
-          <Heading date={todo.date} />
-          <TaskContainer>
-            {todo?.tasks.length > 0 ? (
-              todo.tasks.map(task => (
-                <Task
-                  key={task.id}
-                  task={task}
-                  dispatch={dispatch}
-                  setCurrentEditingTask={setCurrentEditingTask}
-                />
-              ))
-            ) : (
-              <p style={{ color: '#fff' }}>You have no tasks!</p>
-            )}
-          </TaskContainer>
-
-          <Editor
-            task={currentEditingTask}
-            setCurrentEditingTask={setCurrentEditingTask}
+          <SideMenu allTodos={todosMeta.all_todos} dispatch={dispatch} />
+          <CurrentTodo
+            currentTodo={todosMeta.current_todo}
             dispatch={dispatch}
           />
         </>
@@ -108,13 +64,4 @@ export default () => {
   )
 }
 
-// Styles
-const Container = styled('div')`
-  max-width: 650px;
-  margin: auto;
-  padding: 0 15px 100px 15px;
-`
-
-const TaskContainer = styled('div')`
-  margin-bottom: 40px;
-`
+const Container = styled('div')``
