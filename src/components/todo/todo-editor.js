@@ -10,8 +10,8 @@ export default React.memo(({ currentTodo, todoMetaDispatch }) => {
   const [currentEditingTask, setCurrentEditingTask] = useState(false)
 
   return (
-    <Container>
-      {currentTodo && (
+    <Container className="todo-editor">
+      {currentTodo ? (
         <>
           <Heading date={currentTodo.date} />
           <TaskContainer>
@@ -35,18 +35,21 @@ export default React.memo(({ currentTodo, todoMetaDispatch }) => {
             dispatch={todoMetaDispatch}
           />
         </>
+      ) : (
+        <NoTodoSelected>Select a date or create a new list</NoTodoSelected>
       )}
     </Container>
   )
 })
 
 // Styles
-const Container = styled('div')`
+const Container = styled.div`
   max-width: 650px;
-  margin: auto;
-  padding: 0 15px 100px 15px;
+  width: 100%;
 `
 
-const TaskContainer = styled('div')`
+const TaskContainer = styled.div`
   margin-bottom: 40px;
 `
+
+const NoTodoSelected = styled.div``

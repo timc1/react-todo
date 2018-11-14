@@ -117,6 +117,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0"
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "babel-plugin-emotion": "^9.2.11"
   }
 }
