@@ -105,7 +105,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
                   dispatch({
                     type: 'UPDATE_TASK',
                     payload: {
-                      ...getTaskObject({ ...values, id: task.id }),
+                      task: getTaskObject({ ...values, id: task.id }),
                     },
                   })
                   setCurrentEditingTask(false)
@@ -113,7 +113,9 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
               : values => {
                   dispatch({
                     type: 'ADD_TASK',
-                    payload: getTaskObject(values),
+                    payload: {
+                      task: getTaskObject(values),
+                    },
                   })
                   setCurrentEditingTask(false)
                 },

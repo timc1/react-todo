@@ -6,10 +6,10 @@ export default ({ name, objectToUpdate }) => {
   useEffect(
     () => {
       if (debouncedObj) debouncedObj.clear()
-      debouncedObj = debounce(updateLocalStorage, 3000)
+      debouncedObj = debounce(updateLocalStorage, 1000)
       debouncedObj()
     },
-    [objectToUpdate]
+    [JSON.stringify(objectToUpdate)]
   )
 
   const updateLocalStorage = () => {

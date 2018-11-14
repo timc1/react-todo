@@ -12,8 +12,10 @@ export default ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
         isComplete={task.isComplete}
         onClick={e =>
           dispatch({
-            type: 'CHECK_TASK',
-            id: task.id,
+            type: 'UPDATE_TASK',
+            payload: {
+              task: { ...task, isComplete: !task.isComplete },
+            },
           })
         }
       >
@@ -33,7 +35,7 @@ export default ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
           <li>
             <IconButton
               onClick={e => {
-                dispatch({ type: 'REMOVE_TASK', id: task.id })
+                dispatch({ type: 'REMOVE_TASK', payload: { taskId: task.id } })
                 setCurrentEditingTask(false)
               }}
             >

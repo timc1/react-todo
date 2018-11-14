@@ -1,5 +1,13 @@
 import { getRandomHash } from '../utils'
 
+export const TodoMeta = (data = {}) => {
+  return {
+    user: data.user || null,
+    todos: data.todos || [Todo()],
+    currentTodoId: null,
+  }
+}
+
 export const Todo = (data = {}) => {
   return {
     id: data.id || getRandomHash(),
