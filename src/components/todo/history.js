@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 
 import { StandardButton } from '../shared/styles'
 
-export default ({ allTodos, todoMetaDispatch }) => (
+export default React.memo(({ allTodos, todoMetaDispatch }) => (
   <SideMenu>
     <ul>
       {allTodos &&
@@ -26,6 +26,6 @@ export default ({ allTodos, todoMetaDispatch }) => (
         ))}
     </ul>
   </SideMenu>
-)
+))
 
 const SideMenu = styled('aside')``

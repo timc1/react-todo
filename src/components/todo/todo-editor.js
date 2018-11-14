@@ -6,7 +6,7 @@ import styled from 'react-emotion'
 import Task from './task'
 import TaskEditor from './task-editor'
 
-export default ({ currentTodo, todoMetaDispatch }) => {
+export default React.memo(({ currentTodo, todoMetaDispatch }) => {
   const [currentEditingTask, setCurrentEditingTask] = useState(false)
 
   return (
@@ -38,7 +38,7 @@ export default ({ currentTodo, todoMetaDispatch }) => {
       )}
     </Container>
   )
-}
+})
 
 // Styles
 const Container = styled('div')`

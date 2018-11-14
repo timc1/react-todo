@@ -5,49 +5,61 @@ import { Pencil, Trash } from '../shared/icons'
 
 import Checkbox from './checkbox'
 
-export default ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
-  return (
-    <Container tabIndex="0">
-      <Text
-        isComplete={task.isComplete}
-        onClick={e =>
-          dispatch({
-            type: 'UPDATE_TASK',
-            payload: {
-              task: { ...task, isComplete: !task.isComplete },
-            },
-          })
-        }
-      >
-        <Checkbox isChecked={task.isComplete} className="checkbox" />
-        <h1>{task.title}</h1>
-        {task.description && <p>{task.description}</p>}
-      </Text>
+export default React.memo(
+  ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
+    return (
+      <Container tabIndex="0">
+        <Text
+          isComplete={task.isComplete}
+          onClick={e =>
+            dispatch({
+              type: 'UPDATE_TASK',
+              payload: {
+                task: { ...task, isComplete: !task.isComplete },
+              },
+            })
+          }
+        >
+          <Checkbox isChecked={task.isComplete} className="checkbox" />
+          <h1>{task.title}</h1>
+          {task.description && <p>{task.description}</p>}
+        </Text>
+        <Controls
+          task={task}
+          dispatch={dispatch}
+          setCurrentEditingTask={setCurrentEditingTask}
+        />
+      </Container>
+    )
+  }
+)
 
-      <div className={controls}>
-        <ul>
-          <li>
-            <IconButton onClick={e => setCurrentEditingTask(task)}>
-              <Pencil />
-              <span className="screen-reader">Edit Task {task.title}</span>
-            </IconButton>
-          </li>
-          <li>
-            <IconButton
-              onClick={e => {
-                dispatch({ type: 'REMOVE_TASK', payload: { taskId: task.id } })
-                setCurrentEditingTask(false)
-              }}
-            >
-              <Trash />
-              <span className="screen-reader">Delete Task {task.title}</span>
-            </IconButton>
-          </li>
-        </ul>
-      </div>
-    </Container>
-  )
-}
+const Controls = React.memo(({ task, dispatch, setCurrentEditingTask }) => (
+  <div className={controls}>
+    <ul>
+      <li>
+        <IconButton onClick={e => setCurrentEditingTask(task)}>
+          <Pencil />
+          <span className="screen-reader">Edit Task {task.title}</span>
+        </IconButton>
+      </li>
+      <li>
+        <IconButton
+          onClick={e => {
+            dispatch({
+              type: 'REMOVE_TASK',
+              payload: { taskId: task.id },
+            })
+            setCurrentEditingTask(false)
+          }}
+        >
+          <Trash />
+          <span className="screen-reader">Delete Task {task.title}</span>
+        </IconButton>
+      </li>
+    </ul>
+  </div>
+))
 
 const slideUp = keyframes`
   0% {

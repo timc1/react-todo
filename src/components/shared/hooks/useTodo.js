@@ -2,8 +2,6 @@ import { useEffect, useReducer } from 'react'
 import { TodoMeta } from '../../../models/todo'
 
 const todoMetaReducer = (state, action) => {
-  console.log('state', state)
-  console.log('action', action)
   switch (action.type) {
     case 'SETUP':
       return action.payload.todoMeta
