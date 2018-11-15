@@ -19,6 +19,7 @@ export default ({ children }, props) => {
 const Container = styled('div')`
   max-width: var(--screenlg);
   margin: auto;
+  overflow: hidden;
 `
 
 const Header = styled('header')`
@@ -26,6 +27,9 @@ const Header = styled('header')`
 `
 
 const Nav = styled('nav')`
+  ul {
+    text-align: center;
+  }
   li {
     display: inline-block;
     color: var(--white1);

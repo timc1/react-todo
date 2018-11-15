@@ -37,3 +37,9 @@ export const Task = (task = {}) => {
     isComplete: task.isComplete !== undefined ? task.isComplete : false,
   }
 }
+
+export const getUISettings = (settings = {}) => {
+  return {
+    isSideMenuHidden: settings.isSideMenuHidden || false,
+  }
+}

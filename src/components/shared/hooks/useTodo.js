@@ -1,7 +1,5 @@
 import { useEffect, useReducer } from 'react'
-import { TodoMeta } from '../../../models/todo'
-
-import useLocalStorage from './useLocalStorage'
+import { TodoMeta, getUISettings } from '../../../models/todo'
 
 const todoMetaReducer = (state, action) => {
   switch (action.type) {
@@ -78,4 +76,34 @@ export default ({ user }) => {
   }
 
   return { getAllTodos, getCurrentTodo, todoMetaDispatch }
+}
+
+const todoUIReducer = (state, action) => {
+  switch (action.type) {
+    case 'RESET':
+      return getUISettings()
+    case 'SETUP':
+      return action.payload.settings
+    case 'TOGGLE_HISTORY':
+      return {
+        ...state,
+        isSideMenuHidden: !state.isSideMenuHidden,
+      }
+    default:
+      return state
+  }
+}
+
+export const useTodoUI = () => {
+  const [uiSettings, todoUIDispatch] = useReducer(
+    todoUIReducer,
+    localStorage.getItem('todos_ui_settings')
+      ? JSON.parse(localStorage.getItem('todos_ui_settings'))
+      : getUISettings()
+  )
+
+  return {
+    uiSettings,
+    todoUIDispatch,
+  }
 }
