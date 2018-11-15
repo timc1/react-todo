@@ -15,17 +15,21 @@ const todoMetaReducer = (state, action) => {
       state.todos
         .filter(todo => todo.id === state.currentTodoId)[0]
         .tasks.push(action.payload.task)
-      console.log('state', state)
       return state
     case 'REMOVE_TASK':
-      //const todo = state.todos.filter(
-      //  todo => todo.id === state.currentTodoId
-      //)[0]
-      //todo.tasks = todo.tasks.filter(task => task.id !== action.payload.taskId)
-      //state.todos = [{ ...state.todos, ...todo }]
+      state.todos.reduce((allTodos, todo) => {
+        if (todo.id === state.currentTodoId) {
+          todo.tasks = todo.tasks.filter(
+            task => task.id !== action.payload.taskId
+          )
+        }
+        allTodos.push(todo)
+        return allTodos
+      }, [])
+
       return state
     case 'UPDATE_TASK':
-      let copy = state.todos.reduce((allTodos, todo) => {
+      state.todos.reduce((allTodos, todo) => {
         if (todo.id === state.currentTodoId) {
           todo.tasks = todo.tasks.map(task => {
             if (task.id === action.payload.task.id) {
@@ -37,10 +41,7 @@ const todoMetaReducer = (state, action) => {
         allTodos.push(todo)
         return allTodos
       }, [])
-      return {
-        ...state,
-        todos: copy,
-      }
+      return state
     default:
       return state
   }

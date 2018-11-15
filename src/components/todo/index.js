@@ -57,6 +57,7 @@ const Container = styled.div`
 
   .history {
     z-index: 1;
+
     .history-head {
       position: relative;
       background: none;
@@ -110,6 +111,16 @@ const Container = styled.div`
       transition-delay: ${props => (props.isSideMenuHidden ? '0' : '0.25s')};
       pointer-events: ${props => (props.isSideMenuHidden ? 'none' : 'initial')};
       background: var(--black1);
+
+      max-height: calc(100vh - 120px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      button {
+        width: 100%;
+      }
     }
 
     &:hover,
