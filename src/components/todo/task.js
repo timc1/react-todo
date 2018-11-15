@@ -38,7 +38,10 @@ const Controls = React.memo(({ task, dispatch, setCurrentEditingTask }) => (
   <div className={controls}>
     <ul>
       <li>
-        <IconButton onClick={e => setCurrentEditingTask(task)}>
+        <IconButton
+          onClick={e => setCurrentEditingTask(task)}
+          aria-label={`Edit task ${task.title}`}
+        >
           <Pencil />
           <span className="screen-reader">Edit Task {task.title}</span>
         </IconButton>
@@ -52,6 +55,7 @@ const Controls = React.memo(({ task, dispatch, setCurrentEditingTask }) => (
             })
             setCurrentEditingTask(false)
           }}
+          aria-label={`Remove task ${task.title}`}
         >
           <Trash />
           <span className="screen-reader">Delete Task {task.title}</span>
@@ -100,7 +104,8 @@ const controls = css`
   }
 
   @media (max-width: ${screenSm}px) {
-    margin-right: -103px;
+    margin-right: -110px;
+    padding-left: 10px;
     scroll-snap-align: end;
     li > button {
       opacity: 1;

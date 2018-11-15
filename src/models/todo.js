@@ -1,10 +1,11 @@
 import { getRandomHash } from '../utils'
 
 export const TodoMeta = (data = {}) => {
+  const defaultTodo = Todo()
   return {
     user: data.user || null,
-    todos: data.todos || [Todo()],
-    currentTodoId: null,
+    todos: data.todos || [defaultTodo],
+    currentTodoId: data.currentTodoId || defaultTodo.id,
   }
 }
 
@@ -20,10 +21,10 @@ export const Todo = (data = {}) => {
         .join(' '),
     tasks: data.tasks || [
       Task({
-        id: '123abc',
-        title: 'Test',
-        description: 'description test',
-        isComplete: true,
+        id: 'default_0',
+        title: 'A thing that needs to be done today',
+        description: 'An optional description here.',
+        isComplete: false,
       }),
     ],
   }

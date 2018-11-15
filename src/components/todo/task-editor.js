@@ -161,8 +161,6 @@ const Container = styled('div')`
 `
 
 const ThemeContainer = styled('div')`
-  position: absolute;
-  top: 60px;
   width: 100%;
   margin-bottom: 60px;
   display: grid;

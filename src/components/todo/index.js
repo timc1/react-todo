@@ -10,8 +10,13 @@ import useLocalStorage from '../shared/hooks/useLocalStorage'
 
 export default React.memo(() => {
   // Setup.
-  const { getAllTodos, getCurrentTodo, todoMetaDispatch } = useTodo({
+  const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
     user: false,
+  })
+  useLocalStorage({
+    name: 'todo_meta',
+    objectToUpdate: todoMeta,
+    enableDebounce: true,
   })
 
   // Enables an interactive UI experience.
@@ -28,7 +33,7 @@ export default React.memo(() => {
       {uiSettings && (
         <Container {...uiSettings}>
           <History
-            allTodos={getAllTodos()}
+            allTodos={todoMeta.todos}
             todoMetaDispatch={todoMetaDispatch}
             todoUIDispatch={todoUIDispatch}
             isSideMenuHidden={uiSettings.isSideMenuHidden}
@@ -63,7 +68,9 @@ const Container = styled.div`
       cursor: pointer;
       opacity: ${props => (props.isSideMenuHidden ? '.5' : '1')};
       transform: ${props =>
-        props.isSideMenuHidden ? 'rotate(90deg)' : 'rotate(0)'};
+        props.isSideMenuHidden
+          ? 'rotate(90deg) translateX(10px)'
+          : 'rotate(0) translateX(0)'};
       transform-origin: 0 0;
       transition: 0.25s ease-in;
       transition-property: transform, opacity;
@@ -113,11 +120,13 @@ const Container = styled.div`
   }
 
   .todo-editor {
+    position: relative;
     transform: ${props =>
       props.isSideMenuHidden ? 'translateX(-150px)' : 'translateX(0)'};
     transition-property: transform;
     transition: 0.25s ease-in;
     transition-delay: ${props => (props.isSideMenuHidden ? '0.25s' : '0')};
+    z-index: 2;
   }
 
   @media (max-width: ${screenMd}px) {

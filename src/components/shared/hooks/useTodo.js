@@ -15,48 +15,61 @@ const todoMetaReducer = (state, action) => {
       state.todos
         .filter(todo => todo.id === state.currentTodoId)[0]
         .tasks.push(action.payload.task)
+      console.log('state', state)
       return state
     case 'REMOVE_TASK':
-      const todo = state.todos.filter(
-        todo => todo.id === state.currentTodoId
-      )[0]
-      todo.tasks = todo.tasks.filter(task => task.id !== action.payload.taskId)
-      state.todos = [{ ...state.todos, ...todo }]
+      //const todo = state.todos.filter(
+      //  todo => todo.id === state.currentTodoId
+      //)[0]
+      //todo.tasks = todo.tasks.filter(task => task.id !== action.payload.taskId)
+      //state.todos = [{ ...state.todos, ...todo }]
       return state
     case 'UPDATE_TASK':
-      const todoCopy = state.todos.filter(
-        todo => todo.id === state.currentTodoId
-      )[0]
-      todoCopy.tasks = todoCopy.tasks.map(task => {
-        if (task.id === action.payload.task.id) {
-          task = action.payload.task
+      let copy = state.todos.reduce((allTodos, todo) => {
+        if (todo.id === state.currentTodoId) {
+          todo.tasks = todo.tasks.map(task => {
+            if (task.id === action.payload.task.id) {
+              task = action.payload.task
+            }
+            return task
+          })
         }
-        return task
-      })
-
-      state.todos = [{ ...state.todos, ...todoCopy }]
-      return state
+        allTodos.push(todo)
+        return allTodos
+      }, [])
+      return {
+        ...state,
+        todos: copy,
+      }
     default:
       return state
   }
 }
 
 export default ({ user }) => {
-  const [todoMeta, todoMetaDispatch] = useReducer(todoMetaReducer, null)
+  const [todoMeta, todoMetaDispatch] = useReducer(
+    todoMetaReducer,
+    null,
+    localStorage.getItem('todo_meta')
+      ? {
+          type: 'SETUP',
+          payload: {
+            todoMeta: TodoMeta(JSON.parse(localStorage.getItem('todo_meta'))),
+          },
+        }
+      : {
+          type: 'SETUP',
+          payload: {
+            todoMeta: TodoMeta(),
+          },
+        }
+  )
 
   // Setup.
   useEffect(
     () => {
       if (user) {
         // Fetch user from db.
-      } else {
-        // Check localStorage and return
-        todoMetaDispatch({
-          type: 'SETUP',
-          payload: {
-            todoMeta: TodoMeta(),
-          },
-        })
       }
     },
     [user]
@@ -75,7 +88,7 @@ export default ({ user }) => {
     return todoMeta?.todos
   }
 
-  return { getAllTodos, getCurrentTodo, todoMetaDispatch }
+  return { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch }
 }
 
 const todoUIReducer = (state, action) => {

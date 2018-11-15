@@ -20,6 +20,7 @@ export default ({ name, objectToUpdate, enableDebounce }) => {
     const current = localStorage.getItem(name)
     const updated = JSON.stringify(objectToUpdate)
     if (current !== updated) {
+      console.log('update local storage')
       localStorage.setItem(name, updated)
     }
   }

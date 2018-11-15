@@ -3,11 +3,23 @@ import styled from 'react-emotion'
 
 import { StandardButton } from '../shared/styles'
 
+const areEqual = (prevProps, nextProps) => {
+  if (prevProps.allTodos.length !== nextProps.allTodos.length) {
+    return false
+  }
+  return true
+}
+
 export default React.memo(
   ({ allTodos, todoMetaDispatch, todoUIDispatch, isSideMenuHidden }) => (
     <SideMenu className="history">
       <Heading
         className="history-head"
+        aria-label={
+          isSideMenuHidden
+            ? 'Toggle to display history'
+            : 'Toggle to hide history'
+        }
         onClick={e =>
           todoUIDispatch({
             type: 'TOGGLE_HISTORY',
@@ -31,6 +43,7 @@ export default React.memo(
                   })
                 }
                 content={todo.date}
+                tabIndex={isSideMenuHidden ? '-1' : ''}
               >
                 {todo.date}
               </StandardButton>
@@ -38,7 +51,8 @@ export default React.memo(
           ))}
       </ul>
     </SideMenu>
-  )
+  ),
+  areEqual
 )
 
 const SideMenu = styled.aside`

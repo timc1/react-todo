@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-export default ({ children }, props) => {
+export default React.memo(({ children }, props) => {
   return (
     <Container>
       <Header>
@@ -14,7 +14,7 @@ export default ({ children }, props) => {
       {children}
     </Container>
   )
-}
+})
 
 const Container = styled('div')`
   max-width: var(--screenlg);
