@@ -7,9 +7,8 @@ const areEqual = (prevProps, nextProps) => {
     prevProps.allTodos.length !== nextProps.allTodos.length ||
     prevProps.currentTodo.id !== nextProps.currentTodo.id ||
     prevProps.isSideMenuHidden !== nextProps.isSideMenuHidden
-  ) {
+  )
     return false
-  }
   return true
 }
 
@@ -29,7 +28,7 @@ export default React.memo(
                 })
               }
               content={todo.date}
-              tabIndex={isSideMenuHidden ? '-1' : ''}
+              tabIndex={isSideMenuHidden ? '-1' : '0'}
             >
               {todo.date}
             </StandardButton>

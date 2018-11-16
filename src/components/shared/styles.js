@@ -6,7 +6,11 @@ export const screenMd = 767
 export const screenLg = 1440
 
 const areEqual = (prevProps, nextProps) => {
-  if (prevProps.content !== nextProps.content) return false
+  if (
+    prevProps.content !== nextProps.content ||
+    prevProps.tabIndex !== nextProps.tabIndex
+  )
+    return false
   return true
 }
 
