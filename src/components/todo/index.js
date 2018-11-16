@@ -10,7 +10,7 @@ import useLocalStorage from '../shared/hooks/useLocalStorage'
 
 export default () => {
   // Setup.
-  const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
+  const { getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
     user: false,
   })
   useLocalStorage({
@@ -29,7 +29,6 @@ export default () => {
   })
 
   const currentTodo = getCurrentTodo()
-  console.log('todoMeta.todos', todoMeta.todos)
 
   return (
     <>

@@ -3,8 +3,6 @@ import styled from 'react-emotion'
 import { StandardButton } from '../shared/styles'
 
 const areEqual = (prevProps, nextProps) => {
-  console.log('prev', prevProps.allTodos)
-  console.log('next', nextProps.allTodos)
   if (
     prevProps.allTodos.length !== nextProps.allTodos.length ||
     prevProps.currentTodo.id !== nextProps.currentTodo.id ||
