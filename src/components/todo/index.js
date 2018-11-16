@@ -53,12 +53,14 @@ export default () => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: minmax(auto, 10rem) 1fr;
   grid-gap: 40px;
   align-items: start;
   padding: 0 var(--basepadding);
 
   .menu {
+    max-width: 10rem;
+    width: 100%;
     z-index: 1;
 
     .menu-head {

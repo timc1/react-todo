@@ -16,8 +16,8 @@ import AddDate from './add-date'
  */ export default props => (
   <aside className="menu">
     <MenuToggler {...props} />
-
     <nav className="menu-body">
+      <MenuSectionTitle>Actions</MenuSectionTitle>
       <AddDate {...props} />
       <MenuSectionTitle>History</MenuSectionTitle>
       <History {...props} />
