@@ -10,7 +10,7 @@ import useLocalStorage from '../shared/hooks/useLocalStorage'
 
 export default () => {
   // Setup.
-  const { getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
+  const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
     user: false,
   })
   useLocalStorage({
@@ -29,13 +29,14 @@ export default () => {
   })
 
   const currentTodo = getCurrentTodo()
+  const allTodos = getAllTodos()
 
   return (
     <>
       {uiSettings && (
         <Container {...uiSettings}>
           <Menu
-            allTodos={todoMeta.todos}
+            allTodos={allTodos}
             currentTodo={currentTodo}
             todoMetaDispatch={todoMetaDispatch}
             todoUIDispatch={todoUIDispatch}
@@ -94,16 +95,22 @@ const Container = styled.div`
         color: var(--white1);
         border-radius: var(--baseborderradius);
         text-transform: uppercase;
-        opacity: 0.8;
+        opacity: 0.7;
         align-self: center;
+        transition: opacity 0.15s ease-in;
       }
 
       &:hover,
-      &:active,
       &:focus {
         opacity: 1;
         span {
           opacity: 1;
+        }
+      }
+
+      &:active {
+        span {
+          opacity: 0.7;
         }
       }
     }
@@ -116,7 +123,8 @@ const Container = styled.div`
       transition-delay: ${props => (props.isSideMenuHidden ? '0' : '0.25s')};
       pointer-events: ${props => (props.isSideMenuHidden ? 'none' : 'initial')};
       background: var(--black1);
-      padding: 35px 0;
+      padding: 35px 10px;
+      margin: 0 -10px;
       max-height: calc(100vh - 120px);
       overflow: auto;
       -webkit-overflow-scrolling: touch;

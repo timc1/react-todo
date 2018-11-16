@@ -4,11 +4,14 @@ import { formatDate } from '../../utils'
 
 import styled from 'react-emotion'
 
-export default React.memo(({ date }) => {
-  let text = formatDate(date)
+export default React.memo(
+  ({ date }) => {
+    let text = formatDate(date)
 
-  return <H1>{text}</H1>
-})
+    return <H1>{text}</H1>
+  },
+  (prevProps, nextProps) => prevProps.date === nextProps.date
+)
 
 const H1 = styled('h1')`
   font-family: var(--secondaryfont);

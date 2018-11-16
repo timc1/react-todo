@@ -25,7 +25,7 @@ export default ({ currentTodo, todoMetaDispatch }) => {
                 />
               ))
             ) : (
-              <p style={{ color: '#fff' }}>You have no tasks!</p>
+              <NoOp style={{ marginTop: '45px' }}>Click + to add a task.</NoOp>
             )}
           </TaskContainer>
 
@@ -36,7 +36,7 @@ export default ({ currentTodo, todoMetaDispatch }) => {
           />
         </>
       ) : (
-        <NoTodoSelected>Select a date or create a new list</NoTodoSelected>
+        <NoOp>Select or create a new list from the menu.</NoOp>
       )}
     </Container>
   )
@@ -49,7 +49,14 @@ const Container = styled.div`
 `
 
 const TaskContainer = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 `
 
-const NoTodoSelected = styled.div``
+const NoOp = React.memo(
+  styled.p`
+    margin: 0;
+    font-size: var(--fontsm);
+    color: var(--white1);
+  `,
+  (prevProps, nextProps) => prevProps.children === nextProps.children
+)

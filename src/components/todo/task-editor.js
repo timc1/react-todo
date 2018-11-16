@@ -93,7 +93,9 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
             : e => setCurrentEditingTask({})
         }
         content={task ? 'back' : '+'}
-        aria-label={task ? 'Exit Form' : 'Add New Task'}
+        aria-label={
+          task ? 'Toggle to exit new task form' : 'Toggle to add a new task'
+        }
         innerRef={toggleButton}
       />
       <ThemeContainer isShowing={task}>
@@ -132,6 +134,7 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
             error={errors.title}
             tabIndex={task ? '0' : '-1'}
             innerRef={focusInput}
+            aria-label="You are on an input field for task title. Click the escape key to exit new task form."
           />
           <Textarea
             {...getInputStateAndProps({
@@ -142,14 +145,18 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
             })}
             error={errors.description}
             tabIndex={task ? '0' : '-1'}
+            aria-label="You are on an input field for task description. Click the escape key to exit new task form."
           />
           <StandardButton
             content={task.id ? 'Update' : '+ Add'}
             tabIndex={task ? '0' : '-1'}
             innerRef={submitButton}
-          >
-            {task.id ? 'Update' : '+ Add'}
-          </StandardButton>
+            aria-label={
+              task.id
+                ? `Toggle to update ${task.title}`
+                : `Toggle to add ${task.title}`
+            }
+          />
         </Form>
       </ThemeContainer>
     </Container>

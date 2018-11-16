@@ -7,19 +7,30 @@ const todoMetaReducer = (state, action) => {
     case 'SETUP':
       return action.payload.todoMeta
     case 'ADD_TODAYS_TODO':
+      const todaysTodo = Todo({
+        tasks: [],
+      })
+
       copy = state.todos.slice()
-      copy.push(TodoMeta())
-      return copy
+      copy.push(todaysTodo)
+      return {
+        ...state,
+        currentTodoId: todaysTodo.id,
+        todos: copy,
+      }
     case 'ADD_TOMORROWS_TODO':
       const today = new Date()
       const tomorrow = new Date()
       tomorrow.setDate(today.getDate() + 1)
+
       const todo = Todo({
+        tasks: [],
         date: tomorrow,
       })
 
       copy = state.todos.slice()
       copy.push(todo)
+
       return {
         ...state,
         currentTodoId: todo.id,
@@ -111,6 +122,13 @@ export default ({ user }) => {
     [user]
   )
 
+  const getAllTodos = () => {
+    const sorted = todoMeta?.todos.sort(
+      (t1, t2) => new Date(t2.date) - new Date(t1.date)
+    )
+    return sorted
+  }
+
   const getCurrentTodo = () => {
     if (todoMeta?.currentTodoId) {
       return todoMeta.todos.filter(
@@ -120,7 +138,7 @@ export default ({ user }) => {
     return null
   }
 
-  return { getCurrentTodo, todoMeta, todoMetaDispatch }
+  return { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch }
 }
 
 const todoUIReducer = (state, action) => {

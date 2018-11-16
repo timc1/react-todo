@@ -127,7 +127,6 @@ const Container = styled('div')`
   margin-left: -5px;
   margin-right: -5px;
   border-radius: var(--baseborderradius);
-  outline: none;
   animation: ${slideUp} 0.15s ease-in;
 
   &:hover,

@@ -95,3 +95,15 @@ export const IconButton = styled(StandardButton)`
     pointer-events: none;
   }
 `
+
+export const PlainButton = styled.button`
+  position: relative;
+  border: 0; 
+  padding: 5px 0;
+  margin: 0;
+  background none;
+  color: var(--white1);
+  font-size: var(--fontxs);
+  text-align: left;
+  cursor: pointer;
+`
