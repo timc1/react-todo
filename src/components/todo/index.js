@@ -7,9 +7,16 @@ import Menu from './menu'
 
 import useTodo, { useTodoUI } from '../shared/hooks/useTodo'
 import useLocalStorage from '../shared/hooks/useLocalStorage'
+import useUser from '../shared/hooks/useUser'
 
 export default () => {
   // Setup.
+  // 1. Check for user.
+  // 2. If user exists, useTodo will update data via API
+  // 3. If no user exists, useTodo will update data via localStorage
+  const { userContext } = useUser()
+  console.log('user', userContext)
+
   const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
     user: false,
   })

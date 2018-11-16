@@ -4,14 +4,18 @@ import { Router } from '@reach/router'
 import Layout from './shared/layout'
 import Dashboard from '../pages/dashboard/index'
 
+import UserProvider from './shared/providers/user'
+
 class App extends Component {
   render() {
     return (
-      <Layout>
-        <Router>
-          <Dashboard path="/" />
-        </Router>
-      </Layout>
+      <UserProvider>
+        <Layout>
+          <Router>
+            <Dashboard path="/" />
+          </Router>
+        </Layout>
+      </UserProvider>
     )
   }
 }
