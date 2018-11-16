@@ -2,10 +2,9 @@ import { getRandomHash } from '../utils'
 
 export const TodoMeta = (data = {}) => {
   const defaultTodo = Todo()
-  const another = Todo({ date: 'Wed Nov 14 2018' })
   return {
     user: data.user || null,
-    todos: data.todos || [defaultTodo, another],
+    todos: data.todos || [defaultTodo],
     currentTodoId: data.currentTodoId || defaultTodo.id,
   }
 }
@@ -23,8 +22,8 @@ export const Todo = (data = {}) => {
     tasks: data.tasks || [
       Task({
         id: 'default_0',
-        title: 'A thing that needs to be done today',
-        description: 'An optional description here.',
+        title: 'Task',
+        description: `Here's an optional description - hover me to edit, click me to complete.`,
         isComplete: false,
       }),
     ],
@@ -42,6 +41,6 @@ export const Task = (task = {}) => {
 
 export const getUISettings = (settings = {}) => {
   return {
-    isSideMenuHidden: settings.isSideMenuHidden || false,
+    isSideMenuHidden: settings.isSideMenuHidden || true,
   }
 }

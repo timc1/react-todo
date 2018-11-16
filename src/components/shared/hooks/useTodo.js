@@ -98,7 +98,7 @@ const todoUIReducer = (state, action) => {
       return getUISettings()
     case 'SETUP':
       return action.payload.settings
-    case 'TOGGLE_HISTORY':
+    case 'TOGGLE_MENU':
       return {
         ...state,
         isSideMenuHidden: !state.isSideMenuHidden,

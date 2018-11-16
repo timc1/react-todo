@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 import { screenMd } from '../shared/styles'
 
 import TodoEditor from './todo-editor'
-import History from './history'
+import Menu from './menu'
 
 import useTodo, { useTodoUI } from '../shared/hooks/useTodo'
 import useLocalStorage from '../shared/hooks/useLocalStorage'
@@ -28,18 +28,20 @@ export default React.memo(() => {
     enableDebounce: true,
   })
 
+  const currentTodo = getCurrentTodo()
   return (
     <>
       {uiSettings && (
         <Container {...uiSettings}>
-          <History
+          <Menu
             allTodos={todoMeta.todos}
+            currentTodo={currentTodo}
             todoMetaDispatch={todoMetaDispatch}
             todoUIDispatch={todoUIDispatch}
             isSideMenuHidden={uiSettings.isSideMenuHidden}
           />
           <TodoEditor
-            currentTodo={getCurrentTodo()}
+            currentTodo={currentTodo}
             todoMetaDispatch={todoMetaDispatch}
           />
         </Container>
@@ -55,10 +57,10 @@ const Container = styled.div`
   align-items: start;
   padding: 0 var(--basepadding);
 
-  .history {
+  .menu {
     z-index: 1;
 
-    .history-head {
+    .menu-head {
       position: relative;
       background: none;
       border: none;
@@ -70,7 +72,7 @@ const Container = styled.div`
       opacity: ${props => (props.isSideMenuHidden ? '.5' : '1')};
       transform: ${props =>
         props.isSideMenuHidden
-          ? 'rotate(90deg) translateX(10px)'
+          ? 'rotate(90deg) translateX(11px)'
           : 'rotate(0) translateX(0)'};
       transform-origin: 0 0;
       transition: 0.25s ease-in;
@@ -102,7 +104,7 @@ const Container = styled.div`
         }
       }
     }
-    .history-body {
+    .menu-body {
       transform: ${props =>
         props.isSideMenuHidden ? 'translateY(100px)' : 'translateY(0)'};
       opacity: ${props => (props.isSideMenuHidden ? '0' : '1')};
@@ -111,7 +113,7 @@ const Container = styled.div`
       transition-delay: ${props => (props.isSideMenuHidden ? '0' : '0.25s')};
       pointer-events: ${props => (props.isSideMenuHidden ? 'none' : 'initial')};
       background: var(--black1);
-
+      padding: 35px 0;
       max-height: calc(100vh - 120px);
       overflow: auto;
       -webkit-overflow-scrolling: touch;
@@ -144,11 +146,11 @@ const Container = styled.div`
     display: block;
     padding: 0 15px;
 
-    .history {
+    .menu {
       position: absolute;
       top: 40px;
       left: 15px;
-      .history-head {
+      .menu-head {
         transform: none;
       }
     }

@@ -15,11 +15,11 @@ export const StandardButton = React.memo(
     position: relative;
     white-space: nowrap;
     display: inline-block;
-    height: 40px;
-    min-width: 40px;
-    padding: 0 14px;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0 0.875rem;
     background: transparent;
-    border: 2px solid var(--white1);
+    border: 0.125rem solid var(--white1);
     border-radius: var(--baseborderradius);
     font-size: 0;
     font-family: var(--secondaryfont);
