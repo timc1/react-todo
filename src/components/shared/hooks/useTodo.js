@@ -1,11 +1,26 @@
 import { useEffect, useReducer } from 'react'
-import { TodoMeta, getUISettings } from '../../../models/todo'
+import { TodoMeta, Todo, getUISettings } from '../../../models/todo'
 
 const todoMetaReducer = (state, action) => {
   switch (action.type) {
     case 'SETUP':
       return action.payload.todoMeta
-    case 'DELETE':
+    case 'ADD_TODAYS_TODO':
+      state.todos.push(TodoMeta())
+      return state
+    case 'ADD_TOMORROWS_TODO':
+      const today = new Date()
+      const tomorrow = new Date()
+      tomorrow.setDate(today.getDate() + 1)
+
+      const copy = state.todos.slice()
+      copy.push(
+        Todo({
+          date: tomorrow,
+        })
+      )
+
+      state.todos = copy
       return state
     case 'TOGGLE_EDIT':
       state.currentTodoId = action.payload.todoId

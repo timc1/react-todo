@@ -1,20 +1,8 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-import { StandardButton } from '../shared/styles'
-
 import History from './history'
-
-const areEqual = (prevProps, nextProps) => {
-  if (
-    prevProps.allTodos.length !== nextProps.allTodos.length ||
-    prevProps.currentTodo.id !== nextProps.currentTodo.id ||
-    prevProps.isSideMenuHidden !== nextProps.isSideMenuHidden
-  ) {
-    return false
-  }
-  return true
-}
+import AddDate from './add-date'
 
 /**
  * Accepts a parameter and returns it if it's a function
@@ -25,37 +13,42 @@ const areEqual = (prevProps, nextProps) => {
  * @prop {Object} currentTodo the current todo that's being edited
  * @prop {Function} todoMetaDispatch a function to dispatch events to the todo hook
  * @prop {Boolean} isSideMenuHidden self explanatory? 😳
- */ export default React.memo(
-  props => (
-    <aside className="menu">
-      <button
-        className="menu-head"
-        aria-label={
-          props.isSideMenuHidden
-            ? 'Toggle to display menu'
-            : 'Toggle to hide menu'
-        }
-        onClick={e =>
-          props.todoUIDispatch({
-            type: 'TOGGLE_MENU',
-          })
-        }
-      >
-        <h1>Menu</h1>
-        <span>{props.isSideMenuHidden ? 'Show' : 'Hide'}</span>
-      </button>
+ */ export default props => (
+  <aside className="menu">
+    <MenuToggler {...props} />
 
-      <nav className="menu-body">
-        <MenuSectionTitle>History</MenuSectionTitle>
-        <History {...props} />
-      </nav>
-    </aside>
-  ),
-  areEqual
+    <nav className="menu-body">
+      <AddDate {...props} />
+      <MenuSectionTitle>History</MenuSectionTitle>
+      <History {...props} />
+    </nav>
+  </aside>
 )
-const MenuSectionTitle = styled.h1`
+const MenuToggler = React.memo(
+  props => (
+    <button
+      className="menu-head"
+      aria-label={
+        props.isSideMenuHidden
+          ? 'Toggle to display menu'
+          : 'Toggle to hide menu'
+      }
+      onClick={e =>
+        props.todoUIDispatch({
+          type: 'TOGGLE_MENU',
+        })
+      }
+    >
+      <h1>Menu</h1>
+      <span>{props.isSideMenuHidden ? 'Show' : 'Hide'}</span>
+    </button>
+  ),
+  (prevProps, nextProps) =>
+    prevProps.isSideMenuHidden === nextProps.isSideMenuHidden
+)
+const MenuSectionTitle = React.memo(styled.h1`
   margin: 0 0 10px 0;
   font-size: var(--fontxs);
   color: var(--white1);
   text-transform: uppercase;
-`
+`)

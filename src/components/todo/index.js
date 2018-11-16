@@ -8,7 +8,7 @@ import Menu from './menu'
 import useTodo, { useTodoUI } from '../shared/hooks/useTodo'
 import useLocalStorage from '../shared/hooks/useLocalStorage'
 
-export default React.memo(() => {
+export default () => {
   // Setup.
   const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
     user: false,
@@ -29,6 +29,8 @@ export default React.memo(() => {
   })
 
   const currentTodo = getCurrentTodo()
+  console.log('todoMeta.todos', todoMeta.todos)
+
   return (
     <>
       {uiSettings && (
@@ -48,7 +50,7 @@ export default React.memo(() => {
       )}
     </>
   )
-})
+}
 
 const Container = styled.div`
   display: grid;

@@ -2,33 +2,44 @@ import React from 'react'
 import styled from 'react-emotion'
 import { StandardButton } from '../shared/styles'
 
-export default ({
-  allTodos,
-  currentTodo,
-  todoMetaDispatch,
-  isSideMenuHidden,
-}) => (
-  <Ul>
-    {allTodos &&
-      allTodos.map(todo => (
-        <Li key={todo.id} isActive={todo.id === currentTodo.id}>
-          <StandardButton
-            onClick={e =>
-              todoMetaDispatch({
-                type: 'TOGGLE_EDIT',
-                payload: {
-                  todoId: todo.id,
-                },
-              })
-            }
-            content={todo.date}
-            tabIndex={isSideMenuHidden ? '-1' : ''}
-          >
-            {todo.date}
-          </StandardButton>
-        </Li>
-      ))}
-  </Ul>
+const areEqual = (prevProps, nextProps) => {
+  console.log('prev', prevProps.allTodos)
+  console.log('next', nextProps.allTodos)
+  if (
+    prevProps.allTodos.length !== nextProps.allTodos.length ||
+    prevProps.currentTodo.id !== nextProps.currentTodo.id ||
+    prevProps.isSideMenuHidden !== nextProps.isSideMenuHidden
+  ) {
+    return false
+  }
+  return true
+}
+
+export default React.memo(
+  ({ allTodos, currentTodo, todoMetaDispatch, isSideMenuHidden }) => (
+    <Ul>
+      {allTodos &&
+        allTodos.map(todo => (
+          <Li key={todo.id} isActive={todo.id === currentTodo.id}>
+            <StandardButton
+              onClick={e =>
+                todoMetaDispatch({
+                  type: 'TOGGLE_EDIT',
+                  payload: {
+                    todoId: todo.id,
+                  },
+                })
+              }
+              content={todo.date}
+              tabIndex={isSideMenuHidden ? '-1' : ''}
+            >
+              {todo.date}
+            </StandardButton>
+          </Li>
+        ))}
+    </Ul>
+  ),
+  areEqual
 )
 
 const Ul = styled.ul`

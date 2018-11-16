@@ -1,4 +1,4 @@
-import { getRandomHash } from '../utils'
+import { getRandomHash, formatDate } from '../utils'
 
 export const TodoMeta = (data = {}) => {
   const defaultTodo = Todo()
@@ -12,13 +12,7 @@ export const TodoMeta = (data = {}) => {
 export const Todo = (data = {}) => {
   return {
     id: data.id || getRandomHash(),
-    date:
-      data.date ||
-      Date()
-        .toLocaleString()
-        .split(' ')
-        .splice(0, 4)
-        .join(' '),
+    date: formatDate(data.date) || formatDate(Date()),
     tasks: data.tasks || [
       Task({
         id: 'default_0',
