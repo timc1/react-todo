@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-export default ({ children }, props) => {
+export default React.memo(({ children }, props) => {
   return (
     <Container>
       <Header>
@@ -14,11 +14,12 @@ export default ({ children }, props) => {
       {children}
     </Container>
   )
-}
+})
 
 const Container = styled('div')`
   max-width: var(--screenlg);
   margin: auto;
+  overflow: hidden;
 `
 
 const Header = styled('header')`
@@ -26,6 +27,9 @@ const Header = styled('header')`
 `
 
 const Nav = styled('nav')`
+  ul {
+    text-align: center;
+  }
   li {
     display: inline-block;
     color: var(--white1);

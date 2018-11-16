@@ -1,100 +1,166 @@
-import React, { useReducer, useState, useEffect } from 'react'
-import Heading from './heading'
-
+import React from 'react'
 import styled from 'react-emotion'
+import { screenMd } from '../shared/styles'
 
-import { Todo as getTodoObject } from '../../models/todo'
-import Task from './task'
-import Editor from './editor'
+import TodoEditor from './todo-editor'
+import Menu from './menu'
 
-const todoReducer = (state, action) => {
-  switch (action.type) {
-    case 'RESET':
-      return getTodoObject()
-    case 'ADD_TASK':
-      return {
-        ...state,
-        ...state.tasks.push(action.payload),
-      }
-    case 'REMOVE_TASK':
-      state.tasks = state.tasks.filter(task => task.id !== action.id)
-      return {
-        ...state,
-      }
-    case 'UPDATE_TASK':
-      state.tasks[action.payload.id] = action.payload
-      const updated = state.tasks.map(task => {
-        if (task.id === action.payload.id) {
-          task = action.payload
-        }
-        return task
-      })
-      state.tasks = updated
-      return {
-        ...state,
-        ...state.tasks,
-      }
-    default:
-      return state
-  }
-}
+import useTodo, { useTodoUI } from '../shared/hooks/useTodo'
+import useLocalStorage from '../shared/hooks/useLocalStorage'
 
 export default () => {
-  const [todo, dispatch] = useReducer(todoReducer, null)
-  const [currentEditingTask, setCurrentEditingTask] = useState(false)
+  // Setup.
+  const { getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
+    user: false,
+  })
+  useLocalStorage({
+    name: 'todo_meta',
+    objectToUpdate: todoMeta,
+    enableDebounce: true,
+  })
 
-  // useEffect will only be called once, when the component first mounts.
-  // We will:
-  // 1. Check localStorage to fetch all saved todos.
-  // 2. Set todo state.
-  useEffect(() => {
-    let localTodos = window.localStorage.getItem('todos')
-    if (localTodos) {
-      localTodos = JSON.parse(localTodos)
-    } else {
-      localTodos = getTodoObject()
-    }
-    dispatch({ type: 'RESET' })
-  }, [])
+  // Enables an interactive UI experience.
+  const { uiSettings, todoUIDispatch } = useTodoUI()
+  // Enables us to save UI settings in localStorage.
+  useLocalStorage({
+    name: 'todos_ui_settings',
+    objectToUpdate: uiSettings,
+    enableDebounce: true,
+  })
+
+  const currentTodo = getCurrentTodo()
 
   return (
-    <Container>
-      {todo && (
-        <>
-          <Heading date={todo.date} />
-          <TaskContainer>
-            {todo?.tasks.length > 0 ? (
-              todo.tasks.map(task => (
-                <Task
-                  key={task.id}
-                  task={task}
-                  dispatch={dispatch}
-                  setCurrentEditingTask={setCurrentEditingTask}
-                />
-              ))
-            ) : (
-              <p style={{ color: '#fff' }}>You have no tasks!</p>
-            )}
-          </TaskContainer>
-
-          <Editor
-            task={currentEditingTask}
-            setCurrentEditingTask={setCurrentEditingTask}
-            dispatch={dispatch}
+    <>
+      {uiSettings && (
+        <Container {...uiSettings}>
+          <Menu
+            allTodos={todoMeta.todos}
+            currentTodo={currentTodo}
+            todoMetaDispatch={todoMetaDispatch}
+            todoUIDispatch={todoUIDispatch}
+            isSideMenuHidden={uiSettings.isSideMenuHidden}
           />
-        </>
+          <TodoEditor
+            currentTodo={currentTodo}
+            todoMetaDispatch={todoMetaDispatch}
+          />
+        </Container>
       )}
-    </Container>
+    </>
   )
 }
 
-// Styles
-const Container = styled('div')`
-  max-width: 600px;
-  margin: auto;
-  padding: 0 15px 100px 15px;
-`
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: minmax(auto, 10rem) 1fr;
+  grid-gap: 40px;
+  align-items: start;
+  padding: 0 var(--basepadding);
 
-const TaskContainer = styled('div')`
-  margin-bottom: 40px;
+  .menu {
+    max-width: 10rem;
+    width: 100%;
+    z-index: 1;
+
+    .menu-head {
+      position: relative;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      margin-top: -10px;
+      display: flex;
+      align-items: start;
+      cursor: pointer;
+      opacity: ${props => (props.isSideMenuHidden ? '.5' : '1')};
+      transform: ${props =>
+        props.isSideMenuHidden
+          ? 'rotate(90deg) translateX(11px)'
+          : 'rotate(0) translateX(0)'};
+      transform-origin: 0 0;
+      transition: 0.25s ease-in;
+      transition-property: transform, opacity;
+      z-index: 2;
+
+      h1 {
+        font-size: var(--fontsm);
+        font-family: var(--secondaryfont);
+        font-weight: var(--fontbold);
+        color: var(--white1);
+        margin: 0 10px 0 0;
+      }
+      span {
+        font-size: var(--fontxs);
+        color: var(--white1);
+        border-radius: var(--baseborderradius);
+        text-transform: uppercase;
+        opacity: 0.8;
+        align-self: center;
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        opacity: 1;
+        span {
+          opacity: 1;
+        }
+      }
+    }
+    .menu-body {
+      transform: ${props =>
+        props.isSideMenuHidden ? 'translateY(100px)' : 'translateY(0)'};
+      opacity: ${props => (props.isSideMenuHidden ? '0' : '1')};
+      transition-property: transform, opacity;
+      transition: 0.25s ease-in;
+      transition-delay: ${props => (props.isSideMenuHidden ? '0' : '0.25s')};
+      pointer-events: ${props => (props.isSideMenuHidden ? 'none' : 'initial')};
+      background: var(--black1);
+      padding: 35px 0;
+      max-height: calc(100vh - 120px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      button {
+        width: 100%;
+      }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  .todo-editor {
+    position: relative;
+    transform: ${props =>
+      props.isSideMenuHidden ? 'translateX(-150px)' : 'translateX(0)'};
+    transition-property: transform;
+    transition: 0.25s ease-in;
+    transition-delay: ${props => (props.isSideMenuHidden ? '0.25s' : '0')};
+    z-index: 2;
+  }
+
+  @media (max-width: ${screenMd}px) {
+    display: block;
+    padding: 0 15px;
+
+    .menu {
+      position: absolute;
+      top: 40px;
+      left: 15px;
+      .menu-head {
+        transform: none;
+      }
+    }
+
+    .todo-editor {
+      transform: ${props =>
+        props.isSideMenuHidden ? 'translateX(0px)' : 'translateX(180px)'};
+    }
+  }
 `

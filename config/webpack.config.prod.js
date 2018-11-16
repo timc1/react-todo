@@ -304,6 +304,7 @@ module.exports = {
                   },
                 ],
                 ['@babel/plugin-proposal-optional-chaining'],
+                ['emotion'],
               ],
               cacheDirectory: true,
               // Save disk space when time isn't as important
