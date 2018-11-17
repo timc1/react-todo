@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export const UserContext = React.createContext()
 
 export default ({ children }) => {
-  const [user, setUser] = useState('hi')
+  const [state, setUser] = useState({
+    user: null,
+    isSettingUp: true,
+  })
+
+  //API call here to get current user.
+  useEffect(() => {
+    setTimeout(() => {
+      setUser({ user: null, isSettingUp: false })
+    }, 200)
+  }, [])
 
   return (
     <UserContext.Provider
       value={{
-        user,
+        state,
         setUser,
       }}
     >

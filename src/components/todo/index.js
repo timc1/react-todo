@@ -15,15 +15,17 @@ export default () => {
   // 2. If user exists, useTodo will update data via API
   // 3. If no user exists, useTodo will update data via localStorage
   const { userContext } = useUser()
-  console.log('user', userContext)
+
+  //  console.log('userContext from todo index', userContext)
 
   const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
-    user: false,
+    user: userContext.user,
   })
   useLocalStorage({
     name: 'todo_meta',
     objectToUpdate: todoMeta,
     enableDebounce: true,
+    shouldUpdate: !userContext.state.user,
   })
 
   // Enables an interactive UI experience.
@@ -33,6 +35,7 @@ export default () => {
     name: 'todos_ui_settings',
     objectToUpdate: uiSettings,
     enableDebounce: true,
+    shouldUpdate: true,
   })
 
   const currentTodo = getCurrentTodo()
