@@ -25,7 +25,7 @@ export default ({ currentTodo, todoMetaDispatch }) => {
                 />
               ))
             ) : (
-              <NoOp style={{ marginTop: '45px' }}>Click + to add a task.</NoOp>
+              <NoOp style={{ marginTop: '38px' }}>Click + to add a task.</NoOp>
             )}
           </TaskContainer>
 
@@ -44,7 +44,7 @@ export default ({ currentTodo, todoMetaDispatch }) => {
 
 // Styles
 const Container = styled.div`
-  max-width: 650px;
+  max-width: 40.625rem;
   width: 100%;
 `
 
@@ -55,7 +55,8 @@ const TaskContainer = styled.div`
 const NoOp = React.memo(
   styled.p`
     margin: 0;
-    font-size: var(--fontsm);
+    font-size: var(--fontmd);
+    font-family: var(--secondaryfont);
     color: var(--white1);
   `,
   (prevProps, nextProps) => prevProps.children === nextProps.children

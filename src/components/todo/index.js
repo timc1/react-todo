@@ -16,11 +16,12 @@ export default () => {
   // 3. If no user exists, useTodo will update data via localStorage
   const { userContext } = useUser()
 
-  //  console.log('userContext from todo index', userContext)
-
   const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
     user: userContext.user,
   })
+  // Enables us to save the todo_meta in localStorage, for users not logged in.
+  // Logged in users will fetch data from our DB, so we pass false to shouldUpdate
+  // if we have a user from userContext.
   useLocalStorage({
     name: 'todo_meta',
     objectToUpdate: todoMeta,
@@ -31,6 +32,8 @@ export default () => {
   // Enables an interactive UI experience.
   const { uiSettings, todoUIDispatch } = useTodoUI()
   // Enables us to save UI settings in localStorage.
+  // Users UI settings will never be saved in the DB, so we pass
+  // shouldUpdate equal to true.
   useLocalStorage({
     name: 'todos_ui_settings',
     objectToUpdate: uiSettings,
@@ -133,8 +136,8 @@ const Container = styled.div`
       transition-delay: ${props => (props.isSideMenuHidden ? '0' : '0.25s')};
       pointer-events: ${props => (props.isSideMenuHidden ? 'none' : 'initial')};
       background: var(--black1);
-      padding: 35px 10px;
-      margin: 0 -10px;
+      padding: 34px 10px;
+      margin: 0 -11px;
       max-height: calc(100vh - 120px);
       overflow: auto;
       -webkit-overflow-scrolling: touch;
@@ -165,12 +168,12 @@ const Container = styled.div`
 
   @media (max-width: ${screenMd}px) {
     display: block;
-    padding: 0 15px;
+    padding: 0 0.9375rem;
 
     .menu {
       position: absolute;
-      top: 40px;
-      left: 15px;
+      top: 42px;
+      left: 0.9375rem;
       .menu-head {
         transform: none;
       }

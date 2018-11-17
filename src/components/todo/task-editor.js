@@ -97,7 +97,11 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
           task ? 'Toggle to exit new task form' : 'Toggle to add a new task'
         }
         innerRef={toggleButton}
-      />
+      >
+        <span className="screen-reader">
+          {task ? 'Exit add new task form' : 'Add new task'}
+        </span>
+      </StandardButton>
       <ThemeContainer isShowing={task}>
         <Form
           innerRef={form}
@@ -156,7 +160,11 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
                 ? `Toggle to update ${task.title}`
                 : `Toggle to add ${task.title}`
             }
-          />
+          >
+            <span className="screen-reader">
+              {task ? `Update ${task.title}` : `Add ${task.title}`}
+            </span>
+          </StandardButton>
         </Form>
       </ThemeContainer>
     </Container>

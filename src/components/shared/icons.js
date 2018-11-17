@@ -4,7 +4,7 @@ export const Pencil = styled('div')`
   color: var(--white1);
   position: relative;
   margin-left: 0.25rem;
-  margin-top: 0.75rem;
+  margin-top: -0.25rem;
   width: 0.875rem;
   height: 0.25rem;
   border-radius: 0.0625rem;
@@ -28,7 +28,7 @@ export const Pencil = styled('div')`
 export const Trash = styled('div')`
   color: var(--white1);
   position: relative;
-  margin-top: 0.9375rem;
+  margin-top: 0.25rem;
   margin-left: auto;
   margin-right: auto;
   width: 0.625rem;

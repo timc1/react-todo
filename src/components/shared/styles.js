@@ -82,18 +82,19 @@ export const StandardButton = React.memo(
         transform: scale(1.03);
       }
     }
+
+    .screen-reader {
+      display: none;
+      font-size: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
   `,
   areEqual
 )
 
 export const IconButton = styled(StandardButton)`
   font-size: var(--fontsm);
-
-  .screen-reader {
-    font-size: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
 `
 
 export const PlainButton = styled.button`

@@ -4,6 +4,8 @@ import styled, { keyframes } from 'react-emotion'
 import useUser from './hooks/useUser'
 import useDelay from './hooks/useDelay'
 
+import Nav from './nav'
+
 export default React.memo(({ children }, props) => {
   const { userContext } = useUser()
 
@@ -17,13 +19,7 @@ export default React.memo(({ children }, props) => {
     delayedComponent
   ) : (
     <Container>
-      <Header>
-        <Nav>
-          <ul>
-            <li>TODO</li>
-          </ul>
-        </Nav>
-      </Header>
+      <Nav user={userContext.state.user} />
       {children}
     </Container>
   )
@@ -48,20 +44,6 @@ const Container = styled('div')`
   margin: auto;
   overflow: hidden;
   animation: ${fadein} 0.25s ease-in;
-`
-
-const Header = styled('header')`
-  padding: var(--basepadding);
-`
-
-const Nav = styled('nav')`
-  ul {
-    text-align: center;
-  }
-  li {
-    display: inline-block;
-    color: var(--white1);
-  }
 `
 
 const LoadingContainer = styled.div`
