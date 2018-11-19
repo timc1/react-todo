@@ -26,7 +26,7 @@ export default ({ user }) => {
               >
                 <span>Login</span>
               </LoginButton>
-              <Auth isShowing={isAuthShowing} />
+              <Auth isShowing={isAuthShowing} toggleAuth={toggleAuth} />
             </li>
           )}
         </ul>
