@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, lazy, Suspense } from 'react'
 import styled from 'react-emotion'
 
 import { PlainButton } from './styles'
 
-import Auth from './auth'
+const Auth = lazy(() => import('./auth'))
 
 export default ({ user }) => {
   const [isAuthShowing, toggleAuth] = useState(false)
@@ -26,7 +26,9 @@ export default ({ user }) => {
               >
                 <span>Login</span>
               </LoginButton>
-              <Auth isShowing={isAuthShowing} toggleAuth={toggleAuth} />
+              <Suspense fallback={<div>Loading...</div>}>
+                <Auth isShowing={isAuthShowing} toggleAuth={toggleAuth} />
+              </Suspense>
             </li>
           )}
         </ul>

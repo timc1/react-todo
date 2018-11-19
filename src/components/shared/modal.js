@@ -1,5 +1,8 @@
-import { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
+
+import { ExitButton } from './styles'
+import { Exit as ExitIcon } from './icons'
 
 const modalRoot = document.getElementById('modal-root')
 const el = document.createElement('div')
@@ -9,7 +12,7 @@ el.style = `
   left: 0;
   right: 0;
   bottom: 0;
-  background: #eee;
+  background: var(--black1);
   z-index: 9;
   opacity: 0;
   transition: opacity .15s ease-in;
@@ -24,6 +27,7 @@ const handleKeyDown = (e, toggleModal) => {
 let eventListener
 
 export default ({ isShowing, toggleModal, children }) => {
+  const initialFocusRef = useRef()
   useEffect(() => {
     modalRoot.appendChild(el)
     eventListener = e => handleKeyDown(e, toggleModal)
@@ -39,6 +43,7 @@ export default ({ isShowing, toggleModal, children }) => {
         el.style.opacity = 1
         el.style.pointerEvents = 'initial'
         document.addEventListener('keydown', eventListener)
+        initialFocusRef.current.focus()
       } else {
         el.style.opacity = 0
         el.style.pointerEvents = 'none'
@@ -48,5 +53,14 @@ export default ({ isShowing, toggleModal, children }) => {
     [isShowing]
   )
 
-  return ReactDOM.createPortal(children, el)
+  return ReactDOM.createPortal(
+    <>
+      <ExitButton innerRef={initialFocusRef} onClick={e => toggleModal()}>
+        <ExitIcon />
+        <span className="screen-reader">Exit modal</span>
+      </ExitButton>
+      {children}
+    </>,
+    el
+  )
 }

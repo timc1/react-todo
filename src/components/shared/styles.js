@@ -14,6 +14,24 @@ const areEqual = (prevProps, nextProps) => {
   return true
 }
 
+const resetProps = `
+  position: relative;
+  border: 0; 
+  padding: 5px 0;
+  margin: 0;
+  background none;
+  color: var(--white1);
+  font-size: var(--fontxs);
+  text-align: left;
+  cursor: pointer;
+  .screen-reader {
+    display: none;
+    font-size: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+`
+
 export const StandardButton = React.memo(
   styled('button')`
     position: relative;
@@ -98,13 +116,57 @@ export const IconButton = styled(StandardButton)`
 `
 
 export const PlainButton = styled.button`
-  position: relative;
-  border: 0; 
-  padding: 5px 0;
-  margin: 0;
-  background none;
-  color: var(--white1);
-  font-size: var(--fontxs);
-  text-align: left;
-  cursor: pointer;
+  ${resetProps};
+`
+
+export const ExitButton = styled.button`
+  ${resetProps};
+  height: 30px;
+  width: 30px;
+  margin-top: 15px;
+  margin-left: 15px;
+  border-radius: var(--baseborderradius);
+  outline: none;
+  > div {
+    opacity: 0.7;
+  }
+  > span {
+    display: none;
+  }
+  &::after {
+    content: '';
+    box-shadow: 0 0 12px var(--white1);
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: scale(0.7);
+    transition: transform 0.1s ease-in;
+  }
+
+  &:hover {
+    > div {
+      opacity: 1;
+    }
+  }
+
+  &:focus {
+    &::after {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  &:active {
+    > div {
+      opacity: 0.7;
+    }
+    &::after {
+      opacity: 0.7;
+      transform: scale(0.95);
+    }
+  }
 `
