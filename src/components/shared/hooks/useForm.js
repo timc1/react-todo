@@ -24,7 +24,13 @@ const reducer = (state, action) => {
   }
 }
 
-export default (initialState, resetValues = {}, validations = {}, ...rest) => {
+export default (
+  initialState,
+  resetValues = {},
+  validations = {},
+  shouldAutoReset = true,
+  ...rest
+) => {
   const [state, dispatch] = useReducer(reducer, { ...initialState, errors: {} })
 
   // Check if initialState prop has changed.
@@ -48,7 +54,7 @@ export default (initialState, resetValues = {}, validations = {}, ...rest) => {
         if (onSubmit) {
           onSubmit(ids)
           if (postSubmit) postSubmit()
-          dispatch({ type: 'RESET', payload: resetValues })
+          if (shouldAutoReset) dispatch({ type: 'RESET', payload: resetValues })
         }
       } else {
         console.log('fix errors')

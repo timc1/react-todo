@@ -47,7 +47,8 @@ export default React.memo(({ task, setCurrentEditingTask, dispatch }) => {
     },
     {
       title: value => value.length === 0,
-    }
+    },
+    true
   )
 
   // Setup event listener for keydown (esc, enter)

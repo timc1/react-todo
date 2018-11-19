@@ -19,7 +19,7 @@ el.style = `
 `
 
 const handleKeyDown = (e, toggleModal) => {
-  if (e.key.toUpperCase() === 'ESCAPE') {
+  if (e.key?.toUpperCase() === 'ESCAPE') {
     toggleModal()
   }
 }
@@ -55,7 +55,11 @@ export default ({ isShowing, toggleModal, children }) => {
 
   return ReactDOM.createPortal(
     <>
-      <ExitButton innerRef={initialFocusRef} onClick={e => toggleModal()}>
+      <ExitButton
+        innerRef={initialFocusRef}
+        onClick={e => toggleModal()}
+        tabIndex={isShowing ? '0' : '-1'}
+      >
         <ExitIcon />
         <span className="screen-reader">Exit modal</span>
       </ExitButton>
