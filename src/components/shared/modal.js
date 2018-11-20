@@ -64,6 +64,11 @@ export default ({ isShowing, toggleModal, children }) => {
         root.style = `width: 100%`
         window.scrollTo({ top: currentScrollPosition })
       }
+      return () => {
+        // Unfreeze root content div
+        root.style = `width: 100%`
+        window.scrollTo({ top: currentScrollPosition })
+      }
     },
     [isShowing]
   )

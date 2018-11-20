@@ -1,7 +1,6 @@
 import { useReducer, useEffect } from 'react'
 
 const reducer = (state, action) => {
-  console.log('state', state)
   console.log('action', action)
   switch (action.type) {
     case 'INPUT_CHANGE':

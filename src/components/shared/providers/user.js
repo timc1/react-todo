@@ -15,6 +15,8 @@ export default ({ children }) => {
     }, 200)
   }, [])
 
+  console.log('state', state)
+
   return (
     <UserContext.Provider
       value={{

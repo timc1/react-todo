@@ -21,11 +21,19 @@ const reducer = (state, action) => {
           ...state,
           isEmailFormShowing: true,
           ...action.payload,
+          error: false,
         }
       case 'SUBMIT_FORM':
         return {
           ...state,
           isLoading: true,
+          error: false,
+        }
+      case 'SUBMIT_FORM_ERRORED':
+        return {
+          ...state,
+          isLoading: false,
+          ...action.payload,
         }
       default:
         return state
@@ -40,6 +48,7 @@ export default React.memo(
       isEmailFormShowing: false,
       isSignup: false,
       isLoading: false,
+      error: false,
     })
 
     return (
@@ -88,12 +97,14 @@ export default React.memo(
                     disabled={state.isLoading}
                     dispatch={dispatch}
                     isModalShowing={isModalShowing}
+                    error={state.error}
                   />
                 ) : (
                   <LoginForm
                     disabled={state.isLoading}
                     dispatch={dispatch}
                     isModalShowing={isModalShowing}
+                    error={state.error}
                   />
                 )
               ) : null}
@@ -113,7 +124,7 @@ const Container = styled.div`
   ul {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
     grid-gap: 10px;
   }
   li {
