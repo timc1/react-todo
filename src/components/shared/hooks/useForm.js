@@ -1,6 +1,8 @@
 import { useReducer, useEffect } from 'react'
 
 const reducer = (state, action) => {
+  console.log('state', state)
+  console.log('action', action)
   switch (action.type) {
     case 'INPUT_CHANGE':
       const { id, value } = action.payload
@@ -16,6 +18,7 @@ const reducer = (state, action) => {
       return state
     case 'UPDATE_INITIAL_STATE':
       return {
+        ...state,
         ...action.payload,
         errors: {},
       }

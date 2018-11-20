@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 
 import { PlainButton } from './styles'
 
-const Auth = lazy(() => import('./auth'))
+const Auth = lazy(() => import('./auth/index'))
 
 export default ({ user }) => {
   const [isAuthShowing, toggleAuth] = useState(false)
