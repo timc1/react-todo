@@ -1,8 +1,9 @@
 import { useState, useEffect, useReducer } from 'react'
 import { TodoMeta, Todo, getUISettings } from '../../../models/todo'
 
-const todoMetaReducer = (state, action) => {
+const metaReducer = user => (state, action) => {
   let copy
+  console.log('user', user)
   switch (action.type) {
     case 'SETUP':
       return action.payload.todoMeta
@@ -110,17 +111,18 @@ const getLocalMeta = () => {
 export default ({ user }) => {
   const [isLoading, setLoading] = useState(user ? true : false)
   const [todoMeta, todoMetaDispatch] = useReducer(
-    todoMetaReducer,
+    metaReducer(user),
     null,
     user ? null : getLocalMeta()
   )
 
   // Setup if user exists.
   useEffect(
-    () => {
+    async () => {
       if (user) {
         if (!isLoading) setLoading(true)
         // Fetch user from db.
+        console.log('fetch user from db')
       } else {
         if (isLoading) setLoading(false)
         todoMetaDispatch(getLocalMeta())
@@ -154,6 +156,8 @@ export default ({ user }) => {
   }
 }
 
+// Todos UI
+// ========
 const todoUIReducer = (state, action) => {
   switch (action.type) {
     case 'RESET':
