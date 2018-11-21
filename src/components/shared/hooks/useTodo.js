@@ -1,56 +1,65 @@
 import { useState, useEffect, useReducer } from 'react'
 import { TodoMeta, Todo, getUISettings } from '../../../models/todo'
+import { User } from '../../../models/user'
+import { http, API_URL } from '../../../utils'
+import { saveToDB } from './api-helpers/useTodo'
 
 const metaReducer = user => (state, action) => {
-  let copy
-  console.log('user', user)
+  let copy, updatedState
+
   switch (action.type) {
     case 'SETUP':
-      return action.payload.todoMeta
+      updatedState = action.payload.todoMeta
+      break
     case 'ADD_TODAYS_TODO':
-      const todaysTodo = Todo({
-        tasks: [],
-      })
-
+      const todaysTodo = Todo({ tasks: [] })
       copy = state.todos.slice()
       copy.push(todaysTodo)
-      return {
+      updatedState = {
         ...state,
         currentTodoId: todaysTodo.id,
         todos: copy,
       }
+
+      if (user)
+        saveToDB({
+          type: action.type,
+          todoID: todaysTodo.id,
+        })
+
+      break
     case 'ADD_TOMORROWS_TODO':
       const today = new Date()
       const tomorrow = new Date()
       tomorrow.setDate(today.getDate() + 1)
-
       const todo = Todo({
         tasks: [],
         date: tomorrow,
       })
-
       copy = state.todos.slice()
       copy.push(todo)
-
-      return {
+      updatedState = {
         ...state,
         currentTodoId: todo.id,
         todos: copy,
       }
+      break
     case 'TOGGLE_EDIT':
       copy = Object.assign({}, state)
       copy.currentTodoId = action.payload.todoId
-      return copy
+      updatedState = copy
+      break
     case 'ADD_TASK':
       // Array push mutates the original array - so we don't need to put the value in its own variable.
       copy = state.todos.slice()
       copy
         .filter(todo => todo.id === state.currentTodoId)[0]
         .tasks.push(action.payload.task)
-      return {
+      updatedState = {
         ...state,
         todos: copy,
       }
+      break
     case 'REMOVE_TASK':
       copy = state.todos.slice()
       copy.reduce((allTodos, todo) => {
@@ -63,10 +72,11 @@ const metaReducer = user => (state, action) => {
         return allTodos
       }, [])
 
-      return {
+      updatedState = {
         ...state,
         todos: copy,
       }
+      break
     case 'UPDATE_TASK':
       copy = state.todos.slice()
       copy.reduce((allTodos, todo) => {
@@ -81,17 +91,32 @@ const metaReducer = user => (state, action) => {
         allTodos.push(todo)
         return allTodos
       }, [])
-      return {
+
+      updatedState = {
         ...state,
         todos: copy,
       }
+      break
     default:
-      return state
+      updatedState = state
   }
+
+  return updatedState
 }
 
-const getLocalMeta = () => {
+const getMeta = data => {
   try {
+    if (data) {
+      return {
+        type: 'SETUP',
+        payload: {
+          todoMeta: TodoMeta({
+            ...data,
+            user: User(data.user),
+          }),
+        },
+      }
+    }
     return {
       type: 'SETUP',
       payload: {
@@ -113,7 +138,7 @@ export default ({ user }) => {
   const [todoMeta, todoMetaDispatch] = useReducer(
     metaReducer(user),
     null,
-    user ? null : getLocalMeta()
+    user ? null : getMeta()
   )
 
   // Setup if user exists.
@@ -122,10 +147,15 @@ export default ({ user }) => {
       if (user) {
         if (!isLoading) setLoading(true)
         // Fetch user from db.
-        console.log('fetch user from db')
+        const url = API_URL + '/v0/todos'
+        http.get(url).then(({ error, data }) => {
+          if (error) return // TODO: Dispatch a global error.
+          todoMetaDispatch(getMeta(data))
+          setLoading(false)
+        })
       } else {
         if (isLoading) setLoading(false)
-        todoMetaDispatch(getLocalMeta())
+        todoMetaDispatch(getMeta())
       }
     },
     [user]

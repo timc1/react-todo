@@ -107,18 +107,26 @@ export const http = {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       body: JSON.stringify(data), // body data type must match "Content-Type" header
       ...httpAttributes,
-    }).then(response => response.json())
+    })
+      .then(response => response.json())
+      .catch(error => ({ error: 'connection error' }))
   },
   get: (url = ``, data = {}) => {
     return fetch(url, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       ...httpAttributes,
-    }).then(response => response.json())
+    })
+      .then(response => response.json())
+      .catch(error => ({
+        error: 'connection error',
+      }))
   },
   delete: (url = ``) => {
     return fetch(url, {
       method: 'DELETE',
       ...httpAttributes,
-    }).then(response => response.json())
+    })
+      .then(response => response.json())
+      .catch(error => ({ error: 'connection error' }))
   },
 }

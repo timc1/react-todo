@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled, { keyframes } from 'react-emotion'
 import { screenMd } from '../shared/styles'
 import { Loader } from '../shared/icons'
 
@@ -53,14 +53,9 @@ export default () => {
   const allTodos = getAllTodos()
 
   return isTodosLoading ? (
-    <div
-      style={{
-        display: 'flex',
-        placeContent: 'center',
-      }}
-    >
+    <LoaderContainer>
       <Loader isShowing={true} />
-    </div>
+    </LoaderContainer>
   ) : (
     <>
       {uiSettings && (
@@ -82,12 +77,44 @@ export default () => {
   )
 }
 
+const fadein = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const slidein = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
+const LoaderContainer = styled.div`
+  display: flex;
+  place-content: center;
+  opacity: 0;
+  animation: ${fadein} 0.25s ease-in;
+  animation-fill-mode: forwards;
+  animation-delay: 0.3s;
+`
+
 const Container = styled.div`
   display: grid;
   grid-template-columns: minmax(auto, 10rem) 1fr;
   grid-gap: 40px;
   align-items: start;
   padding: 0 var(--basepadding);
+  opacity: 0;
+  animation: ${slidein} 0.25s ease-in;
+  animation-fill-mode: forwards;
 
   .menu {
     max-width: 10rem;
@@ -192,6 +219,7 @@ const Container = styled.div`
       top: 42px;
       left: 0.9375rem;
       .menu-head {
+        margin-top: -110px;
         transform: none;
       }
     }

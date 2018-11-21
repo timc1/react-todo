@@ -13,8 +13,8 @@ export default ({ children }) => {
   //API call here to get current user.
   useEffect(() => {
     http.get(`${API_URL}/v0/auth`).then(({ error, user }) => {
-      setUser({ user: formatUser(user), isSettingUp: false })
-      // Error doesn't matter here. 🕺
+      if (error) setUser({ user: null, isSettingUp: false })
+      else setUser({ user: formatUser(user), isSettingUp: false })
     })
   }, [])
   return (

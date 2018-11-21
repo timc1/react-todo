@@ -6,6 +6,8 @@ import useDelay from './hooks/useDelay'
 
 import Nav from './nav'
 
+import { Loader } from './icons'
+
 export default React.memo(({ children }, props) => {
   const { userContext } = useUser()
 
@@ -26,7 +28,11 @@ export default React.memo(({ children }, props) => {
 })
 
 const LoadingScreen = () => {
-  return <LoadingContainer>Loading</LoadingContainer>
+  return (
+    <LoadingContainer>
+      <Loader isShowing={true} />
+    </LoadingContainer>
+  )
 }
 
 const fadein = keyframes`
