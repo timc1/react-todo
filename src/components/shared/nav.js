@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from 'react'
 import styled, { keyframes } from 'react-emotion'
 
-import { PlainButton } from './styles'
+import { PlainButton, fadein } from './styles'
 import caretSvg from '../../images/caret.svg'
 
 const Auth = lazy(() => import('./auth/index'))
@@ -49,7 +49,7 @@ export default ({ user }) => {
               >
                 <span>Login</span>
               </UserButton>
-              <Suspense delayMs={300} fallback={<div>Loading...</div>}>
+              <Suspense delayMs={300} fallback={<div />}>
                 <Auth isShowing={isAuthShowing} toggleAuth={toggleAuth} />
               </Suspense>
             </li>
@@ -61,15 +61,6 @@ export default ({ user }) => {
 }
 
 const Header = styled('header')``
-
-const fadein = keyframes`
-  from {
-    opacity: 0; 
-  }
-  to {
-    opacity: 1;
-  }
-`
 
 const Nav = styled('nav')`
   > ul.nav {
@@ -104,6 +95,9 @@ const Nav = styled('nav')`
 `
 
 const UserButton = styled(PlainButton)`
+  opacity: 0;
+  animation: ${fadein} 0.25s ease-in;
+  animation-fill-mode: forwards;
   > span {
     transition: opacity 0.15s ease-in;
     opacity: 0.7;

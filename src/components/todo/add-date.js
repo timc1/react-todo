@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'react-emotion'
-import { PlainButton } from '../shared/styles'
+import { PlainButton, fadein } from '../shared/styles'
 
 import arrowRight from '../../images/arrow-right.svg'
 
@@ -83,6 +83,7 @@ const P = styled.p`
   margin: 0;
   font-size: var(--fontxs);
   color: var(--black4);
+  animation: ${fadein} 0.25s ease-in;
 `
 
 const Button = styled(PlainButton)`

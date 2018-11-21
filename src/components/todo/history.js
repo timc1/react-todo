@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import { PlainButton } from '../shared/styles'
+import { PlainButton, fadein } from '../shared/styles'
 
 const areEqual = (prevProps, nextProps) => {
   if (
@@ -79,6 +79,7 @@ const P = styled.p`
   margin: 0;
   font-size: var(--fontxs);
   color: var(--black4);
+  animation: ${fadein} 0.25s ease-in;
 `
 
 const Button = styled(PlainButton)`

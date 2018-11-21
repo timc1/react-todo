@@ -182,7 +182,7 @@ const Container = styled.div`
       background: var(--black1);
       padding: 34px 10px;
       margin: 0 -11px;
-      max-height: calc(100vh - 120px);
+      max-height: calc(100vh - 60px);
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       &::-webkit-scrollbar {

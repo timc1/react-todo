@@ -50,6 +50,7 @@ const Container = styled('div')`
   margin: auto;
   overflow: hidden;
   animation: ${fadein} 0.25s ease-in;
+  min-height: 400px;
 `
 
 const LoadingContainer = styled.div`

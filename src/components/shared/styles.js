@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled, { keyframes } from 'react-emotion'
 
 export const screenSm = 568
 export const screenMd = 767
@@ -183,3 +183,12 @@ export const ExitButton = React.memo(
   `,
   areEqual
 )
+
+export const fadein = keyframes`
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
+`

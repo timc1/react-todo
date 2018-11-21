@@ -4,6 +4,8 @@ import styled from 'react-emotion'
 import History from './history'
 import AddDate from './add-date'
 
+import { fadein } from '../shared/styles'
+
 /**
  * Accepts a parameter and returns it if it's a function
  * or a noop function if it's not. This allows us to
@@ -51,4 +53,5 @@ const MenuSectionTitle = React.memo(styled.h1`
   font-size: var(--fontxs);
   color: var(--white1);
   text-transform: uppercase;
+  animation: ${fadein} 0.15s ease-in;
 `)
