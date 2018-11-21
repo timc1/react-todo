@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import { TodoMeta, Todo, getUISettings } from '../../../models/todo'
 
 const todoMetaReducer = (state, action) => {
@@ -89,34 +89,41 @@ const todoMetaReducer = (state, action) => {
   }
 }
 
+const getLocalMeta = () => {
+  try {
+    return {
+      type: 'SETUP',
+      payload: {
+        todoMeta: TodoMeta(JSON.parse(localStorage.getItem('todo_meta'))),
+      },
+    }
+  } catch (err) {
+    return {
+      type: 'SETUP',
+      payload: {
+        todoMeta: TodoMeta(),
+      },
+    }
+  }
+}
+
 export default ({ user }) => {
+  const [isLoading, setLoading] = useState(user ? true : false)
   const [todoMeta, todoMetaDispatch] = useReducer(
     todoMetaReducer,
     null,
-    (function() {
-      try {
-        return {
-          type: 'SETUP',
-          payload: {
-            todoMeta: TodoMeta(JSON.parse(localStorage.getItem('todo_meta'))),
-          },
-        }
-      } catch (err) {
-        return {
-          type: 'SETUP',
-          payload: {
-            todoMeta: TodoMeta(),
-          },
-        }
-      }
-    })()
+    user ? null : getLocalMeta()
   )
 
   // Setup if user exists.
   useEffect(
     () => {
       if (user) {
+        if (!isLoading) setLoading(true)
         // Fetch user from db.
+      } else {
+        if (isLoading) setLoading(false)
+        todoMetaDispatch(getLocalMeta())
       }
     },
     [user]
@@ -138,7 +145,13 @@ export default ({ user }) => {
     return null
   }
 
-  return { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch }
+  return {
+    isTodosLoading: isLoading,
+    getAllTodos,
+    getCurrentTodo,
+    todoMeta,
+    todoMetaDispatch,
+  }
 }
 
 const todoUIReducer = (state, action) => {

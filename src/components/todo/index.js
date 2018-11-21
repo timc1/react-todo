@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { screenMd } from '../shared/styles'
+import { Loader } from '../shared/icons'
 
 import TodoEditor from './todo-editor'
 import Menu from './menu'
@@ -16,9 +17,16 @@ export default () => {
   // 3. If no user exists, useTodo will update data via localStorage
   const { userContext } = useUser()
 
-  const { getAllTodos, getCurrentTodo, todoMeta, todoMetaDispatch } = useTodo({
-    user: userContext.user,
+  const {
+    isTodosLoading,
+    getAllTodos,
+    getCurrentTodo,
+    todoMeta,
+    todoMetaDispatch,
+  } = useTodo({
+    user: userContext.state.user,
   })
+
   // Enables us to save the todo_meta in localStorage, for users not logged in.
   // Logged in users will fetch data from our DB, so we pass false to shouldUpdate
   // if we have a user from userContext.
@@ -44,7 +52,16 @@ export default () => {
   const currentTodo = getCurrentTodo()
   const allTodos = getAllTodos()
 
-  return (
+  return isTodosLoading ? (
+    <div
+      style={{
+        display: 'flex',
+        placeContent: 'center',
+      }}
+    >
+      <Loader isShowing={true} />
+    </div>
+  ) : (
     <>
       {uiSettings && (
         <Container {...uiSettings}>

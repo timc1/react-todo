@@ -49,7 +49,7 @@ export default ({ user }) => {
               >
                 <span>Login</span>
               </UserButton>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense delayMs={300} fallback={<div>Loading...</div>}>
                 <Auth isShowing={isAuthShowing} toggleAuth={toggleAuth} />
               </Suspense>
             </li>
