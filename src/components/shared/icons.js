@@ -161,26 +161,29 @@ const loaderSpin = keyframes`
   }
 `
 
-export const Loader = styled.div`
-  margin: 0;
-  font-size: 1.5px;
-  position: relative;
-  text-indent: -9999em;
-  border-top: 1.1em solid var(--white1);
-  border-right: 1.1em solid var(--white1);
-  border-bottom: 1.1em solid var(--white1);
-  border-left: 1.1em solid var(--black1);
-  border-radius: 50%;
-  width: 10em;
-  height: 10em;
-  transform: translateZ(0);
-  animation: ${loaderSpin} 1.1s infinite linear;
-  opacity: ${props => (props.isShowing ? '1' : '0')};
-
-  &::after {
-    content: '';
+export const Loader = React.memo(
+  styled.div`
+    margin: 0;
+    font-size: 1.5px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 1.1em solid var(--white1);
+    border-right: 1.1em solid var(--white1);
+    border-bottom: 1.1em solid var(--white1);
+    border-left: 1.1em solid var(--black1);
     border-radius: 50%;
     width: 10em;
     height: 10em;
-  }
-`
+    transform: translateZ(0);
+    animation: ${loaderSpin} 1.1s infinite linear;
+    opacity: ${props => (props.isShowing ? '1' : '0')};
+
+    &::after {
+      content: '';
+      border-radius: 50%;
+      width: 10em;
+      height: 10em;
+    }
+  `,
+  (prevProps, nextProps) => prevProps.isShowing === nextProps.isShowing
+)

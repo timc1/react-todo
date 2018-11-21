@@ -8,7 +8,7 @@ import { User as formatUser } from '../../../models/user'
 
 import styled, { keyframes } from 'react-emotion'
 
-import { httpPost } from '../../../utils'
+import { http, API_URL } from '../../../utils'
 
 export const Login = React.memo(
   ({ disabled, dispatch, isModalShowing, error }) => {
@@ -290,9 +290,9 @@ const handleSubmit = ({ values, onSuccess, onError }) => {
   try {
     const url =
       values.first_name && values.last_name
-        ? 'http://localhost:8888/v0/auth/signup'
-        : 'http://localhost:8888/v0/auth/login'
-    httpPost(url, values).then(({ user, error }) => {
+        ? '/v0/auth/signup'
+        : '/v0/auth/login'
+    http.post(`${API_URL}${url}`, values).then(({ user, error }) => {
       if (user) {
         onSuccess(user)
       } else {

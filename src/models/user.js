@@ -1,6 +1,6 @@
 import { formatDate } from '../utils'
 
-export const User = (data = {}) => {
+export const User = data => {
   if (data) {
     return {
       id: data.id || null,

@@ -33,6 +33,7 @@ export default ({ isShowing, toggleModal, children }) => {
     modalRoot.appendChild(el)
     eventListener = e => handleKeyDown(e, toggleModal)
     return () => {
+      toggleModal(false)
       modalRoot.removeChild(el)
       document.removeEventListener('keydown', eventListener)
     }

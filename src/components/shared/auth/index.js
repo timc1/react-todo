@@ -1,9 +1,9 @@
-import React, { useReducer } from 'react'
+import React, { lazy, Suspense, useReducer } from 'react'
 import styled from 'react-emotion'
 
 import Modal from '../modal'
 
-import { Login as LoginForm, Signup as SignupForm } from './auth-forms'
+//import { Login as LoginForm, Signup as SignupForm } from './auth-forms'
 
 import { PlainButton } from '../styles'
 import {
@@ -12,6 +12,9 @@ import {
   Email as EmailIcon,
 } from '../icons'
 import arrowRight from '../../../images/arrow-right.svg'
+
+const LoginForm = lazy(() => import('./intermediate-modules/login-form'))
+const SignupForm = lazy(() => import('./intermediate-modules/signup-form'))
 
 const reducer = (state, action) => {
   if (!state.isAuthorizing) {
@@ -91,23 +94,25 @@ export default React.memo(
               </Button>
             </li>
             <li>
-              {state.isEmailFormShowing ? (
-                state.isSignup ? (
-                  <SignupForm
-                    disabled={state.isLoading}
-                    dispatch={dispatch}
-                    isModalShowing={isModalShowing}
-                    error={state.error}
-                  />
-                ) : (
-                  <LoginForm
-                    disabled={state.isLoading}
-                    dispatch={dispatch}
-                    isModalShowing={isModalShowing}
-                    error={state.error}
-                  />
-                )
-              ) : null}
+              <Suspense placeholder={<div>Loading...</div>}>
+                {state.isEmailFormShowing ? (
+                  state.isSignup ? (
+                    <SignupForm
+                      disabled={state.isLoading}
+                      dispatch={dispatch}
+                      isModalShowing={isModalShowing}
+                      error={state.error}
+                    />
+                  ) : (
+                    <LoginForm
+                      disabled={state.isLoading}
+                      dispatch={dispatch}
+                      isModalShowing={isModalShowing}
+                      error={state.error}
+                    />
+                  )
+                ) : null}
+              </Suspense>
             </li>
           </ul>
         </Container>
