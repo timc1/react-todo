@@ -1,8 +1,8 @@
 export const getRandomHash = () =>
-  Math.random()
+  `${Math.random()
     .toString(36)
     .replace(/[^a-z]+/g, '')
-    .substr(0, 5)
+    .substr(0, 5)}-${Date.now()}`
 
 export const formatDate = date => {
   const d = new Date(date)
@@ -124,6 +124,15 @@ export const http = {
   delete: (url = ``) => {
     return fetch(url, {
       method: 'DELETE',
+      ...httpAttributes,
+    })
+      .then(response => response.json())
+      .catch(error => ({ error: 'connection error' }))
+  },
+  put: (url = ``, data = {}) => {
+    return fetch(url, {
+      method: 'PUT',
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
       ...httpAttributes,
     })
       .then(response => response.json())

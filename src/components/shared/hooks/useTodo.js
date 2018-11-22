@@ -25,6 +25,8 @@ const metaReducer = user => (state, action) => {
         saveToDB({
           type: action.type,
           todoID: todaysTodo.id,
+          date: todaysTodo.date,
+          userID: user.id,
         })
 
       break
@@ -43,11 +45,28 @@ const metaReducer = user => (state, action) => {
         currentTodoId: todo.id,
         todos: copy,
       }
+
+      if (user)
+        saveToDB({
+          type: action.type,
+          todoID: todo.id,
+          date: tomorrow,
+          userID: user.id,
+        })
+
       break
     case 'TOGGLE_EDIT':
       copy = Object.assign({}, state)
       copy.currentTodoId = action.payload.todoId
       updatedState = copy
+
+      if (user)
+        saveToDB({
+          type: action.type,
+          todoID: copy.currentTodoId,
+          userID: user.id,
+        })
+
       break
     case 'ADD_TASK':
       // Array push mutates the original array - so we don't need to put the value in its own variable.
@@ -59,6 +78,16 @@ const metaReducer = user => (state, action) => {
         ...state,
         todos: copy,
       }
+
+      if (user)
+        saveToDB({
+          type: action.type,
+          todoID: state.currentTodoId,
+          task: action.payload.task,
+          timestamp: Date.now(),
+          userID: user.id,
+        })
+
       break
     case 'REMOVE_TASK':
       copy = state.todos.slice()
@@ -76,6 +105,14 @@ const metaReducer = user => (state, action) => {
         ...state,
         todos: copy,
       }
+
+      if (user)
+        saveToDB({
+          type: action.type,
+          taskID: action.payload.taskId,
+          userID: user.id,
+        })
+
       break
     case 'UPDATE_TASK':
       copy = state.todos.slice()
@@ -96,6 +133,15 @@ const metaReducer = user => (state, action) => {
         ...state,
         todos: copy,
       }
+
+      if (user)
+        saveToDB({
+          type: action.type,
+          task: action.payload.task,
+          timestamp: Date.now(),
+          userID: user.id,
+        })
+
       break
     default:
       updatedState = state
@@ -143,7 +189,7 @@ export default ({ user }) => {
 
   // Setup if user exists.
   useEffect(
-    async () => {
+    () => {
       if (user) {
         if (!isLoading) setLoading(true)
         // Fetch user from db.

@@ -4,6 +4,9 @@ import { http, API_URL } from '../../../../utils'
 // When a user is present, this function will be called on their respective actions.
 // Instead of saving to localStorage, we save all data in our database.
 
+const url = API_URL + '/v0/todos'
 export const saveToDB = body => {
-  console.log('body', body)
+  http.put(url, body).then(data => {
+    console.log('data', data)
+  })
 }

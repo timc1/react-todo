@@ -17,7 +17,7 @@ export default React.memo(
     <Ul>
       {allTodos.length > 0 ? (
         allTodos.map(todo => (
-          <Li key={todo.id} isActive={todo.id === currentTodo.id}>
+          <Li key={todo.id} isActive={todo.id === currentTodo?.id}>
             <Button
               onClick={e =>
                 todoMetaDispatch({
@@ -79,7 +79,7 @@ const P = styled.p`
   margin: 0;
   font-size: var(--fontxs);
   color: var(--black4);
-  animation: ${fadein} 0.25s ease-in;
+  animation: ${fadein} 0.15s ease-in;
 `
 
 const Button = styled(PlainButton)`

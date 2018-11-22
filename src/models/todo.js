@@ -1,11 +1,10 @@
 import { getRandomHash, formatDate } from '../utils'
 
 export const TodoMeta = (data = {}) => {
-  const defaultTodo = Todo()
   return {
     user: data.user || null,
-    todos: data.todos || [defaultTodo],
-    currentTodoId: data.currentTodoId || defaultTodo.id,
+    todos: data.todos || [],
+    currentTodoId: data.currentTodoId || null,
   }
 }
 
