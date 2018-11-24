@@ -6,7 +6,8 @@ import { http, API_URL } from '../../../../utils'
 
 const url = API_URL + '/v0/todos'
 export const saveToDB = body => {
-  http.put(url, body).then(data => {
-    console.log('data', data)
+  return new Promise(async resolve => {
+    const { error, data } = await http.put(url, body)
+    resolve({ error, data })
   })
 }

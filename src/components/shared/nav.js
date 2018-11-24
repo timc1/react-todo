@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react'
-import styled, { keyframes } from 'react-emotion'
+import styled from 'react-emotion'
 
 import { PlainButton, fadein } from './styles'
 import caretSvg from '../../images/caret.svg'

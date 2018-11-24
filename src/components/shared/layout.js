@@ -5,12 +5,12 @@ import useUser from './hooks/useUser'
 import useDelay from './hooks/useDelay'
 
 import Nav from './nav'
+import GlobalNotification from './global-notification'
 
 import { Loader } from './icons'
 
 export default React.memo(({ children }, props) => {
   const { userContext } = useUser()
-
   const { delayedComponent } = useDelay({
     component: <LoadingScreen />,
     delayMs: 300,
@@ -23,6 +23,7 @@ export default React.memo(({ children }, props) => {
     <Container>
       <Nav user={userContext.state.user} />
       {children}
+      <GlobalNotification />
     </Container>
   )
 })
