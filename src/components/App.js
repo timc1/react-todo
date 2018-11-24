@@ -8,13 +8,13 @@ import NotificationProvider from './shared/providers/global-notifications'
 import UserProvider from './shared/providers/user'
 
 export default () => (
-  <NotificationProvider>
-    <UserProvider>
+  <UserProvider>
+    <NotificationProvider>
       <Layout>
         <Router>
           <Dashboard path="/" />
         </Router>
       </Layout>
-    </UserProvider>
-  </NotificationProvider>
+    </NotificationProvider>
+  </UserProvider>
 )
