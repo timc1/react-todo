@@ -36,8 +36,6 @@ export default React.memo(({ children }) => {
 })
 
 const reducer = (state, { type, payload }) => {
-  console.log('type', type)
-  console.log('payload', payload)
   switch (type) {
     case 'ERROR':
       return {

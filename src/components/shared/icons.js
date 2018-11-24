@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { keyframes } from 'react-emotion'
 
-export const Pencil = styled.div`
+export const Pencil = React.memo(styled.div`
   color: var(--white1);
   position: relative;
   margin-left: 0.25rem;
@@ -24,9 +24,9 @@ export const Pencil = styled.div`
     border-top: solid 0.125rem transparent;
     border-bottom: solid 0.125rem transparent;
   }
-`
+`)
 
-export const Trash = styled.div`
+export const Trash = React.memo(styled.div`
   color: var(--white1);
   position: relative;
   margin-top: 0.25rem;
@@ -61,9 +61,9 @@ export const Trash = styled.div`
     border-top: solid 0.0625rem currentColor;
     border-radius: 0.25rem 0.25rem 0 0;
   }
-`
+`)
 
-export const Exit = styled.div`
+export const Exit = React.memo(styled.div`
   color: var(--white1);
   position: absolute;
   top: 0;
@@ -93,9 +93,9 @@ export const Exit = styled.div`
   &::after {
     transform: rotate(45deg);
   }
-`
+`)
 
-export const Email = () => (
+export const Email = React.memo(() => (
   <div
     className="icon"
     dangerouslySetInnerHTML={{
@@ -117,9 +117,9 @@ export const Email = () => (
     `,
     }}
   />
-)
+))
 
-export const Facebook = () => (
+export const Facebook = React.memo(() => (
   <div
     className="icon"
     dangerouslySetInnerHTML={{
@@ -134,9 +134,9 @@ export const Facebook = () => (
   </svg>`,
     }}
   />
-)
+))
 
-export const Twitter = () => (
+export const Twitter = React.memo(() => (
   <div
     className="icon"
     dangerouslySetInnerHTML={{
@@ -150,7 +150,7 @@ export const Twitter = () => (
 </svg>`,
     }}
   />
-)
+))
 
 const loaderSpin = keyframes`
   0% {

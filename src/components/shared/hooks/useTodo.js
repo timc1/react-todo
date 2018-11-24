@@ -279,12 +279,18 @@ const todoUIReducer = (state, action) => {
   }
 }
 
+const formatUISettings = () => {
+  try {
+    return JSON.parse(localStorage.getItem('todos_ui_settings'))
+  } catch (err) {
+    return getUISettings()
+  }
+}
+
 export const useTodoUI = () => {
   const [uiSettings, todoUIDispatch] = useReducer(
     todoUIReducer,
-    localStorage.getItem('todos_ui_settings')
-      ? JSON.parse(localStorage.getItem('todos_ui_settings'))
-      : getUISettings()
+    formatUISettings()
   )
 
   return {

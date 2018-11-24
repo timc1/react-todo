@@ -4,7 +4,7 @@ import useGlobalNotification from './hooks/useGlobalNotification'
 import { screenSm, ExitButton } from './styles'
 import { Exit as ExitIcon } from './icons'
 
-export default () => {
+export default React.memo(() => {
   const { notificationContext: context } = useGlobalNotification()
   const focusButtonRef = useRef()
 
@@ -17,7 +17,6 @@ export default () => {
     [context.state.type, context.state.value]
   )
 
-  console.log('context', context)
   return (
     <Container isShowing={context.state.type !== null}>
       <ExitButton
@@ -37,7 +36,7 @@ export default () => {
       <p className="notification-message">{context.state.value}</p>
     </Container>
   )
-}
+})
 
 const Container = styled.div`
   position: fixed;
