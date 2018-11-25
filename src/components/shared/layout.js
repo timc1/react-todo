@@ -6,6 +6,7 @@ import useDelay from './hooks/useDelay'
 
 import Nav from './nav'
 import GlobalNotification from './global-notification'
+import GlobalUISettings from './global-ui-settings'
 
 import { Loader } from './icons'
 
@@ -24,6 +25,7 @@ export default React.memo(({ children }, props) => {
       <Nav user={userContext.state.user} />
       {children}
       <GlobalNotification />
+      <GlobalUISettings />
     </Container>
   )
 })

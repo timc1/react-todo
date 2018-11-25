@@ -1,18 +1,19 @@
 import React, { useReducer, useEffect } from 'react'
 
-export const UIContext = React.createContext()
+export const NotificationContext = React.createContext()
 
-const initialState = {
-  type: null,
-  value: null,
+const getInitialState = () => {
+  return {
+    type: 'SETUP',
+    value: localStorage.getItem('global_ui'),
+  }
 }
 
 export default React.memo(({ children }) => {
-  const [state, dispatchUI] = useReducer(reducer, initialState)
-  const { userContext } = useUser()
+  const [state, dispatchUI] = useReducer(reducer, getInitialState())
 
   useEffect(() => {
-    console.log('hiii')
+    updateDOMColors(state.type)
   }, [])
 
   return (
@@ -32,4 +33,8 @@ const reducer = (state, { type, payload }) => {
     default:
       return state
   }
+}
+
+const updateDOMColors = () => {
+  console.log('updateDOMColors')
 }
