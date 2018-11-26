@@ -11,7 +11,7 @@ import {
   Twitter as TwitterIcon,
   Email as EmailIcon,
 } from '../icons'
-import { screenSm, screenMd } from '../styles'
+import { screenSm, screenMd, fadein } from '../styles'
 import arrowRight from '../../../images/arrow-right.svg'
 
 const reducer = (state, action) => {
@@ -122,6 +122,11 @@ const Container = styled.div`
   position: absolute;
   top: 100px;
   padding: 30px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: ${fadein} 0.25s ease-in;
+  animation-fill-mode: forwards;
+  animation-delay: 0.15s;
   ul {
     display: grid;
     grid-gap: 10px;

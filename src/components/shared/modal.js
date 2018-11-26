@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom'
 import { ExitButton } from './styles'
 import { Exit as ExitIcon } from './icons'
 
-const modalRoot = document.getElementById('modal-root')
 const root = document.getElementById('root')
+const modalRoot = document.getElementById('modal-root')
 const el = document.createElement('div')
 el.style = `
   position: fixed;
@@ -25,33 +25,36 @@ const handleKeyDown = (e, toggleModal) => {
   }
 }
 
-let eventListener
-let currentScrollPosition
 export default ({ isShowing, toggleModal, children }) => {
   const initialFocusRef = useRef()
+  const eventListener = useRef()
+  const currentScrollPosition = useRef()
+
   useEffect(() => {
     modalRoot.appendChild(el)
-    eventListener = e => handleKeyDown(e, toggleModal)
+    eventListener.current = e => handleKeyDown(e, toggleModal)
     return () => {
       toggleModal(false)
       modalRoot.removeChild(el)
-      document.removeEventListener('keydown', eventListener)
+      document.removeEventListener('keydown', eventListener.current)
     }
   }, [])
 
   useEffect(
     () => {
       if (isShowing) {
+        modalRoot.appendChild(el)
         el.style.opacity = 1
         el.style.pointerEvents = 'initial'
 
-        document.addEventListener('keydown', eventListener)
+        document.addEventListener('keydown', eventListener.current)
+
         initialFocusRef.current.focus()
         // Freeze root content div
-        currentScrollPosition = window.scrollY
+        currentScrollPosition.current = window.scrollY
         root.style = `
           position: fixed;
-          top: -${currentScrollPosition}px;
+          top: -${currentScrollPosition.current}px;
           width: 100%;
           overflow: hidden; 
           pointer-events: none;
@@ -60,15 +63,19 @@ export default ({ isShowing, toggleModal, children }) => {
         el.style.opacity = 0
         el.style.pointerEvents = 'none'
 
-        document.removeEventListener('keydown', eventListener)
+        setTimeout(() => {
+          if (modalRoot.contains(el)) modalRoot.removeChild(el)
+        }, 250)
+
+        document.removeEventListener('keydown', eventListener.current)
         // Unfreeze root content div
         root.style = `width: 100%`
-        window.scrollTo({ top: currentScrollPosition })
+        window.scrollTo({ top: currentScrollPosition.current })
       }
       return () => {
         // Unfreeze root content div
         root.style = `width: 100%`
-        window.scrollTo({ top: currentScrollPosition })
+        window.scrollTo({ top: currentScrollPosition.current })
       }
     },
     [isShowing]

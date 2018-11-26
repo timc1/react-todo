@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from 'react'
 import { TodoMeta, Todo, getUISettings } from '../../../models/todo'
 import { User } from '../../../models/user'
 import { http, API_URL } from '../../../utils'
-import { saveToDB } from './api-helpers/useTodo'
+import { saveToDB } from './lib/useTodo'
 import useGlobalNotification from './useGlobalNotification'
 
 export default ({ user }) => {
@@ -280,9 +280,16 @@ const todoUIReducer = (state, action) => {
 }
 
 const formatUISettings = () => {
-  try {
-    return JSON.parse(localStorage.getItem('todos_ui_settings'))
-  } catch (err) {
+  if (
+    localStorage.getItem('todos_ui_settings') !== 'null' &&
+    localStorage.getItem('todos_ui_settings') !== null
+  ) {
+    try {
+      return JSON.parse(localStorage.getItem('todos_ui_settings'))
+    } catch (err) {
+      return getUISettings()
+    }
+  } else {
     return getUISettings()
   }
 }

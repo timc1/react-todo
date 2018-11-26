@@ -60,6 +60,7 @@ export const Login = React.memo(
                 error: errors[field.id],
               })}
               tabIndex={isModalShowing ? 0 : -1}
+              type="text"
             />
           ))}
           <Actions
@@ -138,6 +139,7 @@ export const Signup = React.memo(
                 error: errors[field.id],
               })}
               tabIndex={isModalShowing ? 0 : -1}
+              type="text"
             />
           ))}
           <Actions

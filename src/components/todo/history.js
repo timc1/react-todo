@@ -54,6 +54,7 @@ const Li = styled.li`
   position: relative;
   &::before {
     content: '';
+    background: var(--white1);
     position: absolute;
     left: 0;
     top: 50%;

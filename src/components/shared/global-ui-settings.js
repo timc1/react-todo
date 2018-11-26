@@ -3,10 +3,12 @@ import styled from 'react-emotion'
 import { PlainButton } from './styles'
 import useOuterClick from './hooks/useOuterClick'
 import useGlobalUI from './hooks/useGlobalUI'
+import Modal from './modal'
 
 export default () => {
   const popupRef = useRef()
   const [isPopupShowing, togglePopup] = useState(false)
+  const [isAboutModalShowing, toggleAboutModal] = useState(false)
 
   useOuterClick({
     ref: popupRef,
@@ -23,6 +25,10 @@ export default () => {
           <ColorPicker isShowing={isPopupShowing} />
         </li>
       </Popup>
+      <Button onClick={e => toggleAboutModal(!isAboutModalShowing)}>?</Button>
+      <Modal isShowing={isAboutModalShowing} toggleModal={toggleAboutModal}>
+        lksdjalkdjfalksjdf!!
+      </Modal>
     </Container>
   )
 }
@@ -57,7 +63,7 @@ const Popup = styled.ul`
   box-shadow: 0 0 12px var(--black4);
   position: absolute;
   bottom: 60px;
-  right: 20px;
+  right: 45px;
   width: 180px;
   transition-property: transform, opacity;
   opacity: ${props => (props.isShowing ? 1 : 0)};
@@ -82,5 +88,6 @@ const Popup = styled.ul`
 `
 
 const Button = styled(PlainButton)`
-  padding: 10px 5px;
+  padding: 10px;
+  text-transform: uppercase;
 `
