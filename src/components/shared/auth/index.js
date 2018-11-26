@@ -1,8 +1,6 @@
 import React, { useReducer } from 'react'
 import styled from 'react-emotion'
 
-import Modal from '../modal'
-
 import { Login as LoginForm, Signup as SignupForm } from './auth-forms'
 
 import { PlainButton } from '../styles'
@@ -13,6 +11,8 @@ import {
 } from '../icons'
 import { screenSm, screenMd, fadein } from '../styles'
 import arrowRight from '../../../images/arrow-right.svg'
+
+import useModal from '../hooks/useModal'
 
 const reducer = (state, action) => {
   if (!state.isAuthorizing) {
@@ -52,67 +52,75 @@ export default React.memo(
       error: false,
     })
 
+    const { Modal } = useModal({
+      domElement: 'modal-root',
+      toggleModal: toggleAuth,
+      isShowing: isModalShowing,
+    })
+
     return (
-      <Modal isShowing={isModalShowing} toggleModal={toggleAuth}>
-        <Container>
-          <ul>
-            <li>
-              <Button
-                disabled={state.isLoading}
-                tabIndex={isModalShowing ? '0' : '-1'}
-              >
-                <FBIcon />
-                <span>Continue with Facebook</span>
-              </Button>
-            </li>
-            <li>
-              <Button
-                disabled={state.isLoading}
-                tabIndex={isModalShowing ? '0' : '-1'}
-              >
-                <TwitterIcon />
-                <span>Continue with Twitter</span>
-              </Button>
-            </li>
-            <li>
-              <Button
-                onClick={e => {
-                  dispatch({
-                    type: 'TOGGLE_EMAIL_FORM',
-                    payload: {
-                      isSignup: false,
-                    },
-                  })
-                }}
-                disabled={state.isLoading}
-                tabIndex={isModalShowing ? '0' : '-1'}
-              >
-                <EmailIcon />
-                <span>Continue with Email</span>
-              </Button>
-            </li>
-            <li>
-              {state.isEmailFormShowing ? (
-                state.isSignup ? (
-                  <SignupForm
-                    disabled={state.isLoading}
-                    dispatch={dispatch}
-                    isModalShowing={isModalShowing}
-                    error={state.error}
-                  />
-                ) : (
-                  <LoginForm
-                    disabled={state.isLoading}
-                    dispatch={dispatch}
-                    isModalShowing={isModalShowing}
-                    error={state.error}
-                  />
-                )
-              ) : null}
-            </li>
-          </ul>
-        </Container>
-      </Modal>
+      <Modal
+        render={
+          <Container>
+            <ul>
+              <li>
+                <Button
+                  disabled={state.isLoading}
+                  tabIndex={isModalShowing ? '0' : '-1'}
+                >
+                  <FBIcon />
+                  <span>Continue with Facebook</span>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  disabled={state.isLoading}
+                  tabIndex={isModalShowing ? '0' : '-1'}
+                >
+                  <TwitterIcon />
+                  <span>Continue with Twitter</span>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  onClick={e => {
+                    dispatch({
+                      type: 'TOGGLE_EMAIL_FORM',
+                      payload: {
+                        isSignup: false,
+                      },
+                    })
+                  }}
+                  disabled={state.isLoading}
+                  tabIndex={isModalShowing ? '0' : '-1'}
+                >
+                  <EmailIcon />
+                  <span>Continue with Email</span>
+                </Button>
+              </li>
+              <li>
+                {state.isEmailFormShowing ? (
+                  state.isSignup ? (
+                    <SignupForm
+                      disabled={state.isLoading}
+                      dispatch={dispatch}
+                      isModalShowing={isModalShowing}
+                      error={state.error}
+                    />
+                  ) : (
+                    <LoginForm
+                      disabled={state.isLoading}
+                      dispatch={dispatch}
+                      isModalShowing={isModalShowing}
+                      error={state.error}
+                    />
+                  )
+                ) : null}
+              </li>
+            </ul>
+          </Container>
+        }
+      />
     )
   },
   (prevProps, nextProps) => prevProps.isShowing === nextProps.isShowing

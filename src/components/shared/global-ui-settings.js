@@ -3,12 +3,18 @@ import styled from 'react-emotion'
 import { PlainButton } from './styles'
 import useOuterClick from './hooks/useOuterClick'
 import useGlobalUI from './hooks/useGlobalUI'
-import Modal from './modal'
+import useModal from './hooks/useModal'
 
 export default () => {
   const popupRef = useRef()
   const [isPopupShowing, togglePopup] = useState(false)
   const [isAboutModalShowing, toggleAboutModal] = useState(false)
+
+  const { Modal } = useModal({
+    domElement: 'about-root',
+    toggleModal: toggleAboutModal,
+    isShowing: isAboutModalShowing,
+  })
 
   useOuterClick({
     ref: popupRef,
@@ -26,9 +32,7 @@ export default () => {
         </li>
       </Popup>
       <Button onClick={e => toggleAboutModal(!isAboutModalShowing)}>?</Button>
-      <Modal isShowing={isAboutModalShowing} toggleModal={toggleAboutModal}>
-        lksdjalkdjfalksjdf!!
-      </Modal>
+      <Modal render={<div>hiii</div>} />
     </Container>
   )
 }
