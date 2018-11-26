@@ -11,6 +11,7 @@ import {
   Twitter as TwitterIcon,
   Email as EmailIcon,
 } from '../icons'
+import { screenSm, screenMd } from '../styles'
 import arrowRight from '../../../images/arrow-right.svg'
 
 const reducer = (state, action) => {
@@ -133,6 +134,21 @@ const Container = styled.div`
   li:last-child {
     grid-column: 2;
     grid-row: 3;
+  }
+
+  @media (max-width: ${screenMd}px) {
+    width: 500px;
+    ul {
+      grid-template-columns: 1fr;
+    }
+    li:last-child {
+      grid-column: initial;
+      grid-row: initial;
+    }
+  }
+
+  @media (max-width: ${screenSm}px) {
+    width: 100%;
   }
 `
 

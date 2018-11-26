@@ -16,9 +16,7 @@ export default () => {
 
   return (
     <Container>
-      <PlainButton onClick={e => togglePopup(!isPopupShowing)}>
-        Settings
-      </PlainButton>
+      <Button onClick={e => togglePopup(!isPopupShowing)}>Settings</Button>
       <Popup innerRef={popupRef} isShowing={isPopupShowing}>
         <li>
           <p>Night mode:</p>
@@ -49,7 +47,7 @@ const Container = styled.div`
   position: fixed;
   bottom: 0;
   right: 0;
-  padding: 15px;
+  padding: 20px;
 `
 
 const Popup = styled.ul`
@@ -58,8 +56,8 @@ const Popup = styled.ul`
   border-radius: var(--baseborderradius);
   box-shadow: 0 0 12px var(--black4);
   position: absolute;
-  bottom: 45px;
-  right: 15px;
+  bottom: 60px;
+  right: 20px;
   width: 180px;
   transition-property: transform, opacity;
   opacity: ${props => (props.isShowing ? 1 : 0)};
@@ -84,5 +82,5 @@ const Popup = styled.ul`
 `
 
 const Button = styled(PlainButton)`
-  padding: 10px;
+  padding: 10px 5px;
 `
