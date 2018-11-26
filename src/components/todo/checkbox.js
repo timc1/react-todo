@@ -43,7 +43,7 @@ const Container = styled('span')`
     width: 20px;
     left: 0px;
     margin-top: -5px;
-    background: #f7fffd;
+    background: var(--white5);
     -webkit-mask: url(${check}) center bottom / contain no-repeat;
     transform-property: opacity, transform;
     transition: 0.25s var(--cubicbounce);

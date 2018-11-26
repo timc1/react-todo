@@ -61,7 +61,6 @@ const Li = styled.li`
     height: 0.25rem;
     width: 0.25rem;
     border-radius: 50%;
-    background: var(--white1);
     opacity: ${props => (props.isActive ? 1 : 0)};
     transition: opacity 0.15s ease-in;
   }

@@ -1,15 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { debounce } from '../../../utils'
 
-let debouncedObj
+//let debouncedObj
 export default ({ name, objectToUpdate, enableDebounce, shouldUpdate }) => {
+  let debouncedObj = useRef()
+
   useEffect(
     () => {
       if (shouldUpdate) {
         if (enableDebounce) {
-          if (debouncedObj) debouncedObj.clear()
-          debouncedObj = debounce(updateLocalStorage, 1000)
-          debouncedObj()
+          if (debouncedObj.current) debouncedObj.current.clear()
+          debouncedObj.current = debounce(updateLocalStorage, 1000)
+          debouncedObj.current()
         } else {
           updateLocalStorage()
         }

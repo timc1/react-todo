@@ -202,7 +202,7 @@ const Text = styled('button')`
   &:focus {
     .checkbox {
       box-shadow: ${props =>
-        props.isComplete ? '0' : '0 0 12px var(--white1)'};
+        props.isComplete ? '0' : '0 0 12px var(--white2)'};
     }
   }
 

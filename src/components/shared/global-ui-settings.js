@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import styled from 'react-emotion'
 import { PlainButton } from './styles'
 import useOuterClick from './hooks/useOuterClick'
+import useGlobalUI from './hooks/useGlobalUI'
 
 export default () => {
   const popupRef = useRef()
@@ -20,15 +21,28 @@ export default () => {
       </PlainButton>
       <Popup innerRef={popupRef} isShowing={isPopupShowing}>
         <li>
-          <ColorPicker />
+          <p>Night mode:</p>
+          <ColorPicker isShowing={isPopupShowing} />
         </li>
       </Popup>
     </Container>
   )
 }
 
-const ColorPicker = () => {
-  return <div>hihihihi</div>
+const ColorPicker = ({ isShowing }) => {
+  const { uiContext: context } = useGlobalUI()
+  return (
+    <Button
+      tabIndex={isShowing ? 0 : -1}
+      onClick={e =>
+        context.dispatchUI({
+          type: context.state.value.colorTheme === 'dark' ? 'light' : 'dark',
+        })
+      }
+    >
+      {context.state.value.colorTheme === 'dark' ? 'On' : 'Off'}
+    </Button>
+  )
 }
 
 const Container = styled.div`
@@ -36,7 +50,6 @@ const Container = styled.div`
   bottom: 0;
   right: 0;
   padding: 15px;
-  background: var(--black1);
 `
 
 const Popup = styled.ul`
@@ -55,4 +68,21 @@ const Popup = styled.ul`
   transform-origin: 100% 0;
   transition: 0.25s var(--cubicbounce);
   pointer-events: ${props => (props.isShowing ? 'initial' : 'none')};
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 5px;
+    align-items: center;
+    padding-left: 10px;
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--fontxs);
+    color: var(--white1);
+  }
+`
+
+const Button = styled(PlainButton)`
+  padding: 10px;
 `

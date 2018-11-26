@@ -179,7 +179,6 @@ const Container = styled.div`
       transition: 0.25s ease-in;
       transition-delay: ${props => (props.isSideMenuHidden ? '0' : '0.25s')};
       pointer-events: ${props => (props.isSideMenuHidden ? 'none' : 'initial')};
-      background: var(--black1);
       padding: 34px 10px;
       margin: 0 -11px;
       max-height: calc(100vh - 60px);

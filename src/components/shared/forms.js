@@ -15,9 +15,10 @@ export const Form = styled('form')``
 
 export const Input = React.memo(
   styled('input')`
-    box-shadow: 0 0 0 1px ${props => (props.error ? '#ffe9e9' : 'transparent')};
+    box-shadow: 0 0 0 1px
+      ${props => (props.error ? 'var(--error)' : 'transparent')};
     &::placeholder {
-      color: ${props => (props.error ? '#ffe9e9' : 'var(--black4)')};
+      color: ${props => (props.error ? 'var(--error)' : 'var(--black4)')};
     }
   `,
   areEqual
