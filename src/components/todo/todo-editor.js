@@ -44,7 +44,7 @@ export default ({ currentTodo, todoMetaDispatch }) => {
 
 // Styles
 const Container = styled.div`
-  max-width: 40.625rem;
+  max-width: 35.625rem;
   width: 100%;
 `
 

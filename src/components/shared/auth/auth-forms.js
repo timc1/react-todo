@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import useForm from '../hooks/useForm'
 import useUser from '../hooks/useUser'
+import useGlobalNotification from '../hooks/useGlobalNotification'
 import { Form, Input } from '../forms'
 import { StandardButton, PlainButton } from '../styles'
 import { Loader } from '../icons'
@@ -20,6 +21,7 @@ export const Login = React.memo(
     )
     const initialFocusRef = useRef()
     const { userContext } = useUser()
+    const { notificationContext } = useGlobalNotification()
 
     useEffect(() => {
       initialFocusRef.current.focus()
@@ -40,11 +42,19 @@ export const Login = React.memo(
                     ...userContext.state,
                     user: formatUser(user),
                   })
+                  if (notificationContext.state.type !== null)
+                    notificationContext.dispatchNotification({
+                      type: 'CLOSE_POPUP',
+                    })
                 },
                 onError: error => {
                   dispatch({
-                    type: 'SUBMIT_FORM_ERRORED',
+                    type: 'ERRORED',
                     payload: { error },
+                  })
+                  notificationContext.dispatchNotification({
+                    type: 'ERROR',
+                    payload: error,
                   })
                 },
               })
@@ -180,9 +190,6 @@ const Actions = props => (
       </span>
     </StandardButton>
     <Loader isShowing={props.disabled} />
-    <Error isShowing={props.error}>
-      {props.error || <span>No Error</span>}
-    </Error>
   </ActionsContainer>
 )
 
@@ -255,7 +262,7 @@ const FormContainer = styled.div`
   grid-gap: 5px;
   grid-auto-rows: max-content;
   transform-origin: 0 0;
-  //animation: ${slidein} 0.15s ease-in;
+  animation: ${slidein} 0.15s ease-in;
   form {
     display: grid;
     grid-gap: 10px;
@@ -268,22 +275,6 @@ const ActionsContainer = styled.div`
   grid-auto-columns: max-content;
   grid-gap: 10px 15px;
   align-items: center;
-`
-
-const Error = styled.p`
-  grid-row: 2;
-  grid-column: 1 / span 2;
-  margin: 0;
-  color: var(--white1);
-  font-size: var(--fontxs);
-  transform: ${props => (props.isShowing ? 'scale(1)' : 'scale(0)')};
-  opacity: ${props => (props.isShowing ? '1' : '0')};
-  transition-property: transform, opacity;
-  transition: 0.15s ease-in;
-  transform-origin: 0 0;
-  > span {
-    opacity: 0;
-  }
 `
 
 const handleSubmit = ({ values, onSuccess, onError }) => {

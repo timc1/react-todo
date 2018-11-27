@@ -1,12 +1,21 @@
 import React, { useEffect, useRef } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'react-emotion'
 import useGlobalNotification from './hooks/useGlobalNotification'
 import { screenSm, ExitButton } from './styles'
 import { Exit as ExitIcon } from './icons'
 
+const notificationRoot = document.getElementById('notification-root')
+const el = document.createElement('div')
+
 export default React.memo(() => {
   const { notificationContext: context } = useGlobalNotification()
   const focusButtonRef = useRef()
+
+  useEffect(() => {
+    notificationRoot.appendChild(el)
+    return () => notificationRoot.removeChild(el)
+  }, [])
 
   useEffect(
     () => {
@@ -17,7 +26,7 @@ export default React.memo(() => {
     [context.state.type, context.state.value]
   )
 
-  return (
+  return ReactDOM.createPortal(
     <Container isShowing={context.state.type !== null}>
       <ExitButton
         onClick={e => context.dispatchNotification({ type: 'CLOSE_POPUP' })}
@@ -34,7 +43,8 @@ export default React.memo(() => {
         <span className="screen-reader">Toggle to exit notification popup</span>
       </ExitButton>
       <p className="notification-message">{context.state.value}</p>
-    </Container>
+    </Container>,
+    el
   )
 })
 
@@ -54,6 +64,7 @@ const Container = styled.div`
   transition-property: opacity, transform;
   transition: 0.25s var(--cubic);
   pointer-events: ${props => (props.isShowing ? 'initial' : 'none')};
+  z-index: 99;
   p {
     margin: 0;
   }

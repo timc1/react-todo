@@ -14,34 +14,43 @@ import arrowRight from '../../../images/arrow-right.svg'
 
 import Modal from '../modal'
 
+import useGlobalNotification from '../hooks/useGlobalNotification'
+import useUser from '../hooks/useUser'
+import { User as formatUser } from '../../../models/user'
+
 import { handleFacebookLogin } from './lib/social-auth'
+
+const initialState = {
+  isEmailFormShowing: false,
+  isSignup: false,
+  isLoading: false,
+}
 
 const reducer = (state, action) => {
   if (!state.isAuthorizing) {
     switch (action.type) {
+      case 'RESET':
+        return initialState
       case 'TOGGLE_EMAIL_FORM':
         return {
           ...state,
           isEmailFormShowing: true,
           ...action.payload,
-          error: false,
         }
       case 'SUBMIT_FORM':
         return {
           ...state,
           isLoading: true,
-          error: false,
-        }
-      case 'SUBMIT_FORM_ERRORED':
-        return {
-          ...state,
-          isLoading: false,
-          ...action.payload,
         }
       case 'SOCIAL_LOGIN':
         return {
           ...state,
           isLoading: true,
+        }
+      case 'ERRORED':
+        return {
+          ...state,
+          isLoading: false,
         }
       default:
         return state
@@ -52,12 +61,10 @@ const reducer = (state, action) => {
 
 export default React.memo(
   ({ isShowing: isModalShowing, toggleAuth }) => {
-    const [state, dispatch] = useReducer(reducer, {
-      isEmailFormShowing: false,
-      isSignup: false,
-      isLoading: false,
-      error: false,
-    })
+    const [state, dispatch] = useReducer(reducer, initialState)
+
+    const { userContext } = useUser()
+    const { notificationContext } = useGlobalNotification()
 
     return (
       <Modal
@@ -75,12 +82,19 @@ export default React.memo(
                     type: 'SOCIAL_LOGIN',
                   })
                   handleFacebookLogin(e, {
-                    onSuccess: () => {
-                      console.log('success')
+                    onSuccess: user => {
+                      userContext.setUser({
+                        ...userContext.state,
+                        user: formatUser(user),
+                      })
                     },
-                    onError: () => {
+                    onError: error => {
                       dispatch({
-                        type: 'SUBMIT_FORM_ERRORED',
+                        type: 'ERRORED',
+                      })
+                      notificationContext.dispatchNotification({
+                        type: 'ERROR',
+                        payload: error,
                       })
                     },
                   })

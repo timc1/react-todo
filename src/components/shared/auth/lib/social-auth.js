@@ -19,10 +19,9 @@ export const handleFacebookLogin = (e, { onSuccess, onError }) => {
               last_name,
             }
 
-            console.log(response)
             const { error, user } = await http.post(url, body)
-            console.log('error', error)
-            console.log('user', user)
+            if (error) onError(error)
+            else onSuccess(user)
           })
         }
       },
