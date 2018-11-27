@@ -1,7 +1,15 @@
-This project is a playground for testing new React & Javascript concepts/features.
+<h1 align="center">
+  todoHQ 🤾
+  <br>
+  <img src="https://s3-us-west-1.amazonaws.com/tcc.assets/images/logo_dark.svg" alt="todoHQ logo" title="todoHQ logo" height="100" width="100">
+  <br>
+  (www.todohq.co)
+</h1>
+<p align="center" style="font-size: 1.2rem;">A super accessible and easy to use todo list.
+Update your tasks for today - plan your tasks for tomorrow.</p>
 
-## Available Scripts
+## About
 
-### `npm start`
-### `npm test`
-### `npm run build`
+TodoHQ is a todo list that auto saves your daily tasks locally in your browser. Optionally, users can create an account and access their todo list anywhere.
+
+This is a mini project and playground that implements new Javascript and React features.
