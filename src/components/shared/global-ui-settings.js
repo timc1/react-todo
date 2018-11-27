@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import styled from 'react-emotion'
 import { PlainButton, PlainLinkExternal, fadein } from './styles'
+import { Logo } from './icons'
 import useOuterClick from './hooks/useOuterClick'
 import useGlobalUI from './hooks/useGlobalUI'
 
@@ -33,7 +34,10 @@ export default () => {
         isShowing={isAboutModalShowing}
       >
         <AboutContainer>
-          <h1>Title</h1>
+          <div className="logo-container">
+            <Logo />
+            <h1 className="logo-title">todoHQ</h1>
+          </div>
           <h2>A super accessible and easy to use todo list.</h2>
           <ul>
             <li>
@@ -156,11 +160,27 @@ const AboutContainer = styled.div`
   height: 500px;
   max-width: 500px;
   width: 100%;
-  padding: var(--basepadding);
+  padding: 100px var(--basepadding);
   opacity: 0;
   animation: ${fadein} 0.15s ease-in;
   animation-fill-mode: forwards;
   animation-delay: 0.15s;
+
+  .logo-container {
+    display: grid;
+    grid-gap: var(--fontxs);
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    .logo {
+      height: var(--fontlg);
+      width: var(--fontlg);
+    }
+    .logo-title {
+      font-size: var(--fontlg);
+      font-family: var(--secondaryfont);
+      margin: 0;
+    }
+  }
 
   ul {
     position: relative;

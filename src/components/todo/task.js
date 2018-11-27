@@ -106,7 +106,7 @@ const controls = css`
   @media (max-width: ${screenSm}px) {
     margin-right: -110px;
     padding-left: 10px;
-    scroll-snap-align: end;
+    scroll-snap-align: start;
     li > button {
       opacity: 1;
       transform: scale(1);
@@ -138,7 +138,7 @@ const Container = styled('div')`
   }
 
   @media (max-width: ${screenSm}px) {
-    scroll-snap-type: x mandatory;
+    //scroll-snap-type: x proximity;
     grid-gap: 0;
     overflow: auto;
     &::-webkit-scrollbar {

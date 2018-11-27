@@ -16,37 +16,48 @@
 -->
 <html lang="en">
   <head>
+    <!-- Primary -->
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <link rel="canonical" href="https://todohq.co">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/icons/icon-72x72.png"/>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React To-Do List & Task Manager</title>
+    <title>TodoHQ | A super accessible and easy to use todo list</title>
+    <meta name="title" content="TodoHQ | A super accessible and easy to use todo list" />
+    <meta name="description" content="todoHQ is a super accessible and easy to use todo list. Update your tasks for today - plan your tasks for tomorrow!" />
+
+    <!-- Google / Android -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <meta name="theme-color" content="#000000">
+
+    <!-- FB -->
+    <meta property="og:site_name" content="TodoHQ | A super accessible and easy to use todo list" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://todohq.co">
+    <meta property="og:title" content="TodoHQ | A super accessible and easy to use todo list" />
+    <meta property="og:description" content="todoHQ is a super accessible and easy to use todo list. Update your tasks for today - plan your tasks for tomorrow!" />
+    <meta property="og:image" content="%PUBLIC_URL%/logo-text-dark-bg-1200x630.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:domain" content="https://todohq.co" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://todohq.co" />
+    <meta name="twitter:title" content="TodoHQ | A super accessible and easy to use todo list" />
+    <meta name="twitter:description" content="todoHQ is a super accessible and easy to use todo list. Update your tasks for today - plan your tasks for tomorrow!">
+    <meta name="twitter:image" content="%PUBLIC_URL%/logo-text-dark-bg-1200x630.png">
+
 
     <style>
       @font-face {
         font-family: 'Px-Grotesk';
-        src: url('/assets/fonts/Px-Grotesk-Bold.ttf');
+        src: url('%PUBLIC_URL%/assets/fonts/Px-Grotesk-Bold.ttf');
         font-weight: 600 900;
         font-style: normal;
       }
 
       @font-face {
         font-family: 'Akkurat-Regular';
-        src: url('/assets/fonts/Akkurat-Regular.ttf');
+        src: url('%PUBLIC_URL%/assets/fonts/Akkurat-Regular.ttf');
         font-weight: 100 500;
         font-style: normal;
       }
@@ -58,16 +69,6 @@
     <div id="modal-root"></div>
     <div id="about-root"></div>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
     <script>
   window.fbAsyncInit = function() {
     FB.init({
