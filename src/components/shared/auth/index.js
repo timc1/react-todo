@@ -6,7 +6,7 @@ import { Login as LoginForm, Signup as SignupForm } from './auth-forms'
 import { PlainButton } from '../styles'
 import {
   Facebook as FBIcon,
-  Twitter as TwitterIcon,
+  //Twitter as TwitterIcon,
   Email as EmailIcon,
 } from '../icons'
 import { screenSm, screenMd } from '../styles'
@@ -18,7 +18,10 @@ import useGlobalNotification from '../hooks/useGlobalNotification'
 import useUser from '../hooks/useUser'
 import { User as formatUser } from '../../../models/user'
 
-import { handleFacebookLogin } from './lib/social-auth'
+import {
+  handleFacebookLogin,
+  //handleTwitterLogin
+} from './lib/social-auth'
 
 const initialState = {
   isEmailFormShowing: false,
@@ -81,7 +84,7 @@ export default React.memo(
                   dispatch({
                     type: 'SOCIAL_LOGIN',
                   })
-                  handleFacebookLogin(e, {
+                  handleFacebookLogin({
                     onSuccess: user => {
                       userContext.setUser({
                         ...userContext.state,
@@ -105,15 +108,28 @@ export default React.memo(
                 <span>Continue with Facebook</span>
               </Button>
             </li>
+            {/*
             <li>
               <Button
                 disabled={state.isLoading}
+                onClick={e => {
+                  dispatch({ type: 'SOCIAL_LOGIN' })
+                  handleTwitterLogin({
+                    onSuccess: user => {
+                      console.log('user', user)
+                    },
+                    onError: error => {
+                      console.log('err', error)
+                    },
+                  })
+                }}
                 tabIndex={isModalShowing ? '0' : '-1'}
               >
                 <TwitterIcon />
                 <span>Continue with Twitter</span>
               </Button>
             </li>
+            */}
             <li>
               <Button
                 onClick={e => {

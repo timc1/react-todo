@@ -185,7 +185,7 @@ export const ExitButton = React.memo(
 )
 
 export const PlainLinkExternal = styled.a`
-  color: var(--purple);
+  color: ${props => (props.nocolor ? 'var(--white1)' : 'var(--purple)')};
 `
 
 export const fadein = keyframes`

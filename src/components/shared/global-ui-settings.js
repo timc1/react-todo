@@ -37,10 +37,7 @@ export default () => {
           <h2>A super accessible and easy to use todo list.</h2>
           <ul>
             <li>
-              <p>
-                Add/remove/update your tasks for today - plan for your day
-                tomorrow.
-              </p>
+              <p>Update your tasks for today - plan your tasks for tomorrow.</p>
             </li>
             <li>
               <p>
@@ -50,7 +47,7 @@ export default () => {
             </li>
             <Hr />
             <li>
-              <p>
+              <p className="made-in">
                 This project is a playground for new technologies, this one in
                 particular uses React's new hooks API. The repo is available{' '}
                 <PlainLinkExternal
@@ -152,10 +149,10 @@ const Button = styled(PlainButton)`
   text-transform: uppercase;
 `
 const AboutContainer = styled.div`
-  position: absolute;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  //position: absolute;
+  //top: 80px;
+  //left: 50%;
+  //transform: translateX(-50%);
   height: 500px;
   max-width: 500px;
   width: 100%;
@@ -165,6 +162,9 @@ const AboutContainer = styled.div`
   animation-fill-mode: forwards;
   animation-delay: 0.15s;
 
+  ul {
+    position: relative;
+  }
   h1,
   h2,
   p {

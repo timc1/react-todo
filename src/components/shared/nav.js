@@ -1,7 +1,8 @@
 import React, { useState, lazy, Suspense } from 'react'
 import styled from 'react-emotion'
 
-import { PlainButton, fadein } from './styles'
+import { PlainButton, PlainLinkExternal, fadein, screenSm } from './styles'
+import { Logo } from './icons'
 import caretSvg from '../../images/caret.svg'
 
 const Auth = lazy(() => import('./auth/index'))
@@ -15,7 +16,12 @@ export default ({ user }) => {
     <Header>
       <Nav>
         <ul className="nav">
-          <li>TODO</li>
+          <li>
+            <PlainLinkExternal className="logo-container" href="/" nocolor>
+              <Logo />
+              <h1 className="logo-title">todoHQ</h1>
+            </PlainLinkExternal>
+          </li>
           {user ? (
             <li>
               <UserButton
@@ -87,6 +93,27 @@ const Nav = styled('nav')`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    .logo-container {
+      display: grid;
+      grid-auto-flow: column;
+      align-items: end;
+      grid-gap: var(--fontxs);
+      padding: 10px 5px;
+    }
+    .logo {
+      height: var(--fontlg);
+      width: var(--fontlg);
+    }
+    .logo-title {
+      font-family: var(--secondaryfont);
+      font-size: var(--fontmd);
+      margin: 0;
+    }
+    @media (max-width: ${screenSm}px) {
+      .logo-title {
+        display: none;
+      }
+    }
   }
 
   > ul.nav > li:nth-child(2) {

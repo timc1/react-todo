@@ -1,6 +1,6 @@
 import { http, API_URL } from '../../../../utils'
 
-export const handleFacebookLogin = (e, { onSuccess, onError }) => {
+export const handleFacebookLogin = ({ onSuccess, onError }) => {
   if (window.FB) {
     window.FB.login(
       response => {
@@ -28,4 +28,11 @@ export const handleFacebookLogin = (e, { onSuccess, onError }) => {
       { scope: 'email' }
     )
   }
+}
+
+export const handleTwitterLogin = async ({ onSuccess, onError }) => {
+  const url = `${API_URL}/v0/auth/twitter`
+  const { error, user } = await http.post(url)
+  if (error) onError(error)
+  else onSuccess(user)
 }
