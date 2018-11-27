@@ -184,6 +184,10 @@ export const ExitButton = React.memo(
   areEqual
 )
 
+export const PlainLinkExternal = styled.a`
+  color: var(--purple);
+`
+
 export const fadein = keyframes`
   from {
     opacity: 0

@@ -1,20 +1,15 @@
 import React, { useState, useRef } from 'react'
 import styled from 'react-emotion'
-import { PlainButton } from './styles'
+import { PlainButton, PlainLinkExternal, fadein } from './styles'
 import useOuterClick from './hooks/useOuterClick'
 import useGlobalUI from './hooks/useGlobalUI'
-import useModal from './hooks/useModal'
+
+import Modal from './modal'
 
 export default () => {
   const popupRef = useRef()
   const [isPopupShowing, togglePopup] = useState(false)
   const [isAboutModalShowing, toggleAboutModal] = useState(false)
-
-  const { Modal } = useModal({
-    domElement: 'about-root',
-    toggleModal: toggleAboutModal,
-    isShowing: isAboutModalShowing,
-  })
 
   useOuterClick({
     ref: popupRef,
@@ -32,11 +27,73 @@ export default () => {
         </li>
       </Popup>
       <Button onClick={e => toggleAboutModal(!isAboutModalShowing)}>?</Button>
-      <Modal render={<div>hiii</div>} />
+      <Modal
+        domElement="about-root"
+        toggleModal={toggleAboutModal}
+        isShowing={isAboutModalShowing}
+      >
+        <AboutContainer>
+          <h1>Title</h1>
+          <h2>A super accessible and easy to use todo list.</h2>
+          <ul>
+            <li>
+              <p>
+                Add/remove/update your tasks for today - plan for your day
+                tomorrow.
+              </p>
+            </li>
+            <li>
+              <p>
+                No account? Everything will be saved locally in your browser.
+                Create an account to access your todo list anywhere.
+              </p>
+            </li>
+            <Hr />
+            <li>
+              <p>
+                This project is a playground for new technologies, this one in
+                particular uses React's new hooks API. The repo is available{' '}
+                <PlainLinkExternal
+                  href="https://github.com/timc1/react-todo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Github - timc1 - view code"
+                  style={{
+                    cursor: 'ne-resize',
+                  }}
+                  tabIndex={isAboutModalShowing ? 0 : -1}
+                >
+                  here
+                </PlainLinkExternal>
+              </p>
+            </li>
+            <li>
+              <p className="made-in">
+                Made in sunny{' '}
+                <span role="img" aria-label="palm tree emoji">
+                  🌴
+                </span>{' '}
+                LA by{' '}
+                <PlainLinkExternal
+                  href="https://tcc.im?ref=todo_about"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View main website - tcc.im"
+                  style={{
+                    cursor: 'ne-resize',
+                  }}
+                  tabIndex={isAboutModalShowing ? 0 : -1}
+                >
+                  Tim Chang
+                </PlainLinkExternal>
+              </p>
+            </li>
+          </ul>
+        </AboutContainer>
+      </Modal>
     </Container>
   )
 }
-
 const ColorPicker = ({ isShowing }) => {
   const { uiContext: context } = useGlobalUI()
   return (
@@ -52,14 +109,14 @@ const ColorPicker = ({ isShowing }) => {
     </Button>
   )
 }
-
 const Container = styled.div`
   position: fixed;
   bottom: 0;
   right: 0;
   padding: 20px;
+  background: var(--black1);
+  transition: background 0.15s ease-in;
 `
-
 const Popup = styled.ul`
   background: var(--black1);
   border: 2px solid var(--white3);
@@ -90,8 +147,66 @@ const Popup = styled.ul`
     color: var(--white1);
   }
 `
-
 const Button = styled(PlainButton)`
   padding: 10px;
   text-transform: uppercase;
+`
+const AboutContainer = styled.div`
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 500px;
+  max-width: 500px;
+  width: 100%;
+  padding: var(--basepadding);
+  opacity: 0;
+  animation: ${fadein} 0.15s ease-in;
+  animation-fill-mode: forwards;
+  animation-delay: 0.15s;
+
+  h1,
+  h2,
+  p {
+    color: var(--white1);
+    margin: 20px 0;
+  }
+  h1,
+  h2 {
+    font-family: var(--secondaryfont);
+  }
+  h1 {
+    font-size: var(--fontxl);
+  }
+  h2 {
+    font-size: var(--fontmd);
+  }
+  p {
+    font-size: var(--fontsm);
+  }
+
+  .made-in {
+    font-size: var(--fontxs);
+  }
+`
+const Hr = styled.hr`
+  height: 1px;
+  width: 100%;
+  border: none;
+  background: #eee;
+  margin: 40px 0;
+  &::before {
+    content: '👋';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-53%);
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: var(--white1);
+    background: var(--black1);
+    padding: 0px 8px;
+  }
 `

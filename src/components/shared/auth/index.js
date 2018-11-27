@@ -9,10 +9,12 @@ import {
   Twitter as TwitterIcon,
   Email as EmailIcon,
 } from '../icons'
-import { screenSm, screenMd, fadein } from '../styles'
+import { screenSm, screenMd } from '../styles'
 import arrowRight from '../../../images/arrow-right.svg'
 
-import useModal from '../hooks/useModal'
+import Modal from '../modal'
+
+import { handleFacebookLogin } from './lib/social-auth'
 
 const reducer = (state, action) => {
   if (!state.isAuthorizing) {
@@ -36,6 +38,11 @@ const reducer = (state, action) => {
           isLoading: false,
           ...action.payload,
         }
+      case 'SOCIAL_LOGIN':
+        return {
+          ...state,
+          isLoading: true,
+        }
       default:
         return state
     }
@@ -52,75 +59,86 @@ export default React.memo(
       error: false,
     })
 
-    const { Modal } = useModal({
-      domElement: 'modal-root',
-      toggleModal: toggleAuth,
-      isShowing: isModalShowing,
-    })
-
     return (
       <Modal
-        render={
-          <Container>
-            <ul>
-              <li>
-                <Button
-                  disabled={state.isLoading}
-                  tabIndex={isModalShowing ? '0' : '-1'}
-                >
-                  <FBIcon />
-                  <span>Continue with Facebook</span>
-                </Button>
-              </li>
-              <li>
-                <Button
-                  disabled={state.isLoading}
-                  tabIndex={isModalShowing ? '0' : '-1'}
-                >
-                  <TwitterIcon />
-                  <span>Continue with Twitter</span>
-                </Button>
-              </li>
-              <li>
-                <Button
-                  onClick={e => {
-                    dispatch({
-                      type: 'TOGGLE_EMAIL_FORM',
-                      payload: {
-                        isSignup: false,
-                      },
-                    })
-                  }}
-                  disabled={state.isLoading}
-                  tabIndex={isModalShowing ? '0' : '-1'}
-                >
-                  <EmailIcon />
-                  <span>Continue with Email</span>
-                </Button>
-              </li>
-              <li>
-                {state.isEmailFormShowing ? (
-                  state.isSignup ? (
-                    <SignupForm
-                      disabled={state.isLoading}
-                      dispatch={dispatch}
-                      isModalShowing={isModalShowing}
-                      error={state.error}
-                    />
-                  ) : (
-                    <LoginForm
-                      disabled={state.isLoading}
-                      dispatch={dispatch}
-                      isModalShowing={isModalShowing}
-                      error={state.error}
-                    />
-                  )
-                ) : null}
-              </li>
-            </ul>
-          </Container>
-        }
-      />
+        domElement="modal-root"
+        isShowing={isModalShowing}
+        toggleModal={toggleAuth}
+      >
+        <Container isShowing={isModalShowing}>
+          <ul>
+            <li>
+              <Button
+                disabled={state.isLoading}
+                onClick={e => {
+                  dispatch({
+                    type: 'SOCIAL_LOGIN',
+                  })
+                  handleFacebookLogin(e, {
+                    onSuccess: () => {
+                      console.log('success')
+                    },
+                    onError: () => {
+                      dispatch({
+                        type: 'SUBMIT_FORM_ERRORED',
+                      })
+                    },
+                  })
+                }}
+                tabIndex={isModalShowing ? '0' : '-1'}
+              >
+                <FBIcon />
+                <span>Continue with Facebook</span>
+              </Button>
+            </li>
+            <li>
+              <Button
+                disabled={state.isLoading}
+                tabIndex={isModalShowing ? '0' : '-1'}
+              >
+                <TwitterIcon />
+                <span>Continue with Twitter</span>
+              </Button>
+            </li>
+            <li>
+              <Button
+                onClick={e => {
+                  dispatch({
+                    type: 'TOGGLE_EMAIL_FORM',
+                    payload: {
+                      isSignup: false,
+                    },
+                  })
+                }}
+                disabled={state.isLoading}
+                tabIndex={isModalShowing ? '0' : '-1'}
+              >
+                <EmailIcon />
+                <span>Continue with Email</span>
+              </Button>
+            </li>
+            <li>
+              {state.isEmailFormShowing ? (
+                state.isSignup ? (
+                  <SignupForm
+                    disabled={state.isLoading}
+                    dispatch={dispatch}
+                    isModalShowing={isModalShowing}
+                    error={state.error}
+                  />
+                ) : (
+                  <LoginForm
+                    disabled={state.isLoading}
+                    dispatch={dispatch}
+                    isModalShowing={isModalShowing}
+                    error={state.error}
+                  />
+                )
+              ) : null}
+            </li>
+          </ul>
+        </Container>
+      </Modal>
     )
   },
   (prevProps, nextProps) => prevProps.isShowing === nextProps.isShowing
@@ -130,11 +148,11 @@ const Container = styled.div`
   position: absolute;
   top: 100px;
   padding: 30px;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: ${fadein} 0.25s ease-in;
-  animation-fill-mode: forwards;
-  animation-delay: 0.15s;
+  padding: 30px;
+  opacity: ${props => (props.isShowing ? 1 : 0)};
+  transition: opacity 0.15s ease-in;
+  transition-delay: 0.25s;
+
   ul {
     display: grid;
     grid-gap: 10px;

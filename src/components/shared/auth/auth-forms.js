@@ -255,7 +255,7 @@ const FormContainer = styled.div`
   grid-gap: 5px;
   grid-auto-rows: max-content;
   transform-origin: 0 0;
-  animation: ${slidein} 0.15s ease-in;
+  //animation: ${slidein} 0.15s ease-in;
   form {
     display: grid;
     grid-gap: 10px;
