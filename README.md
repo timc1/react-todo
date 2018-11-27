@@ -1,7 +1,7 @@
 <h1 align="center">
   todoHQ 🤾
   <br>
-  <img src="https://s3-us-west-1.amazonaws.com/tcc.assets/images/todoHQ_logo.svg" alt="todoHQ logo" title="todoHQ logo" width="300">
+  <img src="https://s3-us-west-1.amazonaws.com/tcc.assets/images/logo_dark.svg" alt="todoHQ logo" title="todoHQ logo" height="100" width="100">
   <br>
   (www.todohq.co)
 </h1>
