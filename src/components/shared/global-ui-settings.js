@@ -52,8 +52,8 @@ export default () => {
             <Hr />
             <li>
               <p className="made-in">
-                This project is a playground for new technologies, this one in
-                particular uses React's new hooks API. The repo is available{' '}
+                This project is a playground for new technologies. The full repo
+                is available{' '}
                 <PlainLinkExternal
                   href="https://github.com/timc1/react-todo"
                   target="_blank"
@@ -66,6 +66,21 @@ export default () => {
                 >
                   here
                 </PlainLinkExternal>
+                .
+              </p>
+              <p className="made-in">
+                Downloadable logos and brand assets can be found{' '}
+                <PlainLinkExternal
+                  href="https://s3-us-west-1.amazonaws.com/tcc.assets/todoHQ/todoHQ_assets.zip"
+                  title="todoHQ Brand Assets - Download Link"
+                  style={{
+                    cursor: 's-resize',
+                  }}
+                  tabIndex={isAboutModalShowing ? 0 : -1}
+                >
+                  here
+                </PlainLinkExternal>
+                .
               </p>
             </li>
             <li>

@@ -59,6 +59,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "deploy": "npm run-script build && s3-deploy './build/**' --cwd './build/' --bucket todohq.co --deleteRemoved --gzip && npm run clear",
+    "clear": "aws-cloudfront-invalidate E21W12B38L1B81",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
