@@ -25,7 +25,7 @@ const calculateWhichDaysToDisplay = allTodos => {
 }
 
 export default React.memo(
-  ({ allTodos, todoMetaDispatch }) => {
+  ({ allTodos, todoMetaDispatch, isSideMenuHidden }) => {
     const [days, setDays] = useState(calculateWhichDaysToDisplay(allTodos))
 
     useEffect(
@@ -45,6 +45,7 @@ export default React.memo(
           <li>
             <Button
               onClick={e => todoMetaDispatch({ type: 'ADD_TODAYS_TODO' })}
+              tabIndex={isSideMenuHidden ? -1 : 0}
             >
               <span>Create a list for today</span>
             </Button>
@@ -54,6 +55,7 @@ export default React.memo(
           <li>
             <Button
               onClick={e => todoMetaDispatch({ type: 'ADD_TOMORROWS_TODO' })}
+              tabIndex={isSideMenuHidden ? -1 : 0}
             >
               <span>Plan tomorrow's list</span>
             </Button>
@@ -69,8 +71,12 @@ export default React.memo(
       </Ul>
     )
   },
-  (prevProps, nextProps) =>
-    prevProps.allTodos.length === nextProps.allTodos.length
+  (prevProps, nextProps) => {
+    return (
+      prevProps.allTodos.length === nextProps.allTodos.length &&
+      prevProps.isSideMenuHidden === nextProps.isSideMenuHidden
+    )
+  }
 )
 
 const Ul = styled.ul`
