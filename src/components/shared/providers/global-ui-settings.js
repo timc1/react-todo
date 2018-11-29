@@ -60,7 +60,6 @@ const reducer = (state, { type, payload }) => {
   const copy = Object.assign({}, state)
   switch (type.toUpperCase()) {
     case 'SETUP':
-      console.log('default dark mode')
       return state
     case 'DARK':
       copy.value = {

@@ -26,8 +26,8 @@ export const Todo = (data = {}) => {
 export const Task = (task = {}) => {
   return {
     id: task.id || getRandomHash(),
-    title: task.title || '',
-    description: task.description || '',
+    title: decodeURIComponent(task.title) || '',
+    description: decodeURIComponent(task.description) || '',
     isComplete: task.isComplete !== undefined ? task.isComplete : false,
   }
 }

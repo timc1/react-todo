@@ -148,7 +148,11 @@ const metaReducer = (user, dispatchNotification) => (state, action) => {
         body = {
           type: action.type,
           todoID: state.currentTodoId,
-          task: action.payload.task,
+          task: {
+            ...action.payload.task,
+            title: encodeURIComponent(action.payload.task.title),
+            description: encodeURIComponent(action.payload.task.description),
+          },
           timestamp: Date.now(),
           userID: user.id,
         }
@@ -202,7 +206,11 @@ const metaReducer = (user, dispatchNotification) => (state, action) => {
       if (user)
         body = {
           type: action.type,
-          task: action.payload.task,
+          task: {
+            ...action.payload.task,
+            title: encodeURIComponent(action.payload.task.title),
+            description: encodeURIComponent(action.payload.task.description),
+          },
           timestamp: Date.now(),
           userID: user.id,
         }
