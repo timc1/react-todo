@@ -207,6 +207,7 @@ const Container = styled.div`
   }
 
   @media (max-width: ${screenMd}px) {
+    top: 80px;
     width: 500px;
     ul {
       grid-template-columns: 1fr;

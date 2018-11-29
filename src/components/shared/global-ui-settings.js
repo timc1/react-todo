@@ -5,6 +5,7 @@ import {
   PlainLinkExternal,
   PlainLinkInternal,
   fadein,
+  screenMd,
 } from './styles'
 import { Logo } from './icons'
 import useOuterClick from './hooks/useOuterClick'
@@ -226,6 +227,10 @@ const AboutContainer = styled.div`
   p {
     font-size: var(--fontsm);
   }
+
+  @media(max-width: ${screenMd}px) {
+    padding 60px var(--basepadding); 
+  }
 `
 const Hr = styled.hr`
   height: 1px;
@@ -249,7 +254,7 @@ const Hr = styled.hr`
   }
 `
 const Footer = styled.footer`
-  margin-top: 80px;
+  margin: 80px 0 40px 0;
   .made-in,
   .terms {
     font-size: var(--fontxs);

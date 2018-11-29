@@ -139,7 +139,7 @@ const baseTheme = [
   },
   { name: '--fontregular', value: '400' },
   { name: '--fontbold', value: '800' },
-  { name: '--fontxs', value: '.7rem' },
+  { name: '--fontxs', value: '.75rem' },
   { name: '--fontsm', value: '.865rem' },
   { name: '--fontmd', value: '1.25rem' },
   { name: '--fontlg', value: '1.6rem' },
