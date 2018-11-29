@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from 'react'
 import styled from 'react-emotion'
 
-import { PlainButton, PlainLinkExternal, fadein, screenSm } from './styles'
+import { PlainButton, PlainLinkInternal, fadein, screenSm } from './styles'
 import { Logo } from './icons'
 import caretSvg from '../../images/caret.svg'
 
@@ -17,10 +17,10 @@ export default ({ user }) => {
       <Nav>
         <ul className="nav">
           <li>
-            <PlainLinkExternal className="logo-container" href="/" nocolor>
+            <PlainLinkInternal className="logo-container" to="/" nocolor="true">
               <Logo />
               <h1 className="logo-title">todoHQ</h1>
-            </PlainLinkExternal>
+            </PlainLinkInternal>
           </li>
           {user ? (
             <li>
@@ -99,10 +99,15 @@ const Nav = styled('nav')`
       align-items: end;
       grid-gap: var(--fontxs);
       padding: 10px 5px;
+      &:active > .logo {
+        transform: scale(0.95);
+      }
     }
     .logo {
       height: var(--fontlg);
       width: var(--fontlg);
+      transform: scale(1);
+      transition: transform 0.15s linear;
     }
     .logo-title {
       font-family: var(--secondaryfont);

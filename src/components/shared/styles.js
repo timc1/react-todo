@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'react-emotion'
+import { Link } from '@reach/router'
 
 export const screenSm = 568
 export const screenMd = 767
@@ -186,6 +187,10 @@ export const ExitButton = React.memo(
 
 export const PlainLinkExternal = styled.a`
   color: ${props => (props.nocolor ? 'var(--white1)' : 'var(--purple)')};
+`
+
+export const PlainLinkInternal = styled(Link)`
+  color: var(--white1);
 `
 
 export const fadein = keyframes`

@@ -154,6 +154,7 @@ export default React.memo(
                     disabled={state.isLoading}
                     dispatch={dispatch}
                     isModalShowing={isModalShowing}
+                    toggleAuth={toggleAuth}
                     error={state.error}
                   />
                 ) : (

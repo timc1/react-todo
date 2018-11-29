@@ -1,6 +1,11 @@
 import React, { useState, useRef } from 'react'
 import styled from 'react-emotion'
-import { PlainButton, PlainLinkExternal, fadein } from './styles'
+import {
+  PlainButton,
+  PlainLinkExternal,
+  PlainLinkInternal,
+  fadein,
+} from './styles'
 import { Logo } from './icons'
 import useOuterClick from './hooks/useOuterClick'
 import useGlobalUI from './hooks/useGlobalUI'
@@ -49,7 +54,7 @@ export default () => {
                 Create an account to access your todo list anywhere.
               </p>
             </li>
-            <Hr />
+
             <li>
               <p className="made-in">
                 This project is a playground for new technologies. The full repo
@@ -66,10 +71,7 @@ export default () => {
                 >
                   here
                 </PlainLinkExternal>
-                .
-              </p>
-              <p className="made-in">
-                Downloadable logos and brand assets can be found{' '}
+                . Downloadable logos and brand assets can be found{' '}
                 <PlainLinkExternal
                   href="https://s3-us-west-1.amazonaws.com/tcc.assets/todoHQ/todoHQ_assets.zip"
                   title="todoHQ Brand Assets - Download Link"
@@ -83,28 +85,39 @@ export default () => {
                 .
               </p>
             </li>
-            <li>
-              <p className="made-in">
-                Made in sunny{' '}
-                <span role="img" aria-label="palm tree emoji">
-                  🌴
-                </span>{' '}
-                LA by{' '}
-                <PlainLinkExternal
-                  href="https://tcc.im?ref=todo_about"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="View main website - tcc.im"
-                  style={{
-                    cursor: 'ne-resize',
-                  }}
-                  tabIndex={isAboutModalShowing ? 0 : -1}
-                >
-                  Tim Chang
-                </PlainLinkExternal>
-              </p>
-            </li>
           </ul>
+          <Hr />
+          <Footer>
+            <p className="made-in">
+              Made in sunny{' '}
+              <span role="img" aria-label="palm tree emoji">
+                🌴
+              </span>{' '}
+              LA by{' '}
+              <PlainLinkExternal
+                href="https://tcc.im?ref=todo_about"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View main website - tcc.im"
+                style={{
+                  cursor: 'ne-resize',
+                }}
+                tabIndex={isAboutModalShowing ? 0 : -1}
+              >
+                Tim Chang
+              </PlainLinkExternal>
+            </p>
+
+            <PlainLinkInternal
+              className="terms"
+              to="/privacy-and-terms"
+              onClick={e => toggleAboutModal()}
+              title="Terms, Conditions, & Privacy - todohq.co"
+              tabIndex={isAboutModalShowing ? 0 : -1}
+            >
+              <span>Terms &amp; Conditions | Privacy</span>
+            </PlainLinkInternal>
+          </Footer>
         </AboutContainer>
       </Modal>
     </Container>
@@ -168,10 +181,7 @@ const Button = styled(PlainButton)`
   text-transform: uppercase;
 `
 const AboutContainer = styled.div`
-  //position: absolute;
-  //top: 80px;
-  //left: 50%;
-  //transform: translateX(-50%);
+  position: relative;
   height: 500px;
   max-width: 500px;
   width: 100%;
@@ -197,9 +207,6 @@ const AboutContainer = styled.div`
     }
   }
 
-  ul {
-    position: relative;
-  }
   h1,
   h2,
   p {
@@ -218,10 +225,6 @@ const AboutContainer = styled.div`
   }
   p {
     font-size: var(--fontsm);
-  }
-
-  .made-in {
-    font-size: var(--fontxs);
   }
 `
 const Hr = styled.hr`
@@ -243,5 +246,17 @@ const Hr = styled.hr`
     color: var(--white1);
     background: var(--black1);
     padding: 0px 8px;
+  }
+`
+const Footer = styled.footer`
+  margin-top: 80px;
+  .made-in,
+  .terms {
+    font-size: var(--fontxs);
+    margin: 0;
+  }
+
+  .terms span {
+    opacity: 0.5;
   }
 `

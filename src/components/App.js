@@ -3,6 +3,7 @@ import { Router } from '@reach/router'
 
 import Layout from './shared/layout'
 import Dashboard from '../pages/dashboard/index'
+import Terms from '../pages/static/terms'
 
 import GlobalUIProvider from './shared/providers/global-ui-settings'
 import NotificationProvider from './shared/providers/global-notifications'
@@ -15,6 +16,7 @@ export default () => (
         <Layout>
           <Router>
             <Dashboard path="/" />
+            <Terms path="/privacy-and-terms" />
           </Router>
         </Layout>
       </NotificationProvider>

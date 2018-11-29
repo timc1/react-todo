@@ -10,6 +10,7 @@ import { User as formatUser } from '../../../models/user'
 import styled, { keyframes } from 'react-emotion'
 
 import { http, API_URL } from '../../../utils'
+import { Link } from '@reach/router'
 
 export const Login = React.memo(
   ({ disabled, dispatch, isModalShowing, error }) => {
@@ -100,7 +101,7 @@ export const Login = React.memo(
 )
 
 export const Signup = React.memo(
-  ({ disabled, dispatch, isModalShowing, error }) => {
+  ({ disabled, dispatch, isModalShowing, toggleAuth, error }) => {
     const { getFormHandlers, getInputStateAndProps, errors } = useForm(
       { first_name: '', last_name: '', email: '', password: '' },
       { first_name: '', last_name: '', email: '', password: '' },
@@ -172,6 +173,13 @@ export const Signup = React.memo(
         >
           Already have an account?
         </PlainButton>
+        <Terms>
+          By creating an account you agree to the{' '}
+          <Link to="/privacy-and-terms" onClick={e => toggleAuth()}>
+            terms &amp; conditions
+          </Link>
+          .
+        </Terms>
       </FormContainer>
     )
   }
@@ -294,3 +302,13 @@ const handleSubmit = ({ values, onSuccess, onError }) => {
     if (onError) onError(error)
   }
 }
+
+const Terms = styled.p`
+  color: var(--white1);
+  margin: 0;
+  font-size: var(--fontxs);
+  a {
+    font-family: var(--secondaryfont);
+    color: var(--white1);
+  }
+`
