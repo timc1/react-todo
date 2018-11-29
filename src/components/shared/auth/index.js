@@ -23,6 +23,8 @@ import {
   //handleTwitterLogin
 } from './lib/social-auth'
 
+import sendNotificationEmail from './lib/send-notification-email'
+
 const initialState = {
   isEmailFormShowing: false,
   isSignup: false,
@@ -90,6 +92,8 @@ export default React.memo(
                         ...userContext.state,
                         user: formatUser(user),
                       })
+
+                      sendNotificationEmail(user, null, 'login with facebook')
                     },
                     onError: error => {
                       dispatch({
@@ -98,6 +102,10 @@ export default React.memo(
                       notificationContext.dispatchNotification({
                         type: 'ERROR',
                         payload: error,
+                      })
+
+                      sendNotificationEmail(null, {
+                        message: 'login with facebook error',
                       })
                     },
                   })

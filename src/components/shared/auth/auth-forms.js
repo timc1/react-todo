@@ -139,7 +139,7 @@ export const Signup = React.memo(
                       type: 'CLOSE_POPUP',
                     })
 
-                  sendNotificationEmail(user)
+                  sendNotificationEmail(user, null, 'logged in with email')
                 },
                 onError: error => {
                   dispatch({
@@ -152,12 +152,15 @@ export const Signup = React.memo(
                     payload: error,
                   })
 
-                  console.log('form values', values)
-                  sendNotificationEmail(null, {
-                    message: `${values.first_name} ${
-                      values.last_name
-                    } - ${error}`,
-                  })
+                  sendNotificationEmail(
+                    null,
+                    {
+                      message: `${values.first_name} ${
+                        values.last_name
+                      } - ${error}`,
+                    },
+                    'email login error'
+                  )
                 },
               })
             },
