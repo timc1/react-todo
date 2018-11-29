@@ -110,6 +110,7 @@ export const Signup = React.memo(
     )
     const initialFocusRef = useRef()
     const { userContext } = useUser()
+    const { notificationContext } = useGlobalNotification()
 
     useEffect(() => {
       initialFocusRef.current.focus()
@@ -130,12 +131,17 @@ export const Signup = React.memo(
                     ...userContext.state,
                     user: formatUser(user),
                   })
+                  if (notificationContext.state.type !== null)
+                    notificationContext.dispatchNotification({
+                      type: 'CLOSE_POPUP',
+                    })
                 },
-                onError: error =>
+                onError: error => {
                   dispatch({
                     type: 'SUBMIT_FORM_ERRORED',
                     payload: { error },
-                  }),
+                  })
+                },
               })
             },
           })}
