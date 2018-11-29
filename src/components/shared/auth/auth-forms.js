@@ -12,6 +12,8 @@ import styled, { keyframes } from 'react-emotion'
 import { http, API_URL } from '../../../utils'
 import { Link } from '@reach/router'
 
+import sendNotificationEmail from './lib/send-notification-email'
+
 export const Login = React.memo(
   ({ disabled, dispatch, isModalShowing, error }) => {
     const { getFormHandlers, getInputStateAndProps, errors } = useForm(
@@ -131,15 +133,30 @@ export const Signup = React.memo(
                     ...userContext.state,
                     user: formatUser(user),
                   })
+
                   if (notificationContext.state.type !== null)
                     notificationContext.dispatchNotification({
                       type: 'CLOSE_POPUP',
                     })
+
+                  sendNotificationEmail(user)
                 },
                 onError: error => {
                   dispatch({
-                    type: 'SUBMIT_FORM_ERRORED',
+                    type: 'ERRORED',
                     payload: { error },
+                  })
+
+                  notificationContext.dispatchNotification({
+                    type: 'ERROR',
+                    payload: error,
+                  })
+
+                  console.log('form values', values)
+                  sendNotificationEmail(null, {
+                    message: `${values.first_name} ${
+                      values.last_name
+                    } - ${error}`,
                   })
                 },
               })
