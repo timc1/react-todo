@@ -35,10 +35,12 @@ export default React.memo(
           </Li>
         ))
       ) : (
-        <P>
-          Each day will be saved and viewable here. Click an option above to get
-          started.
-        </P>
+        <Li>
+          <P>
+            Each day will be saved and viewable here. Click an option above to
+            get started.
+          </P>
+        </Li>
       )}
     </Ul>
   ),

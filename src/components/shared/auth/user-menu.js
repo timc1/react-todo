@@ -19,7 +19,7 @@ export default ({ isShowing, toggleUserMenu }) => {
   })
 
   return (
-    <Container isShowing={isShowing} innerRef={popupRef}>
+    <Container isShowing={isShowing} innerRef={popupRef} role="listbox">
       <li>
         <PlainButton
           tabIndex={isShowing ? '0' : '-1'}

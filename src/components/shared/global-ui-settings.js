@@ -25,9 +25,15 @@ export default () => {
   })
 
   return (
-    <Container>
-      <Button onClick={e => togglePopup(!isPopupShowing)}>Settings</Button>
-      <Popup innerRef={popupRef} isShowing={isPopupShowing}>
+    <Container aria-expanded={isPopupShowing}>
+      <Button
+        onClick={e => togglePopup(!isPopupShowing)}
+        aria-label={isPopupShowing ? 'close popup' : 'open settings popup'}
+        aria-haspopup="listbox"
+      >
+        Settings
+      </Button>
+      <Popup innerRef={popupRef} isShowing={isPopupShowing} role="listbox">
         <li>
           <p>Night mode:</p>
           <ColorPicker isShowing={isPopupShowing} />

@@ -46,6 +46,7 @@ export default React.memo(
             <Button
               onClick={e => todoMetaDispatch({ type: 'ADD_TODAYS_TODO' })}
               tabIndex={isSideMenuHidden ? -1 : 0}
+              aria-label="Toggle to create a todo list for today"
             >
               <span>Create a list for today</span>
             </Button>
@@ -56,6 +57,7 @@ export default React.memo(
             <Button
               onClick={e => todoMetaDispatch({ type: 'ADD_TOMORROWS_TODO' })}
               tabIndex={isSideMenuHidden ? -1 : 0}
+              aria-label="Toggle to create a todo list for tomorrow"
             >
               <span>Plan tomorrow's list</span>
             </Button>

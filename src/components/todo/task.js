@@ -8,7 +8,12 @@ import Checkbox from './checkbox'
 export default React.memo(
   ({ isEditable, task, dispatch, setCurrentEditingTask }) => {
     return (
-      <Container tabIndex="0">
+      <Container
+        tabIndex="0"
+        aria-label={`Current task, ${task.title}, is ${
+          task.isComplete ? 'complete' : 'not complete'
+        }`}
+      >
         <Text
           isComplete={task.isComplete}
           onClick={e =>

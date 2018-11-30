@@ -32,6 +32,7 @@ export default React.memo(() => {
         onClick={e => context.dispatchNotification({ type: 'CLOSE_POPUP' })}
         innerRef={focusButtonRef}
         tabIndex={context.state.type !== null ? '0' : '-1'}
+        aria-label="Toggle to exit notification popup"
         style={{
           margin: 0,
           position: 'absolute',

@@ -23,7 +23,7 @@ export default ({ user }) => {
             </PlainLinkInternal>
           </li>
           {user ? (
-            <li>
+            <li aria-expanded={isUserMenuShowing} aria-haspopup="listbox">
               <UserButton
                 style={{
                   fontSize: 'var(--fontsm)',
@@ -33,6 +33,10 @@ export default ({ user }) => {
                 onClick={e => toggleUserMenu(!isUserMenuShowing)}
                 showCarat
                 isOpen={isUserMenuShowing}
+                aria-label={
+                  isUserMenuShowing ? 'close user menu' : 'open user menu'
+                }
+                aria-haspopup="true"
               >
                 <span>{user.general.first_name}</span>
               </UserButton>
