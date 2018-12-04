@@ -25,11 +25,10 @@ export default () => {
   })
 
   return (
-    <Container aria-expanded={isPopupShowing}>
+    <Container aria-expanded={isPopupShowing} aria-haspopup="listbox">
       <Button
         onClick={e => togglePopup(!isPopupShowing)}
         aria-label={isPopupShowing ? 'close popup' : 'open settings popup'}
-        aria-haspopup="listbox"
       >
         Settings
       </Button>
